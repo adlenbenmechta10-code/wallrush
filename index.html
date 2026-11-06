@@ -209,6 +209,7 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
 #hudBottom { width:100%; display:flex; gap:8px; justify-content:center; min-height:50px; align-items:center; }
 #wallActions, #gameActions { display:flex; gap:8px; width:100%; max-width:440px; }
 #wallActions .pillBtn.ok { color:var(--card); background:var(--green); }
+.pillBtn[disabled] { opacity:.4; pointer-events:none; box-shadow:none; }
 #wallActions .pillBtn.ok[disabled] { opacity:.4; }
 #wallActions .pillBtn.no { color:var(--red); border-color:var(--red); box-shadow:2.5px 2.5px 0 var(--red); }
 .pillBtn b { opacity:.6; font-weight:700; }
@@ -3025,7 +3026,7 @@ const UI = {
     });
     // game actions
     this.$("btnUndo").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.undo()) SFX.click(); else SFX.illegal(); });
-    this.$("btnHint").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.useHint()) SFX.pickupHint(); });
+    this.$("btnHint").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.useHint()) SFX.pickupHint(); else if (Game.hintLeft <= 0) SFX.illegal(); });
     this.$("coachOk").addEventListener("click", () => { SFX.click(); Game.paused = false; this.closeModals(); try{ localStorage.setItem("wr_coached","1"); }catch(e){} });
     // mode & opponent selectors
     document.querySelectorAll(".modeCard").forEach(b => b.addEventListener("click", () => {
@@ -3056,7 +3057,11 @@ const UI = {
       move: (d) => this.onMove(d),
       win: (d) => this.onWin(d),
       undo: () => { R.markChanged(); this.updateChips(); },
-      hint: (mv) => { R.hintMv = mv; R.hintUntil = performance.now() + 2600; },
+      hint: (mv) => {
+        R.hintMv = mv; R.hintUntil = performance.now() + 2600;
+        this.$("hintCount").textContent = Game.hintLeft;
+        this.$("btnHint").disabled = Game.hintLeft <= 0;
+      },
       tick: (sec) => this.onTick(sec),
       timeout: () => UI.toast(t("timeout"))
     };
@@ -3199,6 +3204,7 @@ const UI = {
       this.$("btnHint").classList.toggle("hidden", false);
       this.$("undoCount").textContent = Game.undoLeft;
       this.$("hintCount").textContent = Game.hintLeft;
+      this.$("btnHint").disabled = false;
       this.$("btnRematch").textContent = t("rematch");
       const isPz = cfg.mode === "puzzle";
       this.$("pzBar").classList.toggle("hidden", !isPz);
