@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e22">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>WallRush</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%23141a3c'/%3E%3Crect x='14' y='26' width='36' height='12' rx='6' fill='%236c7bd9'/%3E%3Ccircle cx='22' cy='20' r='5' fill='%232de0a7'/%3E%3C/svg%3E">
+<style>
+/* ============ WallRush — Neon Arcade theme ============ */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans Arabic",sans-serif;
+  background:#0b0e22; color:#eef1ff; overflow:hidden;
+  background-image:radial-gradient(1200px 800px at 20% -10%,#1b2352 0%,rgba(27,35,82,0) 60%),
+                   radial-gradient(1000px 700px at 110% 110%,#23205a 0%,rgba(35,32,90,0) 55%);
+  user-select:none; -webkit-user-select:none; touch-action:manipulation;
+  overscroll-behavior:none;
+}
+#app { position:fixed; inset:0; display:flex; flex-direction:column; }
+.view { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; overflow-y:auto; padding:calc(14px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom)); transition:opacity .25s ease, transform .25s ease; }
+.view.hidden { display:none; }
+.hidden { display:none !important; }
+
+/* ---------- Logo ---------- */
+.logoWrap { margin:4vh 0 12px; text-align:center; }
+.logoWrap.small { margin:2vh 0 10px; }
+.logo {
+  font-size:clamp(34px,9vw,52px); font-weight:900; letter-spacing:2px; line-height:1;
+  background:linear-gradient(100deg,#2de0a7 0%,#6ea8ff 55%,#b78cff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 4px 22px rgba(90,140,255,.35));
+}
+.logo span { background:linear-gradient(100deg,#ff8fb0 0%,#b78cff 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.logoSub { margin-top:8px; font-size:13px; color:#9aa3d1; letter-spacing:.4px; }
+
+.sectionTitle { font-size:16px; color:#c7cdf5; margin:8px 0 14px; font-weight:700; }
+
+/* ---------- Language screen ---------- */
+.langCards { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:min(92vw,380px); }
+.langBtn {
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:20px 10px;
+  background:rgba(255,255,255,.055); border:1.5px solid rgba(255,255,255,.1); border-radius:20px; color:#eef1ff;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease; cursor:pointer;
+}
+.langBtn:active { transform:scale(.95); }
+.langBtn:hover { border-color:#6ea8ff; background:rgba(110,168,255,.12); }
+.langGlyph {
+  width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:800; color:#0b0e22;
+  background:linear-gradient(135deg,#2de0a7,#6ea8ff); box-shadow:0 6px 18px rgba(46,224,167,.25);
+}
+.langBtn:nth-child(2) .langGlyph { background:linear-gradient(135deg,#6ea8ff,#b78cff); }
+.langBtn:nth-child(3) .langGlyph { background:linear-gradient(135deg,#ffb45e,#ff8fb0); }
+.langBtn:nth-child(4) .langGlyph { background:linear-gradient(135deg,#ff8fb0,#b78cff); }
+.langName { font-size:16px; font-weight:700; }
+#langBack { margin-top:18px; min-width:130px; }
+
+.footNote { margin-top:auto; padding-top:16px; font-size:11px; color:#6b739f; text-align:center; }
+
+/* ---------- Home ---------- */
+#homeView { width:100%; max-width:460px; margin:0 auto; }
+#statsStrip { display:flex; gap:10px; width:100%; margin-bottom:14px; }
+.statBox {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:10px 6px;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); border-radius:14px;
+}
+.statBox b { font-size:19px; color:#2de0a7; }
+.statBox span { font-size:11px; color:#8d95c4; }
+.fieldLabel { align-self:flex-start; font-size:12px; color:#8d95c4; font-weight:700; margin:12px 2px 6px; letter-spacing:.5px; text-transform:uppercase; }
+#nameInput {
+  width:100%; padding:13px 16px; font-size:16px; color:#fff; border-radius:14px; outline:none;
+  background:rgba(255,255,255,.06); border:1.5px solid rgba(255,255,255,.12);
+}
+#nameInput:focus { border-color:#6ea8ff; }
+
+#modeCards { display:flex; gap:10px; width:100%; }
+.modeCard {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; padding:13px 6px 11px;
+  background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.1); border-radius:16px; color:#eef1ff; cursor:pointer;
+  transition:all .15s ease;
+}
+.modeCard.sel { border-color:#2de0a7; background:rgba(46,224,167,.1); box-shadow:0 0 0 3px rgba(46,224,167,.12); }
+.modeIcon { font-size:22px; }
+.modeName { font-weight:800; font-size:14px; }
+.modeDesc { font-size:10px; color:#8d95c4; text-align:center; line-height:1.3; padding:0 2px; }
+
+#oppSeg { display:flex; gap:8px; width:100%; }
+#oppSeg button {
+  flex:1; padding:11px 4px; font-size:13px; font-weight:700; color:#aab3e0; border-radius:12px; cursor:pointer;
+  background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.1); transition:all .15s ease;
+}
+#oppSeg button.sel { color:#0b0e22; background:linear-gradient(135deg,#2de0a7,#6ea8ff); border-color:transparent; }
+
+#seatCards { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%; }
+.seatCard {
+  display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 4px;
+  background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.1); border-radius:14px; cursor:pointer; color:#eef1ff;
+  transition:all .15s ease; position:relative;
+}
+.seatCard .seatDot { width:26px; height:26px; border-radius:9px; position:relative; }
+.seatCard .seatDot::before, .seatCard .seatDot::after {
+  content:""; position:absolute; top:7px; width:5px; height:6px; border-radius:3px; background:#0b0e22;
+}
+.seatCard .seatDot::before { left:5px; } .seatCard .seatDot::after { right:5px; }
+.seatCard .seatType { font-size:11px; font-weight:800; white-space:nowrap; }
+.seatCard .seatPos { font-size:9px; color:#8d95c4; white-space:nowrap; }
+.seatCard.off { opacity:.38; }
+.seatCard.bot .seatType { color:#9ecbff; }
+.seatCard.human .seatType { color:#2de0a7; }
+
+#btnPlay {
+  width:100%; margin:20px 0 12px; padding:16px; font-size:20px; font-weight:900; letter-spacing:1.5px; color:#071018;
+  background:linear-gradient(100deg,#2de0a7 0%,#6ea8ff 100%); border:none; border-radius:18px; cursor:pointer;
+  box-shadow:0 10px 30px rgba(46,224,167,.28); transition:transform .12s ease, box-shadow .12s ease;
+}
+#btnPlay:active { transform:scale(.97); box-shadow:0 6px 18px rgba(46,224,167,.2); }
+
+#homeLinks { display:flex; gap:10px; width:100%; }
+#homeLinks button, .pillBtn {
+  flex:1; padding:11px 10px; font-size:13px; font-weight:700; color:#dfe4ff; cursor:pointer;
+  background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.12); border-radius:13px;
+  transition:all .15s ease; min-width:0;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+#homeLinks button:active, .pillBtn:active { transform:scale(.96); background:rgba(255,255,255,.12); }
+
+/* ---------- Game view ---------- */
+#gameView { padding:calc(8px + env(safe-area-inset-top)) 10px calc(10px + env(safe-area-inset-bottom)); justify-content:space-between; }
+#hudTop { width:100%; display:flex; align-items:center; gap:8px; }
+#chips { display:flex; gap:6px; flex:1; min-width:0; flex-wrap:nowrap; overflow:hidden; }
+.chip {
+  display:flex; align-items:center; gap:7px; padding:6px 10px 6px 7px; border-radius:14px; min-width:0; flex:1;
+  background:rgba(255,255,255,.055); border:1.5px solid rgba(255,255,255,.09); transition:all .2s ease;
+}
+.chip.active { background:rgba(255,255,255,.12); }
+.chip.dead { opacity:.35; }
+.chipAvatar { width:30px; height:30px; border-radius:10px; position:relative; flex-shrink:0; }
+.chipAvatar::before, .chipAvatar::after { content:""; position:absolute; top:9px; width:5px; height:7px; border-radius:3px; background:#0b0e22; }
+.chipAvatar::before { left:7px; } .chipAvatar::after { right:7px; }
+.chipInfo { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.chipName { font-size:11px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chipWalls { display:flex; gap:2px; height:8px; }
+.chipWalls i { width:5px; height:8px; border-radius:2px; background:#8d95c4; }
+.chipWalls i.on { background:currentColor; }
+.iconBtn {
+  width:42px; height:42px; border-radius:14px; font-size:19px; color:#dfe4ff; flex-shrink:0; cursor:pointer;
+  background:rgba(255,255,255,.07); border:1.5px solid rgba(255,255,255,.12);
+}
+.iconBtn:active { transform:scale(.94); }
+
+#boardWrap { position:relative; flex:1; width:100%; display:flex; align-items:center; justify-content:center; min-height:0; }
+#board { touch-action:none; display:block; }
+#turnBanner {
+  position:absolute; top:6px; left:50%; transform:translateX(-50%); padding:7px 18px; border-radius:99px;
+  font-size:13px; font-weight:800; background:rgba(11,14,34,.85); border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); white-space:nowrap; z-index:5; pointer-events:none;
+  transition:opacity .2s ease;
+}
+#turnBanner .dots::after { content:"…"; animation:dots 1.2s infinite steps(4); }
+@keyframes dots { 0%{content:""} 25%{content:"."} 50%{content:".."} 75%{content:"..."} }
+#timerWrap {
+  position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:52px; height:52px; z-index:5; pointer-events:none;
+}
+#timerWrap svg { position:absolute; inset:0; transform:rotate(-90deg); }
+#timerWrap circle { fill:rgba(11,14,34,.85); stroke:#2de0a7; stroke-width:4; stroke-linecap:round; stroke-dasharray:125.6; }
+#timerWrap.hot circle { stroke:#ff6b8a; }
+#timerWrap.hot #timerText { color:#ff6b8a; }
+#timerText { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:17px; }
+
+#hudBottom { width:100%; display:flex; gap:8px; justify-content:center; min-height:50px; align-items:center; }
+#wallActions, #gameActions { display:flex; gap:8px; width:100%; max-width:440px; }
+#wallActions .pillBtn.ok { color:#071018; background:linear-gradient(100deg,#2de0a7,#6ea8ff); border-color:transparent; }
+#wallActions .pillBtn.ok[disabled] { filter:grayscale(.7); opacity:.45; }
+#wallActions .pillBtn.no { color:#ffb3c2; border-color:rgba(255,107,138,.4); }
+.pillBtn b { opacity:.75; font-weight:800; }
+#btnUndo, #btnHint { justify-content:center; }
+
+/* ---------- Modals ---------- */
+.modal { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:20px;
+  background:rgba(8,10,26,.55); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); animation:fadeIn .2s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modalCard {
+  width:min(92vw,400px); max-height:86vh; overflow-y:auto; padding:24px 20px; border-radius:24px; text-align:center;
+  background:linear-gradient(160deg,#1c2248 0%,#141a3c 100%); border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 24px 60px rgba(0,0,0,.5); animation:popIn .25s cubic-bezier(.34,1.4,.6,1);
+}
+@keyframes popIn { from{transform:scale(.9); opacity:0} to{transform:scale(1); opacity:1} }
+.modalCard h2 { font-size:21px; margin-bottom:16px; color:#fff; }
+.howtoList { list-style:none; text-align:start; display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+.howtoList li { display:flex; gap:11px; align-items:flex-start; font-size:14px; line-height:1.45; color:#d5dafb; }
+.hIcon { font-size:19px; flex-shrink:0; margin-top:1px; }
+.bigBtn {
+  display:block; width:100%; margin:8px 0; padding:14px; font-size:16px; font-weight:800; color:#071018; cursor:pointer;
+  background:linear-gradient(100deg,#2de0a7,#6ea8ff); border:none; border-radius:15px; transition:transform .12s ease;
+}
+.bigBtn:active { transform:scale(.97); }
+.bigBtn.ghost { background:rgba(255,255,255,.08); color:#dfe4ff; border:1.5px solid rgba(255,255,255,.15); }
+.bigBtn.danger { background:linear-gradient(100deg,#ff8fb0,#ff6b8a); }
+
+#winIcon { font-size:54px; margin-bottom:6px; animation:trophyBounce 1s ease infinite alternate; }
+@keyframes trophyBounce { from{transform:translateY(0) scale(1)} to{transform:translateY(-8px) scale(1.06)} }
+#winTitle { font-size:26px; }
+#winSub { color:#9aa3d1; font-size:14px; margin-bottom:14px; }
+#winStats { display:flex; gap:10px; margin-bottom:18px; }
+#winStats .statBox b { font-size:17px; }
+#winBtns { display:flex; flex-direction:column; }
+
+#coachBody { font-size:14px; color:#d5dafb; line-height:1.55; margin-bottom:18px; }
+
+#toast {
+  position:fixed; top:calc(70px + env(safe-area-inset-top)); left:50%; transform:translateX(-50%);
+  padding:10px 20px; border-radius:99px; font-size:13px; font-weight:700; z-index:60; white-space:nowrap; max-width:90vw;
+  background:rgba(20,26,60,.95); border:1px solid rgba(255,255,255,.16); color:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.4); transition:opacity .25s ease, transform .25s ease; pointer-events:none;
+}
+#toast.hidden { display:block; opacity:0; transform:translateX(-50%) translateY(-8px); }
+
+/* ---------- Desktop polish ---------- */
+@media (min-width:700px){
+  .view { padding-top:28px; }
+  #gameView { max-width:640px; margin:0 auto; }
+}
+
+</style>
+</head>
+<body>
+<noscript><p style="color:#fff;text-align:center;padding:40px">WallRush needs JavaScript. / WallRush يحتاج JavaScript.</p></noscript>
+<div id="app">
+
+  <!-- ============ GAME VIEW ============ -->
+  <section id="gameView" class="view hidden">
+    <header id="hudTop">
+      <div id="chips"></div>
+      <button id="btnMenu" class="iconBtn" aria-label="menu">☰</button>
+    </header>
+
+    <div id="boardWrap">
+      <canvas id="board"></canvas>
+      <div id="turnBanner" class="hidden"></div>
+      <div id="timerWrap" class="hidden">
+        <svg viewBox="0 0 48 48"><circle id="timerRing" cx="24" cy="24" r="20"/></svg>
+        <span id="timerText">10</span>
+      </div>
+    </div>
+
+    <footer id="hudBottom">
+      <div id="wallActions" class="hidden">
+        <button id="btnRotate" class="pillBtn">⟳ <span data-i18n="rotate">Rotate</span></button>
+        <button id="btnOk" class="pillBtn ok">✓ <span data-i18n="confirm_w">Place</span></button>
+        <button id="btnCancel" class="pillBtn no">✗ <span data-i18n="cancel_w">Cancel</span></button>
+      </div>
+      <div id="gameActions">
+        <button id="btnUndo" class="pillBtn">↩ <span data-i18n="undo">Undo</span> <b id="undoCount">1</b></button>
+        <button id="btnHint" class="pillBtn">💡 <span data-i18n="hint">Hint</span> <b id="hintCount">3</b></button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============ LANGUAGE VIEW ============ -->
+  <section id="langView" class="view">
+    <div class="logoWrap">
+      <div class="logo">WALL<span>RUSH</span></div>
+      <div class="logoSub" data-i18n="tagline">Race to the far side. Wall them in.</div>
+    </div>
+    <h2 class="sectionTitle" data-i18n="choose_lang">Choose your language</h2>
+    <div class="langCards">
+      <button class="langBtn" data-lang="ar"><span class="langGlyph">ع</span><span class="langName">العربية</span></button>
+      <button class="langBtn" data-lang="en"><span class="langGlyph">A</span><span class="langName">English</span></button>
+      <button class="langBtn" data-lang="es"><span class="langGlyph">Ñ</span><span class="langName">Español</span></button>
+      <button class="langBtn" data-lang="fr"><span class="langGlyph">É</span><span class="langName">Français</span></button>
+    </div>
+    <button id="langBack" class="pillBtn hidden" data-i18n="back">Back</button>
+    <div class="footNote" data-i18n="credits">An original race &amp; block board game</div>
+  </section>
+
+  <!-- ============ HOME VIEW ============ -->
+  <section id="homeView" class="view hidden">
+    <div class="logoWrap small">
+      <div class="logo">WALL<span>RUSH</span></div>
+      <div class="logoSub" data-i18n="tagline">Race to the far side. Wall them in.</div>
+    </div>
+
+    <div id="statsStrip">
+      <div class="statBox"><b id="statWins">0</b><span data-i18n="wins">Wins</span></div>
+      <div class="statBox"><b id="statGames">0</b><span data-i18n="games">Games</span></div>
+      <div class="statBox"><b id="statStreak">0</b><span data-i18n="streak">Streak</span></div>
+    </div>
+
+    <label class="fieldLabel" for="nameInput" data-i18n="your_name">Your name</label>
+    <input id="nameInput" maxlength="12" autocomplete="off" spellcheck="false" placeholder="Player" data-i18n-ph="name_ph">
+
+    <label class="fieldLabel" data-i18n="mode_lbl">Mode</label>
+    <div id="modeCards">
+      <button class="modeCard sel" data-mode="duel">
+        <span class="modeIcon">⚔️</span><span class="modeName" data-i18n="mode_duel">Duel</span>
+        <span class="modeDesc" data-i18n="mode_duel_desc">Classic 1v1 — 10 walls each</span>
+      </button>
+      <button class="modeCard" data-mode="blitz">
+        <span class="modeIcon">⚡</span><span class="modeName" data-i18n="mode_blitz">Blitz</span>
+        <span class="modeDesc" data-i18n="mode_blitz_desc">Fast duel — 6 walls, 10s per turn</span>
+      </button>
+      <button class="modeCard" data-mode="squad">
+        <span class="modeIcon">🎯</span><span class="modeName" data-i18n="mode_squad">Squad</span>
+        <span class="modeDesc" data-i18n="mode_squad_desc">Up to 4 players on one screen</span>
+      </button>
+    </div>
+
+    <div id="oppRow">
+      <label class="fieldLabel" data-i18n="opponent">Opponent</label>
+      <div id="oppSeg">
+        <button data-opp="easy" data-i18n="easy">Easy</button>
+        <button data-opp="medium" class="sel" data-i18n="medium">Medium</button>
+        <button data-opp="hard" data-i18n="hard">Hard</button>
+        <button data-opp="human" id="humanOppBtn" data-i18n="human2">2 Players</button>
+      </div>
+    </div>
+
+    <div id="seatsRow" class="hidden">
+      <label class="fieldLabel"><span data-i18n="seats_lbl">Players (tap to switch)</span></label>
+      <div id="seatCards"></div>
+    </div>
+
+    <button id="btnPlay" data-i18n="play">PLAY</button>
+
+    <div id="homeLinks">
+      <button id="btnHowto" data-i18n="howto">How to play</button>
+      <button id="btnSound"><span id="soundLabelOn" data-i18n="sound">Sound</span><span id="soundLabelOff" class="hidden" data-i18n="sound_off">Muted</span></button>
+      <button id="btnLang" data-i18n="language">Language</button>
+    </div>
+    <div class="footNote" data-i18n="offline_note">Works offline. No account needed.</div>
+  </section>
+
+  <!-- ============ HOW TO PLAY MODAL ============ -->
+  <div id="howtoModal" class="modal hidden">
+    <div class="modalCard">
+      <h2 data-i18n="howto_title">How to play</h2>
+      <ul class="howtoList">
+        <li><span class="hIcon">🏁</span><span data-i18n="h1">Reach the opposite side before your rival.</span></li>
+        <li><span class="hIcon">👣</span><span data-i18n="h2">Each turn: move one step OR place a wall.</span></li>
+        <li><span class="hIcon">🧱</span><span data-i18n="h3">Walls block everyone. You have a limited stock.</span></li>
+        <li><span class="hIcon">🦘</span><span data-i18n="h4">Jump over an adjacent rival. If blocked behind, jump sideways.</span></li>
+        <li><span class="hIcon">🚫</span><span data-i18n="h5">You can never fully block a path to the goal.</span></li>
+        <li><span class="hIcon">👆</span><span data-i18n="h6">Tap a glowing cell to move. Tap a groove to build a wall.</span></li>
+      </ul>
+      <button id="howtoClose" class="pillBtn ok" data-i18n="got_it">Got it!</button>
+    </div>
+  </div>
+
+  <!-- ============ MENU MODAL ============ -->
+  <div id="menuModal" class="modal hidden">
+    <div class="modalCard">
+      <h2 data-i18n="menu">Menu</h2>
+      <button id="btnResume" class="bigBtn" data-i18n="resume">Resume</button>
+      <button id="btnRestart" class="bigBtn" data-i18n="restart">Restart</button>
+      <button id="btnMenuHowto" class="bigBtn" data-i18n="howto">How to play</button>
+      <button id="btnMenuSound" class="bigBtn" data-i18n="sound">Sound</button>
+      <button id="btnMenuLang" class="bigBtn" data-i18n="language">Language</button>
+      <button id="btnQuit" class="bigBtn danger" data-i18n="quit">Quit</button>
+    </div>
+  </div>
+
+  <!-- ============ WIN OVERLAY ============ -->
+  <div id="winOverlay" class="modal hidden">
+    <div class="modalCard">
+      <div id="winIcon">🏆</div>
+      <h2 id="winTitle">Victory!</h2>
+      <p id="winSub"></p>
+      <div id="winStats">
+        <div class="statBox"><b id="wsMoves">0</b><span data-i18n="moves">Moves</span></div>
+        <div class="statBox"><b id="wsWalls">0</b><span data-i18n="walls_used">Walls used</span></div>
+        <div class="statBox"><b id="wsTime">0:00</b><span data-i18n="time">Time</span></div>
+      </div>
+      <div id="winBtns">
+        <button id="btnRematch" class="bigBtn" data-i18n="rematch">Rematch</button>
+        <button id="btnWinHome" class="bigBtn ghost" data-i18n="home">Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FIRST-TIME COACH ============ -->
+  <div id="coach" class="modal hidden">
+    <div class="modalCard">
+      <h2 data-i18n="coach_title">Quick tip</h2>
+      <p id="coachBody" data-i18n="coach_body">Tap a glowing cell to move, or tap a groove between cells to build a wall. Confirm with ✓.</p>
+      <button id="coachOk" class="pillBtn ok" data-i18n="got_it">Got it!</button>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+</div>
+<script>
+/* ============ i18n — AR / EN / ES / FR ============ */
+"use strict";
+const I18N = {
+  en: {
+    tagline:"Race to the far side. Wall them in.",
+    choose_lang:"Choose your language", back:"Back",
+    play:"PLAY", your_name:"Your name", name_ph:"Player",
+    mode_lbl:"Mode",
+    mode_duel:"Duel", mode_duel_desc:"Classic 1v1 — 10 walls each",
+    mode_blitz:"Blitz", mode_blitz_desc:"Fast duel — 6 walls, 10s per turn",
+    mode_squad:"Squad", mode_squad_desc:"Up to 4 players on one screen",
+    opponent:"Opponent", easy:"Easy", medium:"Medium", hard:"Hard", human2:"2 Players",
+    seats_lbl:"Players — tap a card to switch", seat_human:"Human", seat_bot:"Bot", seat_off:"Off",
+    stats:"Record", wins:"Wins", games:"Games", streak:"Streak",
+    howto:"How to play", howto_title:"How to play",
+    h1:"Reach the opposite side before your rival.",
+    h2:"Each turn: move one step OR place a wall.",
+    h3:"Walls block everyone. You have a limited stock.",
+    h4:"Jump over an adjacent rival. If blocked behind, jump sideways.",
+    h5:"You can never fully block a path to the goal.",
+    h6:"Tap a glowing cell to move. Tap a groove to build a wall.",
+    sound:"Sound", sound_off:"Muted", language:"Language",
+    menu:"Menu", resume:"Resume", restart:"Restart", quit:"Quit", rematch:"Rematch", home:"Home",
+    your_turn:"Your turn", turn_of:"{name}'s turn", thinking:"{name} is thinking",
+    undo:"Undo", hint:"Hint",
+    rotate:"Rotate", confirm_w:"Place", cancel_w:"Cancel",
+    illegal_block:"That would fully block a player!", illegal_place:"Can't place a wall there",
+    no_walls:"No walls left!", win:"Victory!", lose:"Defeat", winner:"{name} wins!", good_game:"Well played!",
+    need_players:"At least 2 players", need_human:"At least 1 human player",
+    moves:"Moves", walls_used:"Walls used", time:"Time",
+    timeout:"Time's up — auto move",
+    coach_title:"Quick tip",
+    coach_body:"Tap a glowing cell to move, or tap a groove between cells to build a wall. Confirm with ✓.",
+    got_it:"Got it!",
+    offline_note:"Works offline. No account needed.",
+    credits:"An original race & block board game",
+    you:"You", bot_win_toast:"💡 Tip: block their path, don't chase it"
+  },
+  ar: {
+    tagline:"اسبقهم إلى الجهة الأخرى… واحصرهم بالجدران",
+    choose_lang:"اختر لغتك", back:"رجوع",
+    play:"ابدأ اللعب", your_name:"اسمك", name_ph:"لاعب",
+    mode_lbl:"النمط",
+    mode_duel:"مبارزة", mode_duel_desc:"كلاسيكية 1 ضد 1 — 10 جدران لكل لاعب",
+    mode_blitz:"خاطفة", mode_blitz_desc:"مبارزة سريعة — 6 جدران و10 ثوانٍ لكل دور",
+    mode_squad:"رباعية", mode_squad_desc:"حتى 4 لاعبين على نفس الشاشة",
+    opponent:"الخصم", easy:"سهل", medium:"متوسط", hard:"صعب", human2:"لاعبان",
+    seats_lbl:"اللاعبون — اضغط بطاقة للتبديل", seat_human:"لاعب", seat_bot:"روبوت", seat_off:"مغلق",
+    stats:"سجلك", wins:"انتصارات", games:"مباريات", streak:"سلسلة",
+    howto:"كيف تلعب", howto_title:"كيف تلعب",
+    h1:"اصِل إلى الجهة المقابلة قبل خصمك.",
+    h2:"في كل دور: تحرك خطوة واحدة أو ضع جداراً.",
+    h3:"الجدران تعيق الجميع، ولكل لاعب مخزون محدود منها.",
+    h4:"اقفز فوق الخصم المجاور، وإذا اعترضه جدار خلفه فاقفز جانبياً.",
+    h5:"لا يمكن حجب الطريق إلى الهدف بالكامل أبداً.",
+    h6:"اضغط خلية متوهجة للتحرك، أو اضغط الفجوة بين الخلايا لبناء جدار.",
+    sound:"الصوت", sound_off:"مكتوم", language:"اللغة",
+    menu:"القائمة", resume:"استئناف", restart:"إعادة المباراة", quit:"خروج", rematch:"مباراة جديدة", home:"الرئيسية",
+    your_turn:"دورك", turn_of:"دور {name}", thinking:"{name} يفكّر",
+    undo:"تراجع", hint:"تلميح",
+    rotate:"تدوير", confirm_w:"ضع", cancel_w:"إلغاء",
+    illegal_block:"هذا يحجب اللاعب تماماً!", illegal_place:"لا يمكن وضع جدار هنا",
+    no_walls:"لم يعد لديك جدران!", win:"فزت!", lose:"خسرت", winner:"فاز {name}!", good_game:"أحسنت!",
+    need_players:"لاعبان على الأقل", need_human:"لاعب بشري واحد على الأقل",
+    moves:"حركات", walls_used:"جدران مستعملة", time:"الوقت",
+    timeout:"انتهى الوقت — حركة تلقائية",
+    coach_title:"تلميح سريع",
+    coach_body:"اضغط خلية متوهجة للتحرك، أو اضغط على الفجوة بين الخلايا لبناء جدار، ثم أكّد بزر ✓.",
+    got_it:"فهمت!",
+    offline_note:"تعمل دون اتصال. لا تحتاج حساباً.",
+    credits:"لعبة سباق وجدران أصلية",
+    you:"أنت", bot_win_toast:"💡 نصيحة: اعترض طريقه ولا تلاحقه"
+  },
+  es: {
+    tagline:"Llega al otro lado. Múralos.",
+    choose_lang:"Elige tu idioma", back:"Atrás",
+    play:"JUGAR", your_name:"Tu nombre", name_ph:"Jugador",
+    mode_lbl:"Modo",
+    mode_duel:"Duelo", mode_duel_desc:"Clásico 1v1 — 10 muros cada uno",
+    mode_blitz:"Blitz", mode_blitz_desc:"Duelo rápido — 6 muros, 10 s por turno",
+    mode_squad:"Escuadrón", mode_squad_desc:"Hasta 4 jugadores en una pantalla",
+    opponent:"Rival", easy:"Fácil", medium:"Medio", hard:"Difícil", human2:"2 jugadores",
+    seats_lbl:"Jugadores — toca una tarjeta para cambiar", seat_human:"Humano", seat_bot:"Bot", seat_off:"Off",
+    stats:"Tu récord", wins:"Victorias", games:"Partidas", streak:"Racha",
+    howto:"Cómo jugar", howto_title:"Cómo jugar",
+    h1:"Llega al lado opuesto antes que tu rival.",
+    h2:"Cada turno: avanza una casilla O coloca un muro.",
+    h3:"Los muros bloquean a todos. Tu stock es limitado.",
+    h4:"Salta sobre un rival adyacente; si está bloqueado detrás, salta en diagonal.",
+    h5:"Nunca puedes bloquear por completo el camino a la meta.",
+    h6:"Toca una casilla brillante para moverte. Toca una ranura para construir un muro.",
+    sound:"Sonido", sound_off:"Silenciado", language:"Idioma",
+    menu:"Menú", resume:"Continuar", restart:"Reiniciar", quit:"Salir", rematch:"Revancha", home:"Inicio",
+    your_turn:"Tu turno", turn_of:"Turno de {name}", thinking:"{name} está pensando",
+    undo:"Deshacer", hint:"Pista",
+    rotate:"Girar", confirm_w:"Colocar", cancel_w:"Cancelar",
+    illegal_block:"¡Eso bloquearía por completo a un jugador!", illegal_place:"No puedes poner un muro ahí",
+    no_walls:"¡No te quedan muros!", win:"¡Victoria!", lose:"Derrota", winner:"¡{name} gana!", good_game:"¡Bien jugado!",
+    need_players:"Al menos 2 jugadores", need_human:"Al menos 1 jugador humano",
+    moves:"Movimientos", walls_used:"Muros usados", time:"Tiempo",
+    timeout:"¡Tiempo! — movimiento automático",
+    coach_title:"Consejo rápido",
+    coach_body:"Toca una casilla brillante para moverte, o una ranura entre casillas para construir un muro. Confirma con ✓.",
+    got_it:"¡Entendido!",
+    offline_note:"Funciona sin conexión. Sin cuenta.",
+    credits:"Un juego original de carreras y muros",
+    you:"Tú", bot_win_toast:"💡 Consejo: bloquea su camino, no lo persigas"
+  },
+  fr: {
+    tagline:"Atteins le côté opposé. Enferme-les.",
+    choose_lang:"Choisis ta langue", back:"Retour",
+    play:"JOUER", your_name:"Ton nom", name_ph:"Joueur",
+    mode_lbl:"Mode",
+    mode_duel:"Duel", mode_duel_desc:"Classique 1v1 — 10 murs chacun",
+    mode_blitz:"Blitz", mode_blitz_desc:"Duel rapide — 6 murs, 10 s par tour",
+    mode_squad:"Escouade", mode_squad_desc:"Jusqu'à 4 joueurs sur un écran",
+    opponent:"Adversaire", easy:"Facile", medium:"Moyen", hard:"Difficile", human2:"2 joueurs",
+    seats_lbl:"Joueurs — touche une carte pour changer", seat_human:"Humain", seat_bot:"Bot", seat_off:"Fermé",
+    stats:"Ton record", wins:"Victoires", games:"Parties", streak:"Série",
+    howto:"Comment jouer", howto_title:"Comment jouer",
+    h1:"Atteins le côté opposé avant ton rival.",
+    h2:"Chaque tour : avance d'une case OU place un mur.",
+    h3:"Les murs bloquent tout le monde. Ton stock est limité.",
+    h4:"Saute par-dessus un rival adjacent ; si bloqué derrière, saute en diagonale.",
+    h5:"Tu ne peux jamais bloquer totalement le chemin vers l'arrivée.",
+    h6:"Touche une case illuminée pour bouger. Touche une rainure pour construire un mur.",
+    sound:"Son", sound_off:"Muet", language:"Langue",
+    menu:"Menu", resume:"Reprendre", restart:"Recommencer", quit:"Quitter", rematch:"Revanche", home:"Accueil",
+    your_turn:"À toi", turn_of:"Tour de {name}", thinking:"{name} réfléchit",
+    undo:"Annuler", hint:"Indice",
+    rotate:"Pivoter", confirm_w:"Placer", cancel_w:"Annuler",
+    illegal_block:"Cela bloquerait totalement un joueur !", illegal_place:"Impossible de placer un mur ici",
+    no_walls:"Plus de murs !", win:"Victoire !", lose:"Défaite", winner:"{name} gagne !", good_game:"Bien joué !",
+    need_players:"Au moins 2 joueurs", need_human:"Au moins 1 joueur humain",
+    moves:"Coups", walls_used:"Murs utilisés", time:"Durée",
+    timeout:"Temps écoulé — coup automatique",
+    coach_title:"Astuce rapide",
+    coach_body:"Touche une case illuminée pour avancer, ou une rainure entre les cases pour construire un mur. Confirme avec ✓.",
+    got_it:"Compris !",
+    offline_note:"Fonctionne hors ligne. Sans compte.",
+    credits:"Un jeu original de course et de murs",
+    you:"Toi", bot_win_toast:"💡 Astuce : bloque son chemin, ne le poursuis pas"
+  }
+};
+
+let LANG = "en";
+function t(key, params){
+  let s = (I18N[LANG] && I18N[LANG][key]) != null ? I18N[LANG][key] : (I18N.en[key] != null ? I18N.en[key] : key);
+  if (params) for (const k in params) s = s.split("{"+k+"}").join(params[k]);
+  return s;
+}
+function setLang(lang){
+  LANG = I18N[lang] ? lang : "en";
+  try { localStorage.setItem("wr_lang", LANG); } catch(e){}
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = (LANG === "ar") ? "rtl" : "ltr";
+  applyI18n();
+}
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.getAttribute("data-i18n")); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.getAttribute("data-i18n-ph")); });
+}
+
+;
+/* ============ WebAudio synth SFX (no external files) ============ */
+"use strict";
+const SFX = {
+  ctx: null, master: null, muted: false,
+  init(){
+    if (this.ctx) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this.ctx = new AC();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = 0.5;
+      this.master.connect(this.ctx.destination);
+    } catch(e){ this.ctx = null; }
+  },
+  resume(){ if (this.ctx && this.ctx.state === "suspended") this.ctx.resume(); },
+  setMuted(m){
+    this.muted = m;
+    try { localStorage.setItem("wr_muted", m ? "1" : "0"); } catch(e){}
+  },
+  tone(freq, dur, type, vol, slideTo, delay){
+    if (!this.ctx || this.muted) return;
+    const t0 = this.ctx.currentTime + (delay || 0);
+    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t0);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(Math.max(30, slideTo), t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.2, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(this.master);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+  },
+  noise(dur, vol, delay){
+    if (!this.ctx || this.muted) return;
+    const t0 = this.ctx.currentTime + (delay || 0);
+    const len = Math.max(1, Math.floor(this.ctx.sampleRate * dur));
+    const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    const src = this.ctx.createBufferSource(); src.buffer = buf;
+    const g = this.ctx.createGain(); g.gain.value = vol || 0.2;
+    const f = this.ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 900;
+    src.connect(f); f.connect(g); g.connect(this.master);
+    src.start(t0);
+  },
+  click(){ this.tone(640, 0.06, "square", 0.08, 880); },
+  move(){ this.tone(420, 0.09, "sine", 0.16, 640); },
+  jump(){ this.tone(420, 0.07, "sine", 0.15, 700); this.tone(640, 0.09, "sine", 0.13, 980, 0.06); },
+  wall(){ this.noise(0.16, 0.3); this.tone(140, 0.14, "square", 0.16, 90); },
+  illegal(){ this.tone(150, 0.16, "sawtooth", 0.1, 110); },
+  turnPing(){ this.tone(880, 0.09, "sine", 0.1, 1100); },
+  tick(){ this.tone(1200, 0.045, "square", 0.07); },
+  pickupHint(){ this.tone(980, 0.08, "sine", 0.12, 1400); this.tone(1400, 0.1, "sine", 0.1, 1800, 0.07); },
+  win(){ [523,659,784,1046].forEach((f,i)=>this.tone(f, 0.22, "triangle", 0.2, null, i*0.12)); this.noise(0.5, 0.12, 0.5); },
+  lose(){ [440,330,262,196].forEach((f,i)=>this.tone(f, 0.24, "triangle", 0.16, null, i*0.14)); }
+};
+try { SFX.muted = localStorage.getItem("wr_muted") === "1"; } catch(e){}
+
+;
+/* ============ Rules engine — pure, DOM-free (Quoridor-style race & block) ============
+   Board 9x9. Wall anchors 8x8.
+   H wall (r,c): blocks movement between rows r and r+1 for columns c and c+1.
+   V wall (r,c): blocks movement between cols c and c+1 for rows r and r+1.
+   Slot occupancy: H(r,c) uses slots (r,c),(r,c+1); V(r,c) uses slots (r,c),(r+1,c).
+==================================================================================== */
+"use strict";
+const B = 9;                 // board size
+const ANCH = B - 1;          // 8 anchors per axis
+const SCRATCH_VIS = new Uint8Array(B * B);
+const SCRATCH_Q = new Int16Array(B * B);
+const SCRATCH_DIST = new Int16Array(B * B);
+
+const Rules = {
+  B,
+  newState(players){
+    // players: [{r,c,walls,goal:{axis:'r'|'c', v}}]
+    return {
+      players: players.map(p => ({ r:p.r, c:p.c, walls:p.walls, goal:{axis:p.goal.axis, v:p.goal.v}, active:true })),
+      H: new Uint8Array(ANCH * ANCH),
+      V: new Uint8Array(ANCH * ANCH),
+      slots: new Uint8Array(ANCH * ANCH),
+      wallList: [],   // {r,c,o,by}
+      turn: 0
+    };
+  },
+  clone(st){
+    return {
+      players: st.players.map(p => ({ r:p.r, c:p.c, walls:p.walls, goal:{axis:p.goal.axis, v:p.goal.v}, active:p.active })),
+      H: st.H.slice(), V: st.V.slice(), slots: st.slots.slice(),
+      wallList: st.wallList.map(w => ({r:w.r,c:w.c,o:w.o,by:w.by})),
+      turn: st.turn
+    };
+  },
+  idx(r, c){ return r * ANCH + c; },
+  wallBetween(st, r1, c1, r2, c2){ // adjacent cells only
+    if (r2 === r1 + 1) return this.blockedH(st, r1, c1);
+    if (r2 === r1 - 1) return this.blockedH(st, r2, c1);
+    if (c2 === c1 + 1) return this.blockedV(st, r1, c1);
+    if (c2 === c1 - 1) return this.blockedV(st, r1, c2);
+    return false;
+  },
+  blockedH(st, r, c){ // wall between (r,c) and (r+1,c)
+    const i = r * ANCH + c;
+    return st.H[i] === 1 || (c > 0 && st.H[i - 1] === 1);
+  },
+  blockedV(st, r, c){ // wall between (r,c) and (r,c+1)
+    const i = r * ANCH + c;
+    return st.V[i] === 1 || (r > 0 && st.V[i - ANCH] === 1);
+  },
+  pawnAt(st, r, c, except){
+    for (let i = 0; i < st.players.length; i++){
+      const p = st.players[i];
+      if (p.active && i !== except && p.r === r && p.c === c) return i;
+    }
+    return -1;
+  },
+  pawnMoves(st, pi){
+    const p = st.players[pi], res = [];
+    const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+    for (let d = 0; d < 4; d++){
+      const dr = DIRS[d][0], dc = DIRS[d][1];
+      const r1 = p.r + dr, c1 = p.c + dc;
+      if (r1 < 0 || r1 >= B || c1 < 0 || c1 >= B) continue;
+      if (this.wallBetween(st, p.r, p.c, r1, c1)) continue;
+      const occ = this.pawnAt(st, r1, c1, pi);
+      if (occ === -1){ res.push({ r:r1, c:c1, jump:0 }); continue; }
+      // jump straight over
+      const r2 = r1 + dr, c2 = c1 + dc;
+      if (r2 >= 0 && r2 < B && c2 >= 0 && c2 < B &&
+          !this.wallBetween(st, r1, c1, r2, c2) && this.pawnAt(st, r2, c2, pi) === -1){
+        res.push({ r:r2, c:c2, jump:1 });
+      } else {
+        // diagonal jumps around the opponent pawn
+        const PERP = (dr === 0) ? [[-1,0],[1,0]] : [[0,-1],[0,1]];
+        for (let k = 0; k < 2; k++){
+          const r3 = r1 + PERP[k][0], c3 = c1 + PERP[k][1];
+          if (r3 < 0 || r3 >= B || c3 < 0 || c3 >= B) continue;
+          if (this.wallBetween(st, r1, c1, r3, c3)) continue;
+          if (this.pawnAt(st, r3, c3, pi) !== -1) continue;
+          res.push({ r:r3, c:c3, jump:2 });
+        }
+      }
+    }
+    return res;
+  },
+  canPlaceRaw(st, r, c, o){
+    if (r < 0 || r >= ANCH || c < 0 || c >= ANCH) return false;
+    const i = r * ANCH + c;
+    if (o === "h") return st.slots[i] === 0 && st.slots[i + 1] === 0;
+    return st.slots[i] === 0 && st.slots[i + ANCH] === 0;
+  },
+  placeRaw(st, r, c, o){
+    const i = r * ANCH + c;
+    if (o === "h"){ st.H[i] = 1; st.slots[i] = 1; st.slots[i + 1] = 1; }
+    else { st.V[i] = 1; st.slots[i] = 1; st.slots[i + ANCH] = 1; }
+  },
+  removeRaw(st, r, c, o){
+    const i = r * ANCH + c;
+    if (o === "h"){ st.H[i] = 0; st.slots[i] = 0; st.slots[i + 1] = 0; }
+    else { st.V[i] = 0; st.slots[i] = 0; st.slots[i + ANCH] = 0; }
+  },
+  bfsDist(st, pi){ // shortest steps from pawn to its goal edge; 9999 if none
+    const p = st.players[pi];
+    SCRATCH_VIS.fill(0);
+    let head = 0, tail = 0;
+    const start = p.r * B + p.c;
+    SCRATCH_Q[tail++] = start; SCRATCH_VIS[start] = 1;
+    const dist = SCRATCH_DIST;
+    dist[start] = 0;
+    while (head < tail){
+      const cur = SCRATCH_Q[head++];
+      const r = (cur / B) | 0, c = cur % B, dcur = dist[cur];
+      if (p.goal.axis === "r" ? r === p.goal.v : c === p.goal.v) return dcur;
+      // up
+      if (r > 0 && !this.blockedH(st, r - 1, c)){ const n = cur - B; if (!SCRATCH_VIS[n]){ SCRATCH_VIS[n]=1; dist[n]=dcur+1; SCRATCH_Q[tail++]=n; } }
+      // down
+      if (r < B - 1 && !this.blockedH(st, r, c)){ const n = cur + B; if (!SCRATCH_VIS[n]){ SCRATCH_VIS[n]=1; dist[n]=dcur+1; SCRATCH_Q[tail++]=n; } }
+      // left
+      if (c > 0 && !this.blockedV(st, r, c - 1)){ const n = cur - 1; if (!SCRATCH_VIS[n]){ SCRATCH_VIS[n]=1; dist[n]=dcur+1; SCRATCH_Q[tail++]=n; } }
+      // right
+      if (c < B - 1 && !this.blockedV(st, r, c)){ const n = cur + 1; if (!SCRATCH_VIS[n]){ SCRATCH_VIS[n]=1; dist[n]=dcur+1; SCRATCH_Q[tail++]=n; } }
+    }
+    return 9999;
+  },
+  wouldFullBlock(st, r, c, o){ // if placing this wall leaves ANY active player without a path
+    this.placeRaw(st, r, c, o);
+    let bad = false;
+    for (let i = 0; i < st.players.length; i++){
+      if (!st.players[i].active) continue;
+      if (this.bfsDist(st, i) >= 9999){ bad = true; break; }
+    }
+    this.removeRaw(st, r, c, o);
+    return bad;
+  },
+  legalWalls(st, pi){ // all legal wall placements for player pi (checks stock + overlap + full-block)
+    if (st.players[pi].walls <= 0) return [];
+    const res = [];
+    for (let r = 0; r < ANCH; r++)
+      for (let c = 0; c < ANCH; c++)
+        for (let k = 0; k < 2; k++){
+          const o = k === 0 ? "h" : "v";
+          if (this.canPlaceRaw(st, r, c, o) && !this.wouldFullBlock(st, r, c, o))
+            res.push({ type:"wall", r, c, o });
+        }
+    return res;
+  },
+  isWin(st, pi){
+    const p = st.players[pi];
+    return p.goal.axis === "r" ? p.r === p.goal.v : p.c === p.goal.v;
+  },
+  applyMove(st, pi, mv){
+    if (mv.type === "wall"){
+      this.placeRaw(st, mv.r, mv.c, mv.o);
+      st.players[pi].walls--;
+      st.wallList.push({ r:mv.r, c:mv.c, o:mv.o, by:pi });
+    } else {
+      const p = st.players[pi];
+      mv.fromR = p.r; mv.fromC = p.c;
+      p.r = mv.r; p.c = mv.c;
+    }
+  },
+  undoMove(st, pi, mv){
+    if (mv.type === "wall"){
+      this.removeRaw(st, mv.r, mv.c, mv.o);
+      st.players[pi].walls++;
+      st.wallList.pop();
+    } else {
+      const p = st.players[pi];
+      if (mv.fromR != null){ p.r = mv.fromR; p.c = mv.fromC; }
+    }
+  }
+};
+
+;
+/* ============ AI — minimax + alpha-beta (duel) / greedy (squad) ============ */
+"use strict";
+const AI = {
+  WIN: 100000,
+  evalDuel(st, pi, oj){ // perspective of pi
+    const dMe = Rules.bfsDist(st, pi), dOp = Rules.bfsDist(st, oj);
+    if (dMe === 0) return this.WIN;
+    if (dOp === 0) return -this.WIN;
+    if (dMe >= 9999) return -this.WIN;
+    if (dOp >= 9999) return this.WIN;
+    return (dOp - dMe) * 10 + (st.players[pi].walls - st.players[oj].walls) * 1.1;
+  },
+  evalSquad(st, pi){
+    const dMe = Rules.bfsDist(st, pi);
+    if (dMe === 0) return this.WIN;
+    if (dMe >= 9999) return -this.WIN;
+    let minOther = 9999, myWalls = st.players[pi].walls, otherWalls = 0, n = 0;
+    for (let j = 0; j < st.players.length; j++){
+      if (j === pi || !st.players[j].active) continue;
+      const d = Rules.bfsDist(st, j);
+      if (d === 0) return -this.WIN;
+      if (d < minOther) minOther = d;
+      otherWalls += st.players[j].walls; n++;
+    }
+    if (n === 0) return this.WIN;
+    return (minOther - dMe) * 10 + (myWalls - otherWalls / n) * 0.9;
+  },
+  orderedMoves(st, pi, wallLimit){
+    const out = [];
+    const pawns = Rules.pawnMoves(st, pi);
+    for (const m of pawns) out.push({ type:"move", r:m.r, c:m.c, jump:m.jump });
+    if (st.players[pi].walls > 0 && wallLimit > 0){
+      // score walls: (Δdist of opponents) − (Δdist of self)
+      const dSelf0 = Rules.bfsDist(st, pi);
+      const dOpp0 = [], opps = [];
+      for (let j = 0; j < st.players.length; j++){
+        if (j === pi || !st.players[j].active) continue;
+        opps.push(j); dOpp0.push(Rules.bfsDist(st, j));
+      }
+      const cand = [];
+      for (let r = 0; r < ANCH; r++)
+        for (let c = 0; c < ANCH; c++)
+          for (let k = 0; k < 2; k++){
+            const o = k === 0 ? "h" : "v";
+            if (!Rules.canPlaceRaw(st, r, c, o)) continue;
+            Rules.placeRaw(st, r, c, o);
+            let ok = true, gain = 0;
+            const dSelf = Rules.bfsDist(st, pi);
+            if (dSelf >= 9999) ok = false;
+            if (ok){
+              gain += (dSelf - dSelf0); // cost to self (usually 0 or +)
+              for (let x = 0; x < opps.length; x++){
+                const d = Rules.bfsDist(st, opps[x]);
+                if (d >= 9999){ ok = false; break; }
+                gain += (d - dOpp0[x]) * 1.2;
+              }
+            }
+            Rules.removeRaw(st, r, c, o);
+            if (ok && gain > 0.4) cand.push({ type:"wall", r, c, o, gain });
+          }
+      cand.sort((a, b) => b.gain - a.gain);
+      for (let i = 0; i < Math.min(wallLimit, cand.length); i++) out.push(cand[i]);
+    }
+    return out;
+  },
+  searchDuel(st, pi, oj, depth, alpha, beta, maxing, ply, limits){
+    if (depth === 0) return this.evalDuel(st, pi, oj);
+    const mover = maxing ? pi : oj;
+    const moves = this.orderedMoves(st, mover, limits[Math.min(limits.length - 1, ply)] || 8);
+    if (moves.length === 0) return this.evalDuel(st, pi, oj);
+    let best = maxing ? -Infinity : Infinity;
+    for (const mv of moves){
+      Rules.applyMove(st, mover, mv);
+      let sc;
+      if (Rules.isWin(st, mover)) sc = mover === pi ? this.WIN - ply : -this.WIN + ply;
+      else sc = this.searchDuel(st, pi, oj, depth - 1, alpha, beta, !maxing, ply + 1, limits);
+      Rules.undoMove(st, mover, mv);
+      if (maxing){ if (sc > best) best = sc; if (best > alpha) alpha = best; }
+      else { if (sc < best) best = sc; if (best < beta) beta = best; }
+      if (beta <= alpha) break;
+    }
+    return best;
+  },
+  chooseDuelMove(st, pi, oj, difficulty){
+    // instant win?
+    for (const m of Rules.pawnMoves(st, pi)){
+      const mv = { type:"move", r:m.r, c:m.c };
+      Rules.applyMove(st, pi, mv);
+      const won = Rules.isWin(st, pi);
+      Rules.undoMove(st, pi, mv);
+      if (won) return { type:"move", r:m.r, c:m.c, jump:m.jump };
+    }
+    const cfg = {
+      easy:   { depth:1, limits:[10], noise:6, randTop:5 },
+      medium: { depth:2, limits:[18, 12], noise:1.2, randTop:2 },
+      hard:   { depth:3, limits:[20, 14, 10], noise:0, randTop:1 }
+    }[difficulty] || { depth:2, limits:[16, 12], noise:1, randTop:2 };
+
+    const moves = this.orderedMoves(st, pi, cfg.limits[0]);
+    if (moves.length === 0) return null;
+    const scored = [];
+    for (const mv of moves){
+      Rules.applyMove(st, pi, mv);
+      let sc;
+      if (Rules.isWin(st, pi)) sc = this.WIN;
+      else if (cfg.depth <= 1) sc = this.evalDuel(st, pi, oj);
+      else sc = this.searchDuel(st, pi, oj, cfg.depth - 1, -Infinity, Infinity, false, 1, cfg.limits);
+      Rules.undoMove(st, pi, mv);
+      scored.push({ mv, sc: sc + (cfg.noise ? (Math.random() - 0.5) * cfg.noise : 0) });
+    }
+    scored.sort((a, b) => b.sc - a.sc);
+    const topN = Math.max(1, Math.min(cfg.randTop, scored.length));
+    return scored[Math.floor(Math.random() * topN)].mv;
+  },
+  chooseSquadMove(st, pi, difficulty){
+    for (const m of Rules.pawnMoves(st, pi)){
+      const mv = { type:"move", r:m.r, c:m.c };
+      Rules.applyMove(st, pi, mv);
+      const won = Rules.isWin(st, pi);
+      Rules.undoMove(st, pi, mv);
+      if (won) return { type:"move", r:m.r, c:m.c, jump:m.jump };
+    }
+    const hard = difficulty === "hard";
+    const moves = this.orderedMoves(st, pi, hard ? 16 : 10);
+    if (moves.length === 0) return null;
+    let best = null, bestSc = -Infinity;
+    for (const mv of moves){
+      Rules.applyMove(st, pi, mv);
+      let sc = this.evalSquad(st, pi);
+      // hard: consider the best single reply of the closest opponent
+      if (hard){
+        let closeJ = -1, closeD = 9999;
+        for (let j = 0; j < st.players.length; j++){
+          if (j === pi || !st.players[j].active) continue;
+          const d = Rules.bfsDist(st, j);
+          if (d < closeD){ closeD = d; closeJ = j; }
+        }
+        if (closeJ >= 0){
+          const reps = this.orderedMoves(st, closeJ, 8);
+          let worst = Infinity;
+          for (const rm of reps){
+            Rules.applyMove(st, closeJ, rm);
+            const s2 = this.evalSquad(st, pi);
+            Rules.undoMove(st, closeJ, rm);
+            if (s2 < worst) worst = s2;
+          }
+          if (worst < Infinity) sc = Math.min(sc, worst);
+        }
+      }
+      Rules.undoMove(st, pi, mv);
+      if (difficulty === "easy") sc += (Math.random() - 0.5) * 8;
+      if (sc > bestSc){ bestSc = sc; best = mv; }
+    }
+    return best;
+  },
+  chooseMove(st, pi, difficulty){
+    const others = [];
+    for (let j = 0; j < st.players.length; j++)
+      if (j !== pi && st.players[j].active) others.push(j);
+    if (others.length === 0) return null;
+    if (others.length === 1) return this.chooseDuelMove(st, pi, others[0], difficulty);
+    return this.chooseSquadMove(st, pi, difficulty);
+  }
+};
+
+;
+/* ============ Match controller — DOM-free core, UI through hooks ============ */
+"use strict";
+const SEAT_POS = { S:{r:8,c:4,goal:{axis:"r",v:0}}, N:{r:0,c:4,goal:{axis:"r",v:8}},
+                   W:{r:4,c:0,goal:{axis:"c",v:8}}, E:{r:4,c:8,goal:{axis:"c",v:0}} };
+const SEAT_ORDER = ["S","W","N","E"];
+const PLAYER_COLORS = ["#2de0a7","#ff6b8a","#ffc53d","#b78cff"];
+
+const Game = {
+  cfg: null, state: null, over: false, paused: false,
+  moveCount: 0, startTime: 0, undoLeft: 1, hintLeft: 3,
+  history: [], blitzDeadline: 0, blitzInterval: null, lastTickSec: -1,
+  on: function(ev, data){ if (Game.hooks && Game.hooks[ev]) Game.hooks[ev](data); },
+  hooks: null,
+
+  newMatch(cfg){
+    // cfg: { mode:'duel'|'blitz'|'squad', players:[{type,difficulty,name,seat}], instantBots }
+    this.cfg = cfg;
+    this.over = false; this.paused = false;
+    this.moveCount = 0; this.startTime = Date.now();
+    this.undoLeft = (cfg.players.some(p => p.type === "bot")) ? 1 : 0;
+    this.hintLeft = 3;
+    this.history = [];
+    this.stopBlitz();
+    const walls = cfg.mode === "blitz" ? 6 : (cfg.mode === "squad" ? 5 : 10);
+    const rp = cfg.players.map(p => {
+      const s = SEAT_POS[p.seat];
+      return { r:s.r, c:s.c, walls, goal:s.goal, active:true };
+    });
+    this.state = Rules.newState(rp);
+    this.state.turn = 0;
+    this.players = cfg.players.map((p, i) => ({
+      ...p, color: PLAYER_COLORS[i], walls, moves: 0, wallsUsed: 0, idx: i
+    }));
+    this.beginTurn();
+  },
+
+  cur(){ return this.players[this.state.turn]; },
+  isHuman(i){ return this.players[i].type === "human"; },
+
+  beginTurn(){
+    if (this.over) return;
+    const i = this.state.turn;
+    this.on("turn", i);
+    if (this.isHuman(i)){
+      if (this.cfg.mode === "blitz") this.startBlitz();
+    } else {
+      this.stopBlitz();
+      this.on("botThinking", i);
+      if (this.cfg.instantBots) return; // test mode: caller steps manually
+      const delay = 380 + Math.random() * 520;
+      const turnAt = this.state.turn;
+      const tryBot = () => {
+        if (this.over || this.state.turn !== turnAt) return;
+        if (this.paused){ setTimeout(tryBot, 300); return; }
+        this.botMove(i);
+      };
+      setTimeout(tryBot, delay);
+    }
+  },
+
+  botMove(i){
+    if (this.over) return;
+    let mv = AI.chooseMove(this.state, i, this.players[i].difficulty || "medium");
+    if (!mv){
+      const pm = Rules.pawnMoves(this.state, i);
+      if (pm.length) mv = { type:"move", r:pm[0].r, c:pm[0].c };
+    }
+    if (mv) this.doMove(i, mv);
+  },
+
+  nextTurn(){
+    if (this.over) return;
+    let i = this.state.turn;
+    for (let k = 1; k <= this.players.length; k++){
+      const j = (i + k) % this.players.length;
+      if (this.players[j] && this.state.players[j].active){ this.state.turn = j; break; }
+    }
+    this.beginTurn();
+  },
+
+  doMove(pi, mv){
+    if (this.over) return;
+    this.stopBlitz();
+    this.history.push({ snap: Rules.clone(this.state), mover: pi });
+    if (this.history.length > 400) this.history.shift();
+    const p = this.players[pi];
+    p.moves++;
+    if (mv.type === "wall"){ p.wallsUsed++; p.walls--; }
+    Rules.applyMove(this.state, pi, mv);
+    this.moveCount++;
+    this.on("move", { pi, mv });
+    if (Rules.isWin(this.state, pi)){
+      this.over = true;
+      this.on("win", { pi, time: Date.now() - this.startTime, moves: p.moves, wallsUsed: p.wallsUsed });
+      return;
+    }
+    this.nextTurn();
+  },
+
+  /* ---------- human actions ---------- */
+  legalPawnTarget(pi, r, c){
+    if (this.over || this.state.turn !== pi) return null;
+    for (const m of Rules.pawnMoves(this.state, pi))
+      if (m.r === r && m.c === c) return m;
+    return null;
+  },
+  tryMove(pi, r, c){
+    const m = this.legalPawnTarget(pi, r, c);
+    if (!m) return false;
+    this.doMove(pi, { type:"move", r, c, jump: m.jump });
+    return true;
+  },
+  wallCheck(pi, r, c, o){
+    // returns {ok:bool, reason:'place'|'block'|'stock'|null}
+    if (this.over || this.state.turn !== pi) return { ok:false, reason:null };
+    if (this.players[pi].walls <= 0) return { ok:false, reason:"stock" };
+    if (!Rules.canPlaceRaw(this.state, r, c, o)) return { ok:false, reason:"place" };
+    if (Rules.wouldFullBlock(this.state, r, c, o)) return { ok:false, reason:"block" };
+    return { ok:true };
+  },
+  tryWall(pi, r, c, o){
+    const chk = this.wallCheck(pi, r, c, o);
+    if (!chk.ok) return chk;
+    this.doMove(pi, { type:"wall", r, c, o });
+    return chk;
+  },
+
+  /* ---------- undo & hint (vs bots) ---------- */
+  canUndo(){
+    if (this.over || this.undoLeft <= 0 || !this.history.length) return false;
+    if (!this.cfg.players.some(p => p.type === "bot")) return false;
+    return this.isHuman(this.state.turn);
+  },
+  undo(){
+    if (!this.canUndo()) return false;
+    this.stopBlitz();
+    // pop until it is a human's turn snapshot again (max 2: bot reply + my move)
+    let snaps = 0;
+    while (this.history.length && snaps < 2){
+      const h = this.history.pop();
+      this.state = h.snap;
+      snaps++;
+      if (h.mover !== undefined && this.isHuman(h.mover)) break; // restored to just before a human move
+    }
+    this.undoLeft--;
+    this.moveCount = Math.max(0, this.moveCount - snaps);
+    for (let i = 0; i < this.players.length; i++){
+      const sp = this.state.players[i], p = this.players[i];
+      p.walls = sp.walls;
+    }
+    this.over = false;
+    this.on("undo");
+    this.beginTurn();
+    return true;
+  },
+  useHint(){
+    if (this.over || this.hintLeft <= 0 || !this.isHuman(this.state.turn)) return null;
+    const i = this.state.turn;
+    let mv = AI.chooseMove(this.state, i, "medium");
+    if (!mv){
+      const pm = Rules.pawnMoves(this.state, i);
+      if (pm.length) mv = { type:"move", r:pm[0].r, c:pm[0].c };
+    }
+    if (mv){ this.hintLeft--; this.on("hint", mv); }
+    return mv;
+  },
+
+  /* ---------- blitz timer ---------- */
+  startBlitz(){
+    this.stopBlitz();
+    this.blitzDeadline = Date.now() + 10000;
+    this.lastTickSec = -1;
+    this.on("tick", 10);
+    this.blitzInterval = setInterval(() => {
+      if (this.paused || this.over){ return; }
+      const left = Math.max(0, this.blitzDeadline - Date.now());
+      const sec = Math.ceil(left / 1000);
+      if (sec !== this.lastTickSec){ this.lastTickSec = sec; this.on("tick", sec); }
+      if (left <= 0){
+        this.stopBlitz();
+        const i = this.state.turn;
+        this.on("timeout", i);
+        if (!this.over && this.isHuman(i)){
+          let mv = AI.chooseMove(this.state, i, "medium");
+          if (!mv){
+            const pm = Rules.pawnMoves(this.state, i);
+            if (pm.length) mv = { type:"move", r:pm[0].r, c:pm[0].c };
+          }
+          if (mv) this.doMove(i, mv);
+        }
+      }
+    }, 100);
+  },
+  stopBlitz(){
+    if (this.blitzInterval){ clearInterval(this.blitzInterval); this.blitzInterval = null; }
+    this.on("tick", -1);
+  }
+};
+
+;
+/* ============ Canvas renderer — neon arcade board ============ */
+"use strict";
+function rr(ctx, x, y, w, h, r){
+  r = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+const R = {
+  cv: null, ctx: null, dpr: 1, W: 0, H: 0,
+  boardX: 0, boardY: 0, CS: 40, frame: 6,
+  staticCv: null, needStatic: true,
+  ghost: null, ghostOk: true,
+  legal: [], legalJumps: {},
+  hintMv: null, hintUntil: 0,
+  animMap: {}, particles: [], confetti: [],
+  shake: 0, pathDirty: true, pathCache: null, pathPi: -1,
+  t: 0, lastNow: 0, eyeDir: {},
+
+  init(canvas){
+    this.cv = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.staticCv = document.createElement("canvas");
+    window.addEventListener("resize", () => this.resize());
+    const loop = (now) => {
+      try { this.frame(now); }
+      catch(e){
+        if (!this._frameErr){
+          this._frameErr = String(e && e.message);
+          try { console.error("WallRush render error: " + this._frameErr); } catch(_){}
+        }
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  },
+  resize(){
+    const wrap = this.cv.parentElement;
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    if (!w || !h) return;
+    this.dpr = Math.min(2.5, window.devicePixelRatio || 1);
+    this.W = w; this.H = h;
+    this.cv.width = Math.round(w * this.dpr);
+    this.cv.height = Math.round(h * this.dpr);
+    this.cv.style.width = w + "px";
+    this.cv.style.height = h + "px";
+    const pad = 10;
+    const bs = Math.min(w - pad * 2, h - pad * 2);
+    this.CS = Math.max(24, Math.floor(bs / 9));
+    const bw = this.CS * 9;
+    this.boardX = Math.round((w - bw) / 2);
+    this.boardY = Math.round((h - bw) / 2);
+    this.staticCv.width = Math.round(w * this.dpr);
+    this.staticCv.height = Math.round(h * this.dpr);
+    this.needStatic = true;
+    this.pathDirty = true;
+  },
+  cellRect(r, c){ return { x: this.boardX + c * this.CS, y: this.boardY + r * this.CS, w: this.CS, h: this.CS }; },
+  cellCX(r, c){ return this.boardX + (c + 0.5) * this.CS; },
+  cellCY(r, c){ return this.boardY + (r + 0.5) * this.CS; },
+  wallRect(r, c, o){
+    const T = Math.max(5, this.CS * 0.17);
+    if (o === "h") return { x: this.boardX + c * this.CS, y: this.boardY + (r + 1) * this.CS - T / 2, w: this.CS * 2, h: T };
+    return { x: this.boardX + (c + 1) * this.CS - T / 2, y: this.boardY + r * this.CS, w: T, h: this.CS * 2 };
+  },
+
+  markChanged(){ this.needStatic = true; this.pathDirty = true; },
+  hop(pi, from, to, jump){
+    this.animMap[pi] = { fx: from.c, fy: from.r, tx: to.c, ty: to.r, start: performance.now(), dur: 170 + (jump ? 90 : 0), jump };
+    this.eyeDir[pi] = { x: Math.sign(to.c - from.c), y: Math.sign(to.r - from.r) };
+  },
+  slam(r, c, o){
+    const rect = this.wallRect(r, c, o);
+    for (let i = 0; i < 10; i++){
+      this.particles.push({
+        x: rect.x + Math.random() * rect.w, y: rect.y + Math.random() * rect.h,
+        vx: (Math.random() - 0.5) * 140, vy: -Math.random() * 90 - 20,
+        life: 0.5 + Math.random() * 0.3, age: 0, col: "#9aa8ff", sz: 2 + Math.random() * 2.5
+      });
+    }
+    this.shake = Math.min(8, this.shake + 5);
+  },
+  burst(r, c, col){
+    const x = this.cellCX(r, c), y = this.cellCY(r, c);
+    for (let i = 0; i < 14; i++){
+      const a = Math.random() * Math.PI * 2, sp = 60 + Math.random() * 160;
+      this.particles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.5 + Math.random() * 0.4, age: 0, col, sz: 2 + Math.random() * 3 });
+    }
+  },
+  celebrate(){
+    const cols = ["#2de0a7", "#6ea8ff", "#ff8fb0", "#ffc53d", "#b78cff"];
+    for (let i = 0; i < 130; i++){
+      this.confetti.push({
+        x: Math.random() * this.W, y: -20 - Math.random() * this.H * 0.4,
+        vx: (Math.random() - 0.5) * 60, vy: 120 + Math.random() * 160,
+        rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 8,
+        w: 5 + Math.random() * 5, h: 8 + Math.random() * 6,
+        col: cols[(Math.random() * cols.length) | 0], age: 0, life: 3.4
+      });
+    }
+  },
+  setGhost(g, ok){ this.ghost = g; this.ghostOk = ok; },
+  setLegal(list){
+    this.legal = list;
+    this.legalJumps = {};
+    for (const m of list) this.legalJumps[m.r + "," + m.c] = m.jump || 0;
+  },
+
+  pathCells(){
+    if (!this.pathDirty && this.pathPi === Game.state.turn) return this.pathCache;
+    this.pathPi = Game.state.turn;
+    this.pathDirty = false;
+    const st = Game.state, pi = st.turn, p = st.players[pi];
+    const vis = new Uint8Array(81), par = new Int16Array(81).fill(-1), q = new Int16Array(81);
+    let head = 0, tail = 0;
+    const start = p.r * 9 + p.c;
+    q[tail++] = start; vis[start] = 1;
+    let found = -1;
+    while (head < tail){
+      const cur = q[head++];
+      const r = (cur / 9) | 0, c = cur % 9;
+      if (p.goal.axis === "r" ? r === p.goal.v : c === p.goal.v){ found = cur; break; }
+      const nb = [];
+      if (r > 0 && !Rules.blockedH(st, r - 1, c)) nb.push(cur - 9);
+      if (r < 8 && !Rules.blockedH(st, r, c)) nb.push(cur + 9);
+      if (c > 0 && !Rules.blockedV(st, r, c - 1)) nb.push(cur - 1);
+      if (c < 8 && !Rules.blockedV(st, r, c)) nb.push(cur + 1);
+      for (const n of nb) if (!vis[n]){ vis[n] = 1; par[n] = cur; q[tail++] = n; }
+    }
+    const cells = [];
+    if (found >= 0){
+      let cur = found;
+      while (cur !== -1){ cells.push({ r: (cur / 9) | 0, c: cur % 9 }); cur = par[cur]; }
+      cells.reverse();
+    }
+    this.pathCache = cells;
+    return cells;
+  },
+
+  /* ---------------- static layer ---------------- */
+  rebuildStatic(){
+    const ctx = this.staticCv.getContext("2d");
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.W, this.H);
+    const bx = this.boardX, by = this.boardY, bs = this.CS * 9, fr = this.frame;
+    // frame
+    rr(ctx, bx - fr, by - fr, bs + fr * 2, bs + fr * 2, 18);
+    ctx.fillStyle = "#151a3d";
+    ctx.shadowColor = "rgba(80,110,255,0.25)"; ctx.shadowBlur = 26;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    rr(ctx, bx - fr, by - fr, bs + fr * 2, bs + fr * 2, 18);
+    ctx.strokeStyle = "rgba(140,160,255,0.35)"; ctx.lineWidth = 1.5; ctx.stroke();
+    // goal strips (bright outer band on the frame)
+    if (Game.state){
+      Game.players.forEach((p, i) => {
+        const sp = Game.state.players[i];
+        if (!sp || !sp.active) return;
+        const g = sp.goal;
+        ctx.save();
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color; ctx.shadowBlur = 12;
+        ctx.globalAlpha = 0.95;
+        if (g.axis === "r" && g.v === 0) rr(ctx, bx - fr, by - fr, bs + fr * 2, fr, 5);
+        else if (g.axis === "r" && g.v === 8) rr(ctx, bx - fr, by + bs, bs + fr * 2, fr, 5);
+        else if (g.axis === "c" && g.v === 0) rr(ctx, bx - fr, by - fr, fr, bs + fr * 2, 5);
+        else rr(ctx, bx + bs, by - fr, fr, bs + fr * 2, 5);
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+    // cells (subtle checker)
+    for (let r = 0; r < 9; r++)
+      for (let c = 0; c < 9; c++){
+        ctx.fillStyle = ((r + c) % 2 === 0) ? "#222a56" : "#252d5f";
+        rr(ctx, bx + c * this.CS + 1, by + r * this.CS + 1, this.CS - 2, this.CS - 2, 5);
+        ctx.fill();
+      }
+    // goal glow wash fading into the board (drawn over cells)
+    if (Game.state){
+      Game.players.forEach((p, i) => {
+        const sp = Game.state.players[i];
+        if (!sp || !sp.active) return;
+        const g = sp.goal;
+        const wash = this.CS * 1.7;
+        let grad, wx, wy, ww, wh;
+        if (g.axis === "r"){
+          if (g.v === 0){ grad = ctx.createLinearGradient(0, by, 0, by + wash); wx = bx; wy = by; }
+          else { grad = ctx.createLinearGradient(0, by + bs, 0, by + bs - wash); wx = bx; wy = by + bs - wash; }
+          ww = bs; wh = wash;
+        } else {
+          if (g.v === 0){ grad = ctx.createLinearGradient(bx, 0, bx + wash, 0); wx = bx; wy = by; }
+          else { grad = ctx.createLinearGradient(bx + bs, 0, bx + bs - wash, 0); wx = bx + bs - wash; wy = by; }
+          ww = wash; wh = bs;
+        }
+        grad.addColorStop(0, p.color + "7a");
+        grad.addColorStop(1, p.color + "00");
+        ctx.fillStyle = grad;
+        ctx.fillRect(wx, wy, ww, wh);
+      });
+    }
+    // walls
+    if (Game.state){
+      for (const w of Game.state.wallList) this.drawWallBar(ctx, w.r, w.c, w.o, false);
+    }
+    this.needStatic = false;
+  },
+  drawWallBar(ctx, r, c, o, ghost){
+    const rect = this.wallRect(r, c, o);
+    rr(ctx, rect.x + 1, rect.y + 1, rect.w - 2, rect.h - 2, Math.min(6, rect.h / 2));
+    const grad = ctx.createLinearGradient(rect.x, rect.y, rect.x + (o === "h" ? rect.w : 0), rect.y + (o === "h" ? 0 : rect.h));
+    if (ghost){
+      ctx.fillStyle = this.ghostOk ? "rgba(46,224,167,0.4)" : "rgba(255,107,138,0.4)";
+      ctx.fill();
+      ctx.setLineDash([7, 5]);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = this.ghostOk ? "#2de0a7" : "#ff6b8a";
+      ctx.stroke();
+      ctx.setLineDash([]);
+    } else {
+      grad.addColorStop(0, "#93a0ff"); grad.addColorStop(0.5, "#c9d2ff"); grad.addColorStop(1, "#6a79ef");
+      ctx.fillStyle = grad; ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.28)"; ctx.lineWidth = 1; ctx.stroke();
+    }
+  },
+
+  /* ---------------- frame ---------------- */
+  frame(now){
+    if (!this.ctx || !this.W) return;
+    const dt = Math.min(0.05, (now - (this.lastNow || now)) / 1000);
+    this.lastNow = now; this.t += dt;
+    const ctx = this.ctx;
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.W, this.H);
+    if (this.needStatic) this.rebuildStatic();
+
+    // shake
+    let sx = 0, sy = 0;
+    if (this.shake > 0.1){ sx = (Math.random() - 0.5) * this.shake; sy = (Math.random() - 0.5) * this.shake; this.shake *= Math.pow(0.001, dt); }
+    ctx.save();
+    ctx.translate(sx, sy);
+    ctx.drawImage(this.staticCv, 0, 0, this.W, this.H);
+
+    if (Game.state && !Game.over){
+      const pi = Game.state.turn;
+      const isHumanTurn = Game.isHuman(pi);
+      // path guide
+      if (isHumanTurn && Settings.pathGuide){
+        const cells = this.pathCells();
+        if (cells.length > 1){
+          ctx.save();
+          ctx.strokeStyle = Game.players[pi].color;
+          ctx.globalAlpha = 0.32;
+          ctx.lineWidth = Math.max(3, this.CS * 0.1);
+          ctx.lineCap = "round"; ctx.lineJoin = "round";
+          ctx.setLineDash([2, this.CS * 0.32]);
+          ctx.lineDashOffset = -this.t * 26;
+          ctx.beginPath();
+          ctx.moveTo(this.cellCX(cells[0].r, cells[0].c), this.cellCY(cells[0].r, cells[0].c));
+          for (let i = 1; i < cells.length; i++) ctx.lineTo(this.cellCX(cells[i].r, cells[i].c), this.cellCY(cells[i].r, cells[i].c));
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.restore();
+        }
+      }
+      // legal move highlights
+      if (isHumanTurn){
+        const pulse = 0.55 + Math.sin(this.t * 5) * 0.2;
+        for (const m of this.legal){
+          const x = this.boardX + m.c * this.CS, y = this.boardY + m.r * this.CS;
+          rr(ctx, x + 4, y + 4, this.CS - 8, this.CS - 8, 8);
+          ctx.fillStyle = "rgba(255,255,255," + (0.13 * pulse + 0.06).toFixed(3) + ")";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255,255,255," + (0.45 * pulse + 0.15).toFixed(3) + ")";
+          ctx.lineWidth = 1.6; ctx.stroke();
+          const jmp = this.legalJumps[m.r + "," + m.c] || 0;
+          if (jmp){
+            // chevron up icon for jumps
+            const cx = this.cellCX(m.r, m.c), cy = this.cellCY(m.r, m.c);
+            ctx.strokeStyle = "rgba(255,255,255,0.85)"; ctx.lineWidth = 2.4; ctx.lineCap = "round";
+            const s = this.CS * 0.16;
+            ctx.beginPath();
+            ctx.moveTo(cx - s, cy + s * 0.35); ctx.lineTo(cx, cy - s * 0.55); ctx.lineTo(cx + s, cy + s * 0.35);
+            ctx.stroke();
+          }
+        }
+      }
+      // hint
+      if (this.hintMv && performance.now() < this.hintUntil){
+        const a = 0.5 + Math.sin(this.t * 8) * 0.3;
+        if (this.hintMv.type === "move"){
+          const x = this.boardX + this.hintMv.c * this.CS, y = this.boardY + this.hintMv.r * this.CS;
+          rr(ctx, x + 3, y + 3, this.CS - 6, this.CS - 6, 9);
+          ctx.strokeStyle = "rgba(255,214,64," + a.toFixed(3) + ")"; ctx.lineWidth = 3; ctx.stroke();
+        } else {
+          ctx.save(); ctx.globalAlpha = 0.5 + a * 0.5;
+          const rect = this.wallRect(this.hintMv.r, this.hintMv.c, this.hintMv.o);
+          rr(ctx, rect.x, rect.y, rect.w, rect.h, 6);
+          ctx.strokeStyle = "#ffd640"; ctx.lineWidth = 3; ctx.stroke();
+          ctx.restore();
+        }
+      } else this.hintMv = null;
+      // ghost wall
+      if (this.ghost) this.drawWallBar(ctx, this.ghost.r, this.ghost.c, this.ghost.o, true);
+    }
+
+    // pawns
+    if (Game.state){
+      for (let i = 0; i < Game.players.length; i++){
+        const p = Game.players[i];
+        if (!Game.state.players[i].active) continue;
+        this.drawPawn(ctx, i, p);
+      }
+    }
+
+    // particles
+    for (let i = this.particles.length - 1; i >= 0; i--){
+      const pt = this.particles[i];
+      pt.age += dt;
+      if (pt.age > pt.life){ this.particles.splice(i, 1); continue; }
+      pt.x += pt.vx * dt; pt.y += pt.vy * dt; pt.vy += 240 * dt;
+      ctx.globalAlpha = Math.max(0, 1 - pt.age / pt.life);
+      ctx.fillStyle = pt.col;
+      ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.sz, 0, 7); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    // confetti
+    for (let i = this.confetti.length - 1; i >= 0; i--){
+      const cf = this.confetti[i];
+      cf.age += dt;
+      if (cf.age > cf.life){ this.confetti.splice(i, 1); continue; }
+      cf.x += cf.vx * dt + Math.sin(cf.age * 5 + cf.rot) * 24 * dt; cf.y += cf.vy * dt; cf.rot += cf.vr * dt;
+      ctx.save();
+      ctx.translate(cf.x, cf.y); ctx.rotate(cf.rot);
+      ctx.fillStyle = cf.col;
+      ctx.fillRect(-cf.w / 2, -cf.h / 2, cf.w, cf.h);
+      ctx.restore();
+    }
+    ctx.restore();
+  },
+
+  pawnPos(i){
+    const st = Game.state.players[i];
+    let x = st.c, y = st.r, scale = 1;
+    const a = this.animMap[i];
+    if (a){
+      const k = Math.min(1, (performance.now() - a.start) / a.dur);
+      const e = 1 - (1 - k) * (1 - k);
+      x = a.fx + (a.tx - a.fx) * e;
+      y = a.fy + (a.ty - a.fy) * e;
+      scale = 1 + Math.sin(k * Math.PI) * (a.jump ? 0.38 : 0.18);
+      if (k >= 1) delete this.animMap[i];
+    }
+    return { px: this.boardX + (x + 0.5) * this.CS, py: this.boardY + (y + 0.5) * this.CS, scale };
+  },
+  drawPawn(ctx, i, p){
+    const { px, py, scale } = this.pawnPos(i);
+    const S = this.CS * 0.62 * scale;
+    const active = Game.state.turn === i && !Game.over;
+    // shadow
+    ctx.beginPath();
+    ctx.ellipse(px, py + S * 0.52, S * 0.42, S * 0.13, 0, 0, 7);
+    ctx.fillStyle = "rgba(0,0,0,0.35)"; ctx.fill();
+    // active ring
+    if (active){
+      const pr = S * 0.72 + Math.sin(this.t * 4.5) * 2.5;
+      ctx.beginPath(); ctx.arc(px, py, pr, 0, 7);
+      ctx.strokeStyle = p.color; ctx.lineWidth = 2.2; ctx.globalAlpha = 0.85;
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    // body
+    rr(ctx, px - S / 2, py - S / 2, S, S, S * 0.36);
+    const grad = ctx.createLinearGradient(px, py - S / 2, px, py + S / 2);
+    grad.addColorStop(0, p.color);
+    grad.addColorStop(1, this.shade(p.color, -28));
+    ctx.fillStyle = grad;
+    ctx.shadowColor = p.color; ctx.shadowBlur = active ? 16 : 8;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    // eyes
+    const ed = this.eyeDir[i] || { x: 0, y: 0 };
+    const blink = (Math.sin(this.t * 1.7 + i * 2.6) > 0.985);
+    const ew = S * 0.16, eh = blink ? S * 0.03 : S * 0.22;
+    const exo = S * 0.17, eyo = -S * 0.08;
+    for (const s of [-1, 1]){
+      const ex = px + s * exo + ed.x * S * 0.05, ey = py + eyo + ed.y * S * 0.05;
+      rr(ctx, ex - ew / 2, ey - eh / 2, ew, eh, ew / 2);
+      ctx.fillStyle = "#fff"; ctx.fill();
+      if (!blink){
+        ctx.beginPath();
+        ctx.arc(ex + ed.x * ew * 0.22, ey + ed.y * eh * 0.18, ew * 0.34, 0, 7);
+        ctx.fillStyle = "#10142e"; ctx.fill();
+      }
+    }
+  },
+  shade(hex, amt){
+    const n = parseInt(hex.slice(1), 16);
+    let r = (n >> 16) + amt, g = ((n >> 8) & 255) + amt, b = (n & 255) + amt;
+    r = Math.max(0, Math.min(255, r)); g = Math.max(0, Math.min(255, g)); b = Math.max(0, Math.min(255, b));
+    return "rgb(" + r + "," + g + "," + b + ")";
+  },
+
+  /* ---------------- hit testing ---------------- */
+  hitTest(clientX, clientY){
+    const rect = this.cv.getBoundingClientRect();
+    const x = clientX - rect.left, y = clientY - rect.top;
+    const bx = (x - this.boardX) / this.CS, by = (y - this.boardY) / this.CS;
+    if (bx < -0.2 || bx > 9.2 || by < -0.2 || by > 9.2) return { kind: "out" };
+    // cell?
+    const cr = Math.floor(by), cc = Math.floor(bx);
+    const ccx = bx - cc - 0.5, ccy = by - cr - 0.5;
+    if (cr >= 0 && cr < 9 && cc >= 0 && cc < 9 && Math.abs(ccx) < 0.30 && Math.abs(ccy) < 0.30)
+      return { kind: "cell", r: cr, c: cc };
+    // groove → wall anchor
+    const vx = Math.round(bx), vy = Math.round(by);
+    const dvx = Math.abs(bx - vx), dvy = Math.abs(by - vy);
+    const nearV = dvx <= dvy;
+    let cands = [];
+    if (nearV){
+      const c = vx - 1;
+      const r0 = Math.round(by - 1);
+      for (const r of [r0, r0 - 1, r0 + 1])
+        if (r >= 0 && r <= 7 && c >= 0 && c <= 7 && Rules.canPlaceRaw(Game.state, r, c, "v")) cands.push({ r, c, o: "v" });
+    } else {
+      const r = vy - 1;
+      const c0 = Math.round(bx - 1);
+      for (const c of [c0, c0 - 1, c0 + 1])
+        if (r >= 0 && r <= 7 && c >= 0 && c <= 7 && Rules.canPlaceRaw(Game.state, r, c, "h")) cands.push({ r, c, o: "h" });
+    }
+    if (cands.length) return { kind: "groove", wall: cands[0], alts: cands };
+    return { kind: "out" };
+  },
+  ghostRect(){
+    return this.ghost ? this.wallRect(this.ghost.r, this.ghost.c, this.ghost.o) : null;
+  },
+  pointInGhost(x, y){
+    const rect = this.ghostRect();
+    if (!rect) return false;
+    const m = 8;
+    return x >= rect.x - m && x <= rect.x + rect.w + m && y >= rect.y - m && y <= rect.y + rect.h + m;
+  }
+};
+
+;
+/* ============ Input — tap/click + wall ghost UX + keyboard ============ */
+"use strict";
+const Input = {
+  ghost: null, ghostOk: false, ghostReason: null,
+
+  init(){
+    const cv = R.cv;
+    cv.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      SFX.init(); SFX.resume();
+      this.onTap(e.clientX, e.clientY);
+    });
+    document.getElementById("btnOk").addEventListener("click", () => { SFX.init(); this.confirmGhost(); });
+    document.getElementById("btnCancel").addEventListener("click", () => { SFX.init(); this.clearGhost(); });
+    document.getElementById("btnRotate").addEventListener("click", () => { SFX.init(); this.rotateGhost(); });
+    window.addEventListener("keydown", (e) => this.onKey(e));
+  },
+
+  humanTurn(){
+    return Game.state && !Game.over && Game.isHuman(Game.state.turn);
+  },
+
+  onTap(cx, cy){
+    if (!Game.state || Game.over) return;
+    if (!this.humanTurn()) return;
+    const rect = R.cv.getBoundingClientRect();
+    const x = cx - rect.left, y = cy - rect.top;
+    const hit = R.hitTest(cx, cy);
+    const pi = Game.state.turn;
+
+    if (this.ghost){
+      if (R.pointInGhost(x, y)){
+        this.confirmGhost();
+        return;
+      }
+      if (hit.kind === "groove"){
+        if (hit.wall.r === this.ghost.r && hit.wall.c === this.ghost.c && hit.wall.o === this.ghost.o){
+          this.confirmGhost(); // second tap on same wall = place
+          return;
+        }
+        this.setGhost(hit.wall);
+        return;
+      }
+      if (hit.kind === "cell"){
+        if (Game.tryMove(pi, hit.r, hit.c)){ this.clearGhost(); return; }
+      }
+      this.clearGhost();
+      return;
+    }
+
+    if (hit.kind === "cell"){
+      if (Game.tryMove(pi, hit.r, hit.c)) return;
+      // tapping own pawn or others: ignore quietly
+      return;
+    }
+    if (hit.kind === "groove"){
+      this.setGhost(hit.wall);
+    }
+  },
+
+  setGhost(wall){
+    if (!this.humanTurn()) return;
+    const pi = Game.state.turn;
+    const chk = Game.wallCheck(pi, wall.r, wall.c, wall.o);
+    this.ghost = wall;
+    this.ghostOk = chk.ok;
+    this.ghostReason = chk.reason;
+    R.setGhost(wall, chk.ok);
+    UI.showWallActions(chk.ok, chk.reason);
+    if (!chk.ok && chk.reason === "stock"){ this.clearGhost(); UI.toast(t("no_walls")); SFX.illegal(); }
+    else SFX.click();
+  },
+  rotateGhost(){
+    if (!this.ghost) return;
+    const g = this.ghost;
+    const no = g.o === "h" ? "v" : "h";
+    if (!Rules.canPlaceRaw(Game.state, g.r, g.c, no)){
+      // try nudging anchor when rotating near an edge/corner
+      let alt = null;
+      if (no === "v" && g.c + 1 <= 7 && Rules.canPlaceRaw(Game.state, g.r, g.c + 1, "v")) alt = { r: g.r, c: g.c + 1, o: "v" };
+      if (no === "h" && g.r + 1 <= 7 && Rules.canPlaceRaw(Game.state, g.r + 1, g.c, "h")) alt = { r: g.r + 1, c: g.c, o: "h" };
+      if (!alt){ UI.toast(t("illegal_place")); SFX.illegal(); return; }
+      this.setGhost(alt);
+      return;
+    }
+    this.setGhost({ r: g.r, c: g.c, o: no });
+  },
+  confirmGhost(){
+    if (!this.ghost || !this.humanTurn()) return;
+    const pi = Game.state.turn;
+    const g = this.ghost;
+    const chk = Game.tryWall(pi, g.r, g.c, g.o);
+    if (!chk.ok){
+      this.ghostOk = false;
+      R.setGhost(g, false);
+      UI.showWallActions(false, chk.reason);
+      if (chk.reason === "block") UI.toast(t("illegal_block"));
+      else if (chk.reason === "stock") UI.toast(t("no_walls"));
+      else UI.toast(t("illegal_place"));
+      SFX.illegal();
+      return;
+    }
+    this.clearGhost();
+  },
+  clearGhost(){
+    this.ghost = null; this.ghostOk = false; this.ghostReason = null;
+    R.setGhost(null, true);
+    UI.showWallActions(null);
+  },
+
+  onKey(e){
+    if (!Game.state || Game.over || !this.humanTurn()) return;
+    const pi = Game.state.turn;
+    const k = e.key.toLowerCase();
+    const dirs = { arrowup:[-1,0], w:[-1,0], arrowdown:[1,0], s:[1,0], arrowleft:[0,-1], a:[0,-1], arrowright:[0,1], d:[0,1] };
+    if (dirs[k]){
+      e.preventDefault();
+      const st = Game.state.players[pi];
+      const nr = st.r + dirs[k][0], nc = st.c + dirs[k][1];
+      if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) Game.tryMove(pi, nr, nc);
+      return;
+    }
+    if (k === "enter" || k === " "){ e.preventDefault(); this.confirmGhost(); }
+    if (k === "escape") this.clearGhost();
+    if (k === "r") this.rotateGhost();
+  }
+};
+
+;
+/* ============ Main — UI wiring, views, hooks ============ */
+"use strict";
+const Settings = { pathGuide: true };
+try {
+  Settings.pathGuide = localStorage.getItem("wr_pathguide") !== "0";
+} catch(e){}
+
+const BOT_NAMES = ["Nova","Rex","Ziggy","Miro","Pixel","Kilo","Vega","Bruno","Luna","Otto","Juno","Falk"];
+
+const UI = {
+  view: "lang", langReturn: null, lastCfg: null, toastTimer: null,
+  mainHuman: 0,
+
+  $(id){ return document.getElementById(id); },
+
+  init(){
+    // views
+    document.querySelectorAll(".langBtn").forEach(b =>
+      b.addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.pickLang(b.dataset.lang); }));
+    this.$("langBack").addEventListener("click", () => { SFX.click(); this.showView(this.langReturn || "home"); this.langReturn = null; });
+    this.$("btnPlay").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.startFromHome(); });
+    this.$("btnHowto").addEventListener("click", () => { SFX.click(); this.openModal("howtoModal"); });
+    this.$("howtoClose").addEventListener("click", () => { SFX.click(); this.closeModals(); });
+    this.$("btnSound").addEventListener("click", () => this.toggleSound());
+    this.$("btnLang").addEventListener("click", () => { SFX.click(); this.openLang("home"); });
+    // menu
+    this.$("btnMenu").addEventListener("click", () => { SFX.click(); Game.paused = true; this.openModal("menuModal"); });
+    this.$("btnResume").addEventListener("click", () => { SFX.click(); Game.paused = false; this.closeModals(); });
+    this.$("btnRestart").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
+    this.$("btnMenuHowto").addEventListener("click", () => { SFX.click(); this.openModal("howtoModal"); });
+    this.$("btnMenuSound").addEventListener("click", () => this.toggleSound());
+    this.$("btnMenuLang").addEventListener("click", () => { SFX.click(); this.openLang("menu"); });
+    this.$("btnQuit").addEventListener("click", () => { SFX.click(); Game.stopBlitz(); this.closeModals(); this.showView("home"); this.refreshStats(); });
+    // win overlay
+    this.$("btnRematch").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
+    this.$("btnWinHome").addEventListener("click", () => { SFX.click(); this.closeModals(); this.showView("home"); this.refreshStats(); });
+    // game actions
+    this.$("btnUndo").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.undo()) SFX.click(); else SFX.illegal(); });
+    this.$("btnHint").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.useHint()) SFX.pickupHint(); });
+    this.$("coachOk").addEventListener("click", () => { SFX.click(); Game.paused = false; this.closeModals(); try{ localStorage.setItem("wr_coached","1"); }catch(e){} });
+    // mode & opponent selectors
+    document.querySelectorAll(".modeCard").forEach(b => b.addEventListener("click", () => {
+      SFX.click(); this.selMode = b.dataset.mode;
+      document.querySelectorAll(".modeCard").forEach(x => x.classList.toggle("sel", x === b));
+      this.$("oppRow").classList.toggle("hidden", false);
+      this.$("seatsRow").classList.toggle("hidden", this.selMode !== "squad");
+      this.$("humanOppBtn").style.display = this.selMode === "squad" ? "none" : "";
+      this.renderSeats();
+    }));
+    document.querySelectorAll("#oppSeg button").forEach(b => b.addEventListener("click", () => {
+      SFX.click(); this.selOpp = b.dataset.opp;
+      document.querySelectorAll("#oppSeg button").forEach(x => x.classList.toggle("sel", x === b));
+    }));
+    // name persistence
+    const ni = this.$("nameInput");
+    ni.addEventListener("input", () => { try{ localStorage.setItem("wr_name", ni.value); }catch(e){} });
+    // defaults
+    this.selMode = "duel"; this.selOpp = "medium";
+    this.seats = { S:"human", W:"bot", N:"bot", E:"off" };
+    // hooks
+    Game.hooks = {
+      turn: (i) => this.onTurn(i),
+      botThinking: (i) => this.onThinking(i),
+      move: (d) => this.onMove(d),
+      win: (d) => this.onWin(d),
+      undo: () => { R.markChanged(); this.updateChips(); },
+      hint: (mv) => { R.hintMv = mv; R.hintUntil = performance.now() + 2600; },
+      tick: (sec) => this.onTick(sec),
+      timeout: () => UI.toast(t("timeout"))
+    };
+    // boot
+    const savedLang = (()=>{ try{ return localStorage.getItem("wr_lang"); }catch(e){ return null; } })();
+    if (savedLang && I18N[savedLang]){ setLang(savedLang); this.showView("home"); }
+    else this.showView("lang");
+    try { ni.value = localStorage.getItem("wr_name") || ""; } catch(e){}
+    this.refreshStats(); this.updateSoundLabels();
+  },
+
+  pickLang(lang){
+    setLang(lang);
+    if (this.langReturn === "menu"){ this.showView("game"); this.openModal("menuModal"); this.refreshGameUI(); }
+    else if (this.langReturn === "home"){ this.showView("home"); this.refreshStats(); }
+    else this.showView("home");
+    this.langReturn = null;
+    this.renderSeats(); // re-localize seat labels after language change
+  },
+  openLang(from){ this.langReturn = from; this.closeModals(); this.showView("lang"); this.$("langBack").classList.remove("hidden"); },
+  showView(v){
+    this.view = v;
+    ["langView","homeView","gameView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
+    if (v !== "lang") this.$("langBack").classList.add("hidden");
+    if (v === "game") setTimeout(() => R.resize(), 30);
+  },
+  openModal(id){ this.closeModals(); this.$(id).classList.remove("hidden"); },
+  closeModals(){ document.querySelectorAll(".modal").forEach(m => m.classList.add("hidden")); },
+  toast(msg){
+    const el = this.$("toast");
+    el.textContent = msg;
+    el.classList.remove("hidden");
+    clearTimeout(this.toastTimer);
+    this.toastTimer = setTimeout(() => el.classList.add("hidden"), 1900);
+  },
+  toggleSound(){
+    SFX.init(); SFX.setMuted(!SFX.muted);
+    this.updateSoundLabels();
+    if (!SFX.muted) SFX.click();
+  },
+  updateSoundLabels(){
+    const on = !SFX.muted;
+    this.$("soundLabelOn").classList.toggle("hidden", !on);
+    this.$("soundLabelOff").classList.toggle("hidden", on);
+    this.$("btnMenuSound").textContent = t(on ? "sound" : "sound_off");
+  },
+
+  /* ---------- home → match ---------- */
+  renderSeats(){
+    const wrap = this.$("seatCards");
+    wrap.innerHTML = "";
+    const order = ["S","W","N","E"];
+    const posName = { S:"S ⬇", W:"W ⬅", N:"N ⬆", E:"E ➡" };
+    order.forEach((seat, i) => {
+      const type = this.seats[seat];
+      const card = document.createElement("button");
+      card.className = "seatCard " + (type === "off" ? "off" : type);
+      const dot = document.createElement("span");
+      dot.className = "seatDot";
+      dot.style.background = PLAYER_COLORS[i];
+      const tp = document.createElement("span");
+      tp.className = "seatType";
+      tp.textContent = t(type === "off" ? "seat_off" : type === "bot" ? "seat_bot" : "seat_human");
+      const ps = document.createElement("span");
+      ps.className = "seatPos";
+      ps.textContent = posName[seat];
+      card.append(dot, tp, ps);
+      card.addEventListener("click", () => {
+        SFX.click();
+        this.seats[seat] = type === "human" ? "bot" : type === "bot" ? "off" : "human";
+        this.renderSeats();
+      });
+      wrap.appendChild(card);
+    });
+  },
+  startFromHome(){
+    const name = (this.$("nameInput").value || "").trim().slice(0, 12) || t("you");
+    let players = [];
+    const diff = this.selOpp === "human" ? "medium" : this.selOpp;
+    if (this.selMode === "squad"){
+      const order = ["S","W","N","E"];
+      let humanN = 0;
+      order.forEach((seat, i) => {
+        const type = this.seats[seat];
+        if (type === "off") return;
+        if (type === "human"){
+          humanN++;
+          players.push({ type:"human", seat, name: humanN === 1 ? name : t("you") + " " + humanN });
+        } else {
+          players.push({ type:"bot", seat, difficulty: diff, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0] });
+        }
+      });
+      if (players.length < 2){ this.toast(t("need_players")); return; }
+      if (humanN < 1){ this.toast(t("need_human")); return; }
+    } else {
+      players = [
+        { type:"human", seat:"S", name },
+        this.selOpp === "human"
+          ? { type:"human", seat:"N", name: t("you") + " 2" }
+          : { type:"bot", seat:"N", difficulty: this.selOpp, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0] }
+      ];
+    }
+    this.startMatch({ mode: this.selMode, players });
+  },
+  startMatch(cfg){
+    this.lastCfg = cfg;
+    this.closeModals();
+    Input.clearGhost();
+    R.particles = []; R.confetti = []; R.animMap = {};
+    this.showView("game");
+    setTimeout(() => {
+      R.resize();
+      this.mainHuman = cfg.players.findIndex(p => p.type === "human");
+      Game.newMatch(cfg);
+      this.renderChips();
+      R.markChanged();
+      this.mainHuman = Game.players.findIndex(p => p.type === "human");
+      this.$("btnUndo").classList.toggle("hidden", !(Game.undoLeft > 0));
+      this.$("btnHint").classList.toggle("hidden", false);
+      this.$("undoCount").textContent = Game.undoLeft;
+      this.$("hintCount").textContent = Game.hintLeft;
+      let coached = false;
+      try { coached = localStorage.getItem("wr_coached") === "1"; } catch(e){}
+      if (!coached) setTimeout(() => { Game.paused = true; this.openModal("coach"); }, 600);
+    }, 40);
+  },
+
+  /* ---------- game UI ---------- */
+  renderChips(){
+    const wrap = this.$("chips");
+    wrap.innerHTML = "";
+    Game.players.forEach((p, i) => {
+      const chip = document.createElement("div");
+      chip.className = "chip"; chip.id = "chip" + i; chip.style.color = p.color;
+      const av = document.createElement("div");
+      av.className = "chipAvatar"; av.style.background = p.color;
+      const info = document.createElement("div");
+      info.className = "chipInfo";
+      const nm = document.createElement("div");
+      nm.className = "chipName"; nm.textContent = p.name; nm.id = "chipName" + i;
+      const wl = document.createElement("div");
+      wl.className = "chipWalls"; wl.id = "chipWalls" + i;
+      info.append(nm, wl);
+      chip.append(av, info);
+      wrap.appendChild(chip);
+    });
+    this.updateChips();
+  },
+  updateChips(){
+    Game.players.forEach((p, i) => {
+      const chip = this.$("chip" + i);
+      if (!chip) return;
+      chip.classList.toggle("active", Game.state && Game.state.turn === i && !Game.over);
+      const wl = this.$("chipWalls" + i);
+      if (wl){
+        wl.innerHTML = "";
+        const total = Game.cfg.mode === "blitz" ? 6 : Game.cfg.mode === "squad" ? 5 : 10;
+        for (let k = 0; k < total; k++){
+          const pip = document.createElement("i");
+          if (k < p.walls) pip.className = "on";
+          wl.appendChild(pip);
+        }
+      }
+    });
+  },
+  onTurn(i){
+    this.updateChips();
+    Input.clearGhost();
+    R.markChanged();
+    const p = Game.players[i];
+    if (p.type === "human"){
+      R.setLegal(Rules.pawnMoves(Game.state, i));
+      this.banner(p.type === "human" && i === this.mainHuman ? t("your_turn") : t("turn_of", { name: p.name }), false);
+      SFX.turnPing();
+    } else {
+      R.setLegal([]);
+    }
+    this.$("btnUndo").classList.toggle("hidden", !(Game.undoLeft > 0 && Game.canUndo()));
+    this.$("undoCount").textContent = Game.undoLeft;
+  },
+  onThinking(i){
+    const p = Game.players[i];
+    this.banner(t("thinking", { name: p.name }), true);
+  },
+  showWallActions(ok){
+    const wa = this.$("wallActions"), ga = this.$("gameActions");
+    if (ok === null || ok === undefined){
+      wa.classList.add("hidden"); ga.classList.remove("hidden");
+      this.$("btnOk").disabled = false;
+      return;
+    }
+    wa.classList.remove("hidden"); ga.classList.add("hidden");
+    this.$("btnOk").disabled = !ok;
+  },
+  banner(txt, dots){
+    const b = this.$("turnBanner");
+    b.classList.remove("hidden");
+    b.innerHTML = "";
+    b.append(document.createTextNode(txt));
+    if (dots){ const d = document.createElement("span"); d.className = "dots"; b.appendChild(d); }
+  },
+  onMove(d){
+    const { pi, mv } = d;
+    R.markChanged();
+    if (mv.type === "wall"){
+      R.slam(mv.r, mv.c, mv.o);
+      SFX.wall();
+    } else {
+      const from = { r: mv.fromR, c: mv.fromC };
+      const to = { r: mv.r, c: mv.c };
+      if (from.r != null) R.hop(pi, from, to, mv.jump);
+      if (mv.jump) SFX.jump(); else SFX.move();
+      const p = Game.players[pi];
+      if (Rules.isWin(Game.state, pi)) R.burst(mv.r, mv.c, p.color);
+    }
+    this.updateChips();
+  },
+  onWin(d){
+    this.updateChips();
+    R.setLegal([]);
+    const winner = Game.players[d.pi];
+    const humanWon = winner.type === "human";
+    setTimeout(() => {
+      if (humanWon){
+        R.celebrate();
+        SFX.win();
+        this.$("winIcon").textContent = "🏆";
+        this.$("winTitle").textContent = t("win");
+      } else {
+        SFX.lose();
+        this.$("winIcon").textContent = "🤖";
+        this.$("winTitle").textContent = t("lose");
+      }
+      this.$("winSub").textContent = (d.pi === this.mainHuman && humanWon)
+        ? t("good_game")
+        : t("winner", { name: winner.name });
+      this.$("wsMoves").textContent = d.moves;
+      this.$("wsWalls").textContent = d.wallsUsed;
+      const s = Math.floor(d.time / 1000);
+      this.$("wsTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+      this.saveStats(d);
+      this.openModal("winOverlay");
+    }, 650);
+  },
+  onTick(sec){
+    const tw = this.$("timerWrap");
+    if (sec < 0 || Game.over || Game.cfg.mode !== "blitz"){ tw.classList.add("hidden"); return; }
+    if (!Game.isHuman(Game.state.turn)){ tw.classList.add("hidden"); return; }
+    tw.classList.remove("hidden");
+    tw.classList.toggle("hot", sec <= 3);
+    this.$("timerText").textContent = sec;
+    const ring = this.$("timerRing");
+    const frac = Math.max(0, Math.min(1, sec / 10));
+    ring.style.strokeDashoffset = String(125.6 * (1 - frac));
+    if (sec <= 5 && sec > 0) SFX.tick();
+  },
+  saveStats(d){
+    try {
+      const st = JSON.parse(localStorage.getItem("wr_stats") || "{}");
+      st.w = st.w || 0; st.g = st.g || 0; st.streak = st.streak || 0;
+      const hasBot = Game.players.some(p => p.type === "bot");
+      const mainWon = d.pi === this.mainHuman && Game.players[d.pi].type === "human";
+      if (hasBot){
+        st.g++;
+        if (mainWon){ st.w++; st.streak++; }
+        else if (Game.players[d.pi].type === "bot") st.streak = 0;
+      }
+      localStorage.setItem("wr_stats", JSON.stringify(st));
+    } catch(e){}
+  },
+  refreshStats(){
+    try {
+      const st = JSON.parse(localStorage.getItem("wr_stats") || "{}");
+      this.$("statWins").textContent = st.w || 0;
+      this.$("statGames").textContent = st.g || 0;
+      this.$("statStreak").textContent = st.streak || 0;
+    } catch(e){}
+  },
+  refreshGameUI(){
+    this.renderChips();
+    if (Game.state && !Game.over){
+      const i = Game.state.turn;
+      if (Game.isHuman(i)) this.onTurn(i); else this.onThinking(i);
+    }
+  }
+};
+
+/* boot */
+window.addEventListener("DOMContentLoaded", () => {
+  R.init(document.getElementById("board"));
+  Input.init();
+  UI.init();
+});
+
+</script>
+</body>
+</html>
