@@ -1,0 +1,30 @@
+{
+  "appId": "com.adlenbenmechta.wallrush",
+  "appName": "WallRush",
+  "webDir": "www",
+  "backgroundColor": "#f2e9d3ff",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "limitsScroll": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 900,
+      "launchAutoHide": true,
+      "backgroundColor": "#f2e9d3",
+      "showSpinner": false,
+      "androidSplashResourceName": "splash",
+      "iosSpinnerColor": "#29241c"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#f2e9d3",
+      "overlaysWebView": false
+    }
+  }
+}

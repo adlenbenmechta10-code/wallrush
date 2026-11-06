@@ -1,0 +1,30 @@
+{
+  "name": "wallrush",
+  "version": "1.1.0",
+  "description": "WallRush — race to the far side and wall your rivals in. A strategic board game in 8 languages.",
+  "private": true,
+  "author": "adlenbenmechta10-code",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "node scripts/prepare-www.mjs",
+    "add:android": "npm run prepare && npx cap add android",
+    "add:ios": "npm run prepare && npx cap add ios",
+    "sync": "npm run prepare && npx cap sync",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "assets": "npx @capacitor/assets generate --assetPath assets --android --ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/haptics": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.0",
+    "@capacitor/cli": "^7.0.0"
+  }
+}

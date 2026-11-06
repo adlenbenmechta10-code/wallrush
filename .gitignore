@@ -1,1 +1,23 @@
+# build artifacts
+node_modules/
+www/
+android/
+ios/
+dist/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# signing — NEVER commit keys
+*.keystore
+*.jks
+key.properties
+
+# capacitor
+.capacitor/

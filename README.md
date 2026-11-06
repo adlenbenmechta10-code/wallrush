@@ -13,12 +13,15 @@
 - 🤖 **ذكاء اصطناعي** بثلاثة مستويات (سهل/متوسط/صعب) بخوارزمية Minimax مع تشذيب Alpha-Beta.
 - ⚡ **وضع Blitz**: 6 جدران و10 ثوانٍ لكل دور — حركة تلقائية عند انتهاء الوقت.
 - 🎯 **وضع الرباعية**: حتى 4 لاعبين (بشر/روبوتات) على نفس الشاشة، كل واحد من جهة.
-- 🌍 **4 لغات**: العربية (RTL كامل) • English • Español • Français — شاشة اختيار اللغة عند أول تشغيل.
+- 🌍 **8 لغات**: العربية (RTL كامل) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — شاشة اختيار اللغة عند أول تشغيل مع تمييز اللغة المقترحة تلقائياً حسب لغة الجهاز.
+- ⚔️ **الموت المفاجئ**: بعد 120 نقلة يفوز الأقرب إلى الهدف — لا مباريات لا نهائية أبداً (مع دعم التعادل).
 - 🎨 **تصميم «نادي الألعاب الورقية»**: خلفية كريمية دافئة، ألوان مسطحة جسورة (أحمر/أزرق/ذهبي/أخضر)، حدود حبرية سميكة وظلال صلبة — بدون تدرّجات. خطوط **Lalezar** و**Changa** مدمجة داخل الملف (تعمل دون اتصال).
 - 💡 **تلميحات** و**تراجع** و**دليل المسار** لمساعدة المبتدئين.
 - 📊 إحصائيات محفوظة (انتصارات، مباريات، سلسلة).
 - 🔊 مؤثرات صوتية مولّدة برمجياً (بدون ملفات خارجية).
+- 📳 **اهتزاز اختياري** للتغذية الراجعة (يُوقف من القائمة).
 - 📱 **ملف واحد** يعمل دون اتصال — لا حسابات، لا سيرفرات.
+- 🛒 **جاهزة للنشر**: مشروع **Capacitor** كامل + أيقونات ولقطات شاشة المتاجر + نصوص القوائم + سياسة الخصوصية (انظر `PUBLISH.md`).
 
 ## 🎮 طريقة اللعب
 
@@ -32,6 +35,10 @@
 ## 🚀 التشغيل
 
 افتح `index.html` في أي متصفح — هذا كل شيء. أو فعّل **GitHub Pages** من إعدادات المستودع لتلعب عبر الرابط.
+
+## 📲 النشر على المتاجر
+
+المستودع مشروع **Capacitor** جاهز: `npm install` ثم `npm run add:android` (أو `add:ios`) وابنِ عبر Android Studio / Xcode. التفاصيل الكاملة في **[PUBLISH.md](PUBLISH.md)** — يشمل الأيقونات، لقطات الشاشة، نصوص القوائم بـ8 لغات، سياسة الخصوصية، وإجابات استبيانات المتاجر.
 
 </div>
 
@@ -50,25 +57,32 @@ A complete mobile-first strategy board game inspired by **race & block** games (
 - 🤖 **AI** with 3 difficulties (Easy/Medium/Hard) — Minimax with Alpha-Beta pruning.
 - ⚡ **Blitz mode**: 6 walls, 10 seconds per turn, auto-move on timeout.
 - 🎯 **Squad mode**: up to 4 players (human/bot mix) on one screen, one per edge.
-- 🌍 **4 languages**: العربية (full RTL) • English • Español • Français — language picker on first launch.
+- 🌍 **8 languages**: العربية (full RTL) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — language picker on first launch, with the device language auto-suggested.
+- ⚔️ **Sudden death**: after 120 moves the closest player to the goal wins — no endless matches (draws supported).
 - 💡 Hints, undo, and a path guide for beginners.
 - 📊 Local stats (wins, games, streak).
 - 🔊 Procedural sound effects (no external files).
+- 📳 Optional haptic feedback (toggle in menu).
 - 📱 **Single file**, works offline — no accounts, no servers.
+- 🛒 **Store-ready**: full **Capacitor** project + store icons, screenshots, listings in 8 languages, privacy policy (see `PUBLISH.md`).
 
 ## 📸 Screenshots
 
-| Language picker | Mid-game |
-|---|---|
-| ![Languages](screenshot-languages.png) | ![Game](screenshot-game.png) |
+| Language picker | Home | Mid-game | Victory |
+|---|---|---|---|
+| ![Languages](screenshots/android/01-languages.png) | ![Home](screenshots/android/02-home.png) | ![Game](screenshots/android/04-game.png) | ![Victory](screenshots/android/06-victory.png) |
 
 ## 🚀 Run it
 
-Open `index.html` in any browser — that's it. Or enable **GitHub Pages** in the repo settings to play from a URL.
+Open `index.html` in any browser — that's it. Or enable **GitHub Pages** in the repo settings to play from a URL (installable as a PWA, works fully offline via service worker).
+
+## 📲 Publish to the stores
+
+This repo is a ready **Capacitor** project: `npm install`, then `npm run add:android` (or `add:ios`) and build via Android Studio / Xcode. Full instructions in **[PUBLISH.md](PUBLISH.md)** — icons, store screenshots, listings in 8 languages, privacy policy and store questionnaire answers included.
 
 ## 🛠 Tech
 
-Pure vanilla HTML/CSS/JS in a single file (~90 KB). Canvas rendering, WebAudio synth SFX, localStorage persistence. No dependencies, no build step, no tracking.
+Pure vanilla HTML/CSS/JS in a single file. Canvas rendering, WebAudio synth SFX, Web Vibration API + Capacitor Haptics, PWA (manifest + service worker), embedded fonts (Lalezar + Changa, 12 subsets), localStorage persistence. Game logic is DOM-free and stress-tested: 100+ automated bot-vs-bot games across all modes and difficulties.
 
 ---
 *An original implementation of public race-and-block board game rules — not affiliated with Blocade or Quoridor.*
