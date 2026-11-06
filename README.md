@@ -18,6 +18,16 @@
 - 🎨 **تصميم «نادي الألعاب الورقية»**: خلفية كريمية دافئة، ألوان مسطحة جسورة (أحمر/أزرق/ذهبي/أخضر)، حدود حبرية سميكة وظلال صلبة — بدون تدرّجات. خطوط **Lalezar** و**Changa** مدمجة داخل الملف (تعمل دون اتصال).
 - 💡 **تلميحات** و**تراجع** و**دليل المسار** لمساعدة المبتدئين.
 
+## 🆕 الجديد في v1.4.0 — أونلاين + تعاوني
+
+- 🌐 **اللعب أونلاين (P2P — دون أي سيرفر)**: أنشئ غرفة وشارك **رمزها من 5 أحرف** أو **رابط الدعوة** (`?room=CODE`) مع صديقك، ويلعبان مبارزة 1 ضد 1 مباشرة عبر اتصال WebRTC بين الجهازين. يحتاج إنترنت عند بدء الغرفة فقط (وسيط الربط مجاني وعام، وحركة اللعب مباشرة بين اللاعبين).
+- 🤝 **وضع تعاوني محلي 2 ضد 2**: أنت وصديقك على نفس الجهاز فريق واحد ضد روبوتَين — يفوز الفريق بوصول **أي** من لاعبيه إلى الهدف. شارات «فريقنا/الخصوم» فوق قطع اللاعبين.
+- 🌐🤝 **تعاوني أونلاين 2 ضد 2**: أنت وصديقك عن بُعد ضد روبوتَين — يستضيف أحدهما الغرفة ويقود الروبوتَين، ويتزامن كل شيء تلقائيًا. لوحة الضيف **مقلوبة 180°** ليلعب من أسفل الشاشة دائمًا.
+- 🔁 **مباراة جديدة متزامنة**: أي طرف يطلب الإعادة فور انتهاء المباراة، وتبدأ تلقائيًا عند موافقة الطرفين مع تبديل البادئ.
+- 👋 **ردود أفعال سريعة** أثناء اللعب الأونلاين (👋 😂 😱 👍) تصل للخصم فورًا.
+- 🛟 **انقطع الخصم؟** خيار «أكمل ضد الروبوت» يحوّل مقعده لروبوت وتكمل المباراة، أو خروج نظيف بإشعار وداع.
+- 🚫 التراجع معطّل في المباريات الأونلاين (لمنع فقدان التزامن)، والمباريات الأونلاين 1v1 لا تعدّل سجل انتصاراتك.
+
 ## 🧩 الجديد في v1.3.0 — مستوى Blocade
 
 - 🧱 **وضع الجدران الاحترافي** — التفاصيل الكاملة لكيفية وضع الجدار:
@@ -64,6 +74,16 @@
 
 A complete mobile-first strategy board game inspired by **race & block** games (Blocade / Quoridor): race to the far side before your rival walls you in!
 
+## 🆕 New in v1.4.0 — Online + Co-op
+
+- 🌐 **Online play (P2P, no servers)**: create a room and share its **5-letter code** or **invite link** (`?room=CODE`) — duel a friend 1v1 over a direct WebRTC connection. Internet is only needed to open/join the room (public signaling broker); gameplay traffic flows player-to-player.
+- 🤝 **Local co-op 2v2**: you and a friend on one device vs two bots — the team wins when **either** teammate reaches the goal. "Us/Them" badges on the player chips.
+- 🌐🤝 **Online co-op 2v2**: you and a remote friend vs two bots — the host owns the room and drives the bots, everything stays in sync automatically. The guest's board is **rotated 180°** so they always play from the bottom.
+- 🔁 **Synced rematch**: either side can request a rematch; it starts as soon as both accept, with the starting player alternated.
+- 👋 **Quick reactions** (👋 😂 😱 👍) reach your opponent instantly during online matches.
+- 🛟 **Opponent disconnected?** "Continue vs bot" converts their seat to a bot so you can finish the game, or leave cleanly with a goodbye notice.
+- 🚫 Undo is disabled in online matches (prevents desync), and online 1v1 duels never touch your win record.
+
 ## ✨ Features
 
 - 🏁 **Core idea**: 9×9 board — each turn, move one step **or** place a wall. First to reach the opposite side wins.
@@ -73,6 +93,8 @@ A complete mobile-first strategy board game inspired by **race & block** games (
 - 🤖 **AI** with 3 difficulties (Easy/Medium/Hard) — Minimax with Alpha-Beta pruning.
 - ⚡ **Blitz mode**: 6 walls, 10 seconds per turn, auto-move on timeout.
 - 🎯 **Squad mode**: up to 4 players (human/bot mix) on one screen, one per edge.
+- 🤝 **Co-op mode (2v2)**: two humans vs two bots — team victory.
+- 🌐 **Online mode**: direct P2P rooms (code or invite link) — 1v1 or 2v2 co-op vs bots.
 - 🌍 **8 languages**: العربية (full RTL) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — **the language screen is always the first screen** on every launch, each language has its **own SVG emblem** in papercraft style, with the current one marked ✓ and the device language auto-suggested.
 - ⚔️ **Sudden death**: after 120 moves the closest player to the goal wins — no endless matches (draws supported).
 - 💡 Hints, undo, and a path guide for beginners.

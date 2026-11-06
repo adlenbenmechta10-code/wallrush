@@ -1,7 +1,7 @@
 {
   "name": "WallRush — Wall Race",
   "short_name": "WallRush",
-  "description": "Race to the far side and wall your rivals in — puzzles, a daily challenge and a bot ladder. Local profiles, 8 languages, fully offline.",
+  "description": "Race to the far side and wall your rivals in — online rooms, co-op 2v2, puzzles, a daily challenge and a bot ladder. 8 languages, offline, free.",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",
@@ -34,5 +34,5 @@
       "purpose": "maskable"
     }
   ],
-  "version": "1.3.0"
+  "version": "1.4.0"
 }

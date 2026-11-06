@@ -1,6 +1,6 @@
-/* WallRush service worker — v1.3.0: network-first app shell + cache-first assets */
+/* WallRush service worker — v1.4.0: network-first app shell + cache-first assets */
 "use strict";
-const CACHE = "wallrush-v1.3.0";
+const CACHE = "wallrush-v1.4.0";
 const ASSETS = [
   "./",
   "./index.html",

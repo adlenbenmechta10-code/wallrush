@@ -1,7 +1,7 @@
 {
   "name": "wallrush",
-  "version": "1.3.0",
-  "description": "WallRush — race & block board game: puzzles, daily challenge, bot ladder. 8 languages, offline, single file.",
+  "version": "1.4.0",
+  "description": "WallRush — race & block board game: online P2P rooms, co-op 2v2, puzzles, daily challenge, bot ladder. 8 languages, offline, single file.",
   "private": true,
   "author": "adlenbenmechta10-code",
   "license": "MIT",

@@ -110,12 +110,13 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
 #nameInput::placeholder { color:var(--ink-faint); font-weight:400; }
 #nameInput:focus { border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
 
-#modeCards { display:flex; gap:10px; width:100%; }
+#modeCards { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; width:100%; }
 .modeCard {
-  flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; padding:13px 6px 11px;
+  grid-column:span 2; display:flex; flex-direction:column; align-items:center; gap:5px; padding:13px 6px 11px;
   background:var(--card2); border:2px solid rgba(41,36,28,.3); border-radius:14px; color:var(--ink); cursor:pointer;
   transition:all .12s ease;
 }
+.modeCard.wide { grid-column:span 3; }
 .modeCard.sel { border-color:var(--line); background:var(--card); box-shadow:3px 3px 0 var(--line); }
 .modeIcon { font-size:22px; }
 .modeName { font-family:var(--font-disp); font-weight:400; font-size:15px; line-height:1.2; }
@@ -130,6 +131,63 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
 #oppSeg button.sel { color:var(--card); background:var(--ink); border-color:var(--line); box-shadow:2px 2px 0 rgba(41,36,28,.35); }
 
 #seatCards { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%; }
+
+/* generic segmented control (online setup) */
+.segRow { display:flex; gap:8px; width:100%; }
+.segRow button {
+  flex:1; padding:10px 4px; font-size:13px; font-weight:700; font-family:var(--font-body); color:var(--ink); border-radius:10px; cursor:pointer;
+  background:var(--card2); border:2px solid rgba(41,36,28,.3); transition:all .12s ease;
+}
+.segRow button.sel { color:var(--card); background:var(--ink); border-color:var(--line); box-shadow:2px 2px 0 rgba(41,36,28,.35); }
+
+/* ---------- online view ---------- */
+#olHome { display:flex; flex-direction:column; gap:12px; width:100%; }
+.olCard {
+  display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:14px 14px 12px; text-align:start;
+  background:var(--card2); border:2px solid rgba(41,36,28,.3); border-radius:14px; color:var(--ink); cursor:pointer;
+  transition:all .12s ease; width:100%;
+}
+.olCard:active, .olCard:hover { border-color:var(--line); background:var(--card); box-shadow:3px 3px 0 var(--line); }
+.olCard b { font-family:var(--font-disp); font-weight:400; font-size:17px; }
+.olCard small { font-size:11px; color:var(--ink-soft); }
+.olIcon { font-size:24px; }
+#olCode {
+  font-family:var(--font-disp); font-size:40px; letter-spacing:10px; text-indent:10px; text-align:center;
+  background:var(--card); border:3px solid var(--line); border-radius:16px; box-shadow:4px 4px 0 var(--line);
+  padding:10px 0 6px; width:100%; color:var(--red); direction:ltr;
+}
+html[dir="rtl"] #olCode { letter-spacing:8px; }
+.olStatus { font-size:13px; color:var(--ink-soft); text-align:center; margin:10px 0 2px; min-height:18px; }
+.olStatus .dots::after { content:"…"; animation:dots 1.2s infinite steps(4); }
+.olInput { text-align:center; font-size:24px; letter-spacing:8px; text-transform:uppercase; direction:ltr; }
+#olHostWait, #olJoinBox, #olSetup { display:flex; flex-direction:column; gap:10px; width:100%; align-items:center; }
+#olHostWait .pillBtn, #olJoinBox .pillBtn, #olSetup .pillBtn, #olSetup .ctaBtn { width:100%; }
+#plIcon { font-size:44px; text-align:center; }
+
+/* quick reactions (online) */
+#reactRow {
+  position:fixed; z-index:70; bottom:calc(86px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%);
+  display:flex; gap:8px; padding:8px 10px; background:var(--card); border:3px solid var(--line);
+  border-radius:16px; box-shadow:4px 4px 0 var(--line);
+}
+#reactRow button {
+  width:46px; height:46px; font-size:26px; border-radius:12px; border:2px solid rgba(41,36,28,.25);
+  background:var(--card2); cursor:pointer; transition:transform .1s ease;
+}
+#reactRow button:active { transform:scale(1.15); }
+
+/* team & net badges on player chips */
+.chip { position:relative; }
+.chipNet {
+  position:absolute; top:-5px; inset-inline-end:-5px; font-size:11px;
+  background:var(--card); border:2px solid var(--line); border-radius:8px; padding:0 3px; line-height:14px;
+}
+.chipTeam {
+  display:inline-block; font-size:9px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+  border:1.5px solid var(--line); border-radius:6px; padding:1px 5px; margin-top:3px; align-self:flex-start;
+}
+.chipTeam.us { color:var(--card); background:var(--green); border-color:var(--green); }
+.chipTeam.them { color:var(--card); background:var(--red); border-color:var(--red); }
 .seatCard {
   display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 4px;
   background:var(--card2); border:2px solid rgba(41,36,28,.3); border-radius:12px; cursor:pointer; color:var(--ink);
@@ -517,6 +575,7 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
   <section id="gameView" class="view hidden">
     <header id="hudTop">
       <div id="chips"></div>
+      <button id="btnReact" class="iconBtn hidden" aria-label="react">👋</button>
       <button id="btnMenu" class="iconBtn" aria-label="menu">☰</button>
     </header>
 
@@ -647,6 +706,14 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
         <span class="modeIcon">🎯</span><span class="modeName" data-i18n="mode_squad">Squad</span>
         <span class="modeDesc" data-i18n="mode_squad_desc">Up to 4 players on one screen</span>
       </button>
+      <button class="modeCard wide" data-mode="coop">
+        <span class="modeIcon">🤝</span><span class="modeName" data-i18n="mode_coop">Co-op</span>
+        <span class="modeDesc" data-i18n="mode_coop_desc">2 vs 2 — you &amp; a friend against bots</span>
+      </button>
+      <button class="modeCard wide" data-mode="online">
+        <span class="modeIcon">🌐</span><span class="modeName" data-i18n="mode_online">Online</span>
+        <span class="modeDesc" data-i18n="mode_online_desc">Play a friend over the internet</span>
+      </button>
     </div>
 
     <div id="oppRow">
@@ -663,6 +730,8 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
       <label class="fieldLabel"><span data-i18n="seats_lbl">Players (tap to switch)</span></label>
       <div id="seatCards"></div>
     </div>
+
+    <div id="coopNote" class="footNote hidden" data-i18n="coop_note">Reach the goal with either teammate to win together</div>
 
     <button id="btnPlay" data-i18n="play">PLAY</button>
 
@@ -728,6 +797,61 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
     <button id="boardBackBtn" class="pillBtn" data-i18n="home">Home</button>
   </section>
 
+  <!-- ============ ONLINE VIEW (P2P rooms, no servers) ============ -->
+  <section id="onlineView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" data-i18n="online_title">Play online</h2>
+
+    <div id="olHome">
+      <button class="olCard" id="olCreate">
+        <span class="olIcon">🌐</span>
+        <b data-i18n="ol_create">Create room</b>
+        <small data-i18n="ol_create_sub">Get a code to share with a friend</small>
+      </button>
+      <button class="olCard" id="olJoin">
+        <span class="olIcon">🔑</span>
+        <b data-i18n="ol_join">Join with code</b>
+        <small data-i18n="ol_join_sub">Enter your friend's code</small>
+      </button>
+      <div class="footNote" data-i18n="ol_p2p_note">Direct player-to-player connection — no servers, no accounts</div>
+    </div>
+
+    <div id="olSetup" class="hidden">
+      <label class="fieldLabel" data-i18n="mode_lbl">Mode</label>
+      <div class="segRow" id="olKind">
+        <button data-kind="1v1" class="sel">⚔️ <span data-i18n="ol_kind_1v1">Duel 1v1</span></button>
+        <button data-kind="coop">🤝 <span data-i18n="ol_kind_coop">Co-op 2v2</span></button>
+      </div>
+      <div id="olDiffRow" class="hidden">
+        <label class="fieldLabel" data-i18n="ol_bots_lbl">Bot strength</label>
+        <div class="segRow" id="olDiff">
+          <button data-d="easy" data-i18n="easy">Easy</button>
+          <button data-d="medium" class="sel" data-i18n="medium">Medium</button>
+          <button data-d="hard" data-i18n="hard">Hard</button>
+        </div>
+      </div>
+      <button id="olOpen" class="ctaBtn" data-i18n="ol_open">Open room</button>
+      <button id="olSetupBack" class="pillBtn" data-i18n="back">Back</button>
+    </div>
+
+    <div id="olHostWait" class="hidden">
+      <label class="fieldLabel" data-i18n="ol_code">Room code</label>
+      <div id="olCode">·····</div>
+      <button id="olCopy" class="pillBtn">📋 <span data-i18n="ol_copy">Copy code</span></button>
+      <button id="olCopyLink" class="pillBtn">🔗 <span data-i18n="ol_copy_link">Copy invite link</span></button>
+      <div id="olStatus" class="olStatus">…</div>
+      <button id="olHostCancel" class="pillBtn no" data-i18n="cancel_w">Cancel</button>
+    </div>
+
+    <div id="olJoinBox" class="hidden">
+      <label class="fieldLabel" data-i18n="ol_code">Room code</label>
+      <input id="olInput" class="textField olInput" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CODE" data-i18n-ph="ol_join_ph">
+      <button id="olJoinBtn" class="ctaBtn" data-i18n="ol_join_btn">Join</button>
+      <div id="olJoinStatus" class="olStatus"></div>
+      <button id="olJoinBack" class="pillBtn" data-i18n="back">Back</button>
+    </div>
+  </section>
+
   <!-- ============ HOW TO PLAY MODAL ============ -->
   <div id="howtoModal" class="modal hidden">
     <div class="modalCard">
@@ -739,6 +863,7 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
         <li><span class="hIcon">🦘</span><span data-i18n="h4">Jump over an adjacent rival. If blocked behind, jump sideways.</span></li>
         <li><span class="hIcon">🚫</span><span data-i18n="h5">You can never fully block a path to the goal.</span></li>
         <li><span class="hIcon">👆</span><span data-i18n="h6">Tap a glowing cell to move. Tap a groove to build a wall.</span></li>
+        <li><span class="hIcon">🤝</span><span data-i18n="h7">Co-op: any teammate reaching the goal wins for the whole team.</span></li>
       </ul>
       <button id="howtoClose" class="pillBtn ok" data-i18n="got_it">Got it!</button>
     </div>
@@ -760,7 +885,7 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
       <button id="btnMenuLang" class="bigBtn"><span data-i18n="language">Language</span><span class="miniFlag" id="miniFlagMenu"></span></button>
       <button id="btnMenuPlayer" class="bigBtn ghost" data-i18n="switch_player">Switch player</button>
       <button id="btnQuit" class="bigBtn danger" data-i18n="quit">Quit</button>
-      <p class="menuVersion">WallRush v1.3.0</p>
+      <p class="menuVersion">WallRush v1.4.0</p>
     </div>
   </div>
 
@@ -790,6 +915,24 @@ html[dir="rtl"] #pzBack { transform:scaleX(-1); }
       <p id="coachBody" data-i18n="coach_body">Tap a glowing cell to move, or tap a groove between cells to build a wall. Confirm with ✓.</p>
       <button id="coachOk" class="pillBtn ok" data-i18n="got_it">Got it!</button>
     </div>
+  </div>
+
+  <!-- ============ ONLINE: OPPONENT LEFT ============ -->
+  <div id="peerLeftModal" class="modal hidden">
+    <div class="modalCard">
+      <div id="plIcon">🌐</div>
+      <h2 data-i18n="ol_peer_left">Your opponent left the game</h2>
+      <button id="btnPlBot" class="bigBtn" data-i18n="ol_continue_bot">Continue vs bot</button>
+      <button id="btnPlHome" class="bigBtn ghost" data-i18n="home">Home</button>
+    </div>
+  </div>
+
+  <!-- ============ ONLINE: QUICK REACTIONS ============ -->
+  <div id="reactRow" class="hidden">
+    <button data-e="👋">👋</button>
+    <button data-e="😂">😂</button>
+    <button data-e="😱">😱</button>
+    <button data-e="👍">👍</button>
   </div>
 
   <div id="toast" class="hidden"></div>
@@ -870,6 +1013,26 @@ const I18N = {
     tier_paper:"Paper", tier_bronze:"Bronze", tier_silver:"Silver",
     tier_gold:"Gold", tier_platinum:"Platinum", tier_diamond:"Diamond",
     wall_stock:"Walls", guides:"Wall guides", path_guide:"Path guide",
+    mode_coop:"Co-op", mode_coop_desc:"2 vs 2 — you & a friend against bots",
+    mode_online:"Online", mode_online_desc:"Play a friend over the internet",
+    coop_note:"🤝 Reach the goal with either teammate to win together",
+    h7:"Co-op: any teammate reaching the goal wins for the whole team.",
+    online_title:"Play online",
+    ol_create:"Create room", ol_create_sub:"Get a code to share with a friend",
+    ol_join:"Join with code", ol_join_sub:"Enter your friend's code",
+    ol_p2p_note:"Direct player-to-player connection — no servers, no sign-up",
+    ol_open:"Open room", ol_kind_1v1:"Duel 1v1", ol_kind_coop:"Co-op 2v2",
+    ol_bots_lbl:"Bot strength", ol_code:"Room code", ol_join_ph:"CODE", ol_join_btn:"Join",
+    ol_copy:"Copy code", ol_copied:"Copied!", ol_copy_link:"Copy invite link",
+    ol_creating:"Opening room…", ol_waiting:"Waiting for your friend…",
+    ol_connecting:"Connecting…", ol_starting:"Connected — starting…",
+    ol_notfound:"Room not found — check the code", ol_net_err:"Connection failed — check your internet",
+    ol_busy:"This room is already full", ol_closed:"Room closed",
+    ol_peer_left:"Your opponent left the game", ol_continue_bot:"Continue vs bot",
+    ol_left_toast:"You left the game", ol_no_restart:"Not available in online games",
+    turn_remote:"{name} is playing", rm_wait:"Waiting for opponent…", rm_peer:"Opponent wants a rematch!",
+    coop_win:"Your team wins!", coop_lose:"The bots win!",
+    team_us:"Us", team_them:"Them", react_toast:"{name}: {e}",
   },
   ar: {
     tagline:"اسبقهم إلى الجهة الأخرى… واحصرهم بالجدران",
@@ -943,6 +1106,26 @@ const I18N = {
     tier_paper:"ورقي", tier_bronze:"برونزي", tier_silver:"فضي",
     tier_gold:"ذهبي", tier_platinum:"بلاتيني", tier_diamond:"ماسي",
     wall_stock:"جدران", guides:"أدلة الجدران", path_guide:"دليل المسار",
+    mode_coop:"تعاوني", mode_coop_desc:"2 ضد 2 — أنت وصديقك ضد الروبوتات",
+    mode_online:"أونلاين", mode_online_desc:"العب مع صديق عبر الإنترنت",
+    coop_note:"🤝 أوصل أي لاعب من فريقكم إلى الهدف لتفوزوا معًا",
+    h7:"في التعاوني: وصول أي لاعب من فريقكم للهدف فوزٌ للجميع.",
+    online_title:"العب أونلاين",
+    ol_create:"إنشاء غرفة", ol_create_sub:"احصل على رمز وشاركه مع صديقك",
+    ol_join:"الانضمام برمز", ol_join_sub:"أدخل رمز صديقك",
+    ol_p2p_note:"اتصال مباشر بين اللاعبين — دون سيرفرات ولا تسجيل",
+    ol_open:"افتح الغرفة", ol_kind_1v1:"مبارزة 1 ضد 1", ol_kind_coop:"تعاوني 2 ضد 2",
+    ol_bots_lbl:"قوة الروبوتات", ol_code:"رمز الغرفة", ol_join_ph:"الرمز", ol_join_btn:"انضم",
+    ol_copy:"انسخ الرمز", ol_copied:"تم النسخ!", ol_copy_link:"انسخ رابط الدعوة",
+    ol_creating:"جارٍ فتح الغرفة…", ol_waiting:"في انتظار صديقك…",
+    ol_connecting:"جارٍ الاتصال…", ol_starting:"تم الاتصال — جارٍ البدء…",
+    ol_notfound:"الغرفة غير موجودة — تأكد من الرمز", ol_net_err:"فشل الاتصال — تحقق من الإنترنت",
+    ol_busy:"هذه الغرفة ممتلئة", ol_closed:"أُغلقت الغرفة",
+    ol_peer_left:"غادر خصمك المباراة", ol_continue_bot:"أكمل ضد الروبوت",
+    ol_left_toast:"غادرت المباراة", ol_no_restart:"غير متاح في المباريات الأونلاين",
+    turn_remote:"{name} يلعب الآن", rm_wait:"بانتظار الخصم…", rm_peer:"الخصم يريد مباراة جديدة!",
+    coop_win:"فاز فريقكم!", coop_lose:"فازت الروبوتات!",
+    team_us:"فريقنا", team_them:"الخصوم", react_toast:"{name}: {e}",
   },
   es: {
     tagline:"Llega al otro lado. Múralos.",
@@ -1016,6 +1199,26 @@ const I18N = {
     tier_paper:"Papel", tier_bronze:"Bronce", tier_silver:"Plata",
     tier_gold:"Oro", tier_platinum:"Platino", tier_diamond:"Diamante",
     wall_stock:"Muros", guides:"Guías de muros", path_guide:"Guía de ruta",
+    mode_coop:"Cooperativo", mode_coop_desc:"2 contra 2 — tú y un amigo contra bots",
+    mode_online:"Online", mode_online_desc:"Juega con un amigo por internet",
+    coop_note:"🤝 Si cualquier compañero llega a la meta, ganan juntos",
+    h7:"Cooperativo: si cualquier compañero llega a la meta, gana todo el equipo.",
+    online_title:"Jugar online",
+    ol_create:"Crear sala", ol_create_sub:"Consigue un código para compartir con un amigo",
+    ol_join:"Unirse con código", ol_join_sub:"Introduce el código de tu amigo",
+    ol_p2p_note:"Conexión directa entre jugadores — sin servidores ni registro",
+    ol_open:"Abrir sala", ol_kind_1v1:"Duelo 1v1", ol_kind_coop:"Co-op 2v2",
+    ol_bots_lbl:"Fuerza de los bots", ol_code:"Código de sala", ol_join_ph:"CÓDIGO", ol_join_btn:"Unirse",
+    ol_copy:"Copiar código", ol_copied:"¡Copiado!", ol_copy_link:"Copiar enlace de invitación",
+    ol_creating:"Abriendo sala…", ol_waiting:"Esperando a tu amigo…",
+    ol_connecting:"Conectando…", ol_starting:"Conectado — empezando…",
+    ol_notfound:"Sala no encontrada — revisa el código", ol_net_err:"Conexión fallida — revisa tu internet",
+    ol_busy:"Esta sala ya está llena", ol_closed:"Sala cerrada",
+    ol_peer_left:"Tu rival salió de la partida", ol_continue_bot:"Continuar contra un bot",
+    ol_left_toast:"Saliste de la partida", ol_no_restart:"No disponible en partidas online",
+    turn_remote:"{name} está jugando", rm_wait:"Esperando al rival…", rm_peer:"¡El rival quiere la revancha!",
+    coop_win:"¡Gana tu equipo!", coop_lose:"¡Ganan los bots!",
+    team_us:"Nosotros", team_them:"Ellos", react_toast:"{name}: {e}",
   },
   fr: {
     tagline:"Atteins le côté opposé. Enferme-les.",
@@ -1089,6 +1292,26 @@ const I18N = {
     tier_paper:"Papier", tier_bronze:"Bronze", tier_silver:"Argent",
     tier_gold:"Or", tier_platinum:"Platine", tier_diamond:"Diamant",
     wall_stock:"Murs", guides:"Repères de murs", path_guide:"Guide de chemin",
+    mode_coop:"Co-op", mode_coop_desc:"2 contre 2 — toi et un ami contre des bots",
+    mode_online:"En ligne", mode_online_desc:"Joue avec un ami sur Internet",
+    coop_note:"🤝 N'importe quel coéquipier peut atteindre la ligne — victoire ensemble",
+    h7:"Co-op : n'importe quel coéquipier qui atteint la ligne d'arrivée fait gagner l'équipe.",
+    online_title:"Jouer en ligne",
+    ol_create:"Créer un salon", ol_create_sub:"Obtiens un code à partager avec un ami",
+    ol_join:"Rejoindre avec un code", ol_join_sub:"Entre le code de ton ami",
+    ol_p2p_note:"Connexion directe entre joueurs — sans serveur ni inscription",
+    ol_open:"Ouvrir le salon", ol_kind_1v1:"Duel 1v1", ol_kind_coop:"Co-op 2v2",
+    ol_bots_lbl:"Force des bots", ol_code:"Code du salon", ol_join_ph:"CODE", ol_join_btn:"Rejoindre",
+    ol_copy:"Copier le code", ol_copied:"Copié !", ol_copy_link:"Copier le lien d'invitation",
+    ol_creating:"Ouverture du salon…", ol_waiting:"En attente de ton ami…",
+    ol_connecting:"Connexion…", ol_starting:"Connecté — c'est parti…",
+    ol_notfound:"Salon introuvable — vérifie le code", ol_net_err:"Échec de connexion — vérifie Internet",
+    ol_busy:"Ce salon est déjà complet", ol_closed:"Salon fermé",
+    ol_peer_left:"Ton adversaire a quitté la partie", ol_continue_bot:"Continuer contre un bot",
+    ol_left_toast:"Tu as quitté la partie", ol_no_restart:"Indisponible en partie en ligne",
+    turn_remote:"{name} joue", rm_wait:"En attente de l'adversaire…", rm_peer:"L'adversaire veut une revanche !",
+    coop_win:"Ton équipe gagne !", coop_lose:"Les bots gagnent !",
+    team_us:"Nous", team_them:"Eux", react_toast:"{name} : {e}",
   },
   de: {
     tagline:"Erreiche die andere Seite. Baue sie ein.",
@@ -1162,6 +1385,26 @@ const I18N = {
     tier_paper:"Papier", tier_bronze:"Bronze", tier_silver:"Silber",
     tier_gold:"Gold", tier_platinum:"Platin", tier_diamond:"Diamant",
     wall_stock:"Mauern", guides:"Mauer-Hilfen", path_guide:"Wegführer",
+    mode_coop:"Ko-op", mode_coop_desc:"2 gegen 2 — du und ein Freund gegen Bots",
+    mode_online:"Online", mode_online_desc:"Spiele mit einem Freund übers Internet",
+    coop_note:"🤝 Erreicht irgendein Teamkamerad das Ziel, gewinnt ihr zusammen",
+    h7:"Ko-op: Erreicht ein Teamkamerad das Ziel, gewinnt das ganze Team.",
+    online_title:"Online spielen",
+    ol_create:"Raum erstellen", ol_create_sub:"Hole einen Code für deinen Freund",
+    ol_join:"Mit Code beitreten", ol_join_sub:"Gib den Code deines Freundes ein",
+    ol_p2p_note:"Direkte Verbindung zwischen Spielern — ohne Server und Anmeldung",
+    ol_open:"Raum öffnen", ol_kind_1v1:"Duell 1v1", ol_kind_coop:"Ko-op 2v2",
+    ol_bots_lbl:"Bot-Stärke", ol_code:"Raum-Code", ol_join_ph:"CODE", ol_join_btn:"Beitreten",
+    ol_copy:"Code kopieren", ol_copied:"Kopiert!", ol_copy_link:"Einladungslink kopieren",
+    ol_creating:"Raum wird geöffnet…", ol_waiting:"Warte auf deinen Freund…",
+    ol_connecting:"Verbinde…", ol_starting:"Verbunden — Los geht's…",
+    ol_notfound:"Raum nicht gefunden — Code prüfen", ol_net_err:"Verbindung fehlgeschlagen — Internet prüfen",
+    ol_busy:"Dieser Raum ist schon voll", ol_closed:"Raum geschlossen",
+    ol_peer_left:"Dein Gegner hat das Spiel verlassen", ol_continue_bot:"Gegen Bot weiterfahren",
+    ol_left_toast:"Du hast das Spiel verlassen", ol_no_restart:"In Online-Spielen nicht verfügbar",
+    turn_remote:"{name} spielt", rm_wait:"Warte auf den Gegner…", rm_peer:"Der Gegner will ein Rematch!",
+    coop_win:"Dein Team gewinnt!", coop_lose:"Die Bots gewinnen!",
+    team_us:"Wir", team_them:"Die", react_toast:"{name}: {e}",
   },
   pt: {
     tagline:"Chegue ao lado oposto. Encurrale-os.",
@@ -1235,6 +1478,26 @@ const I18N = {
     tier_paper:"Papel", tier_bronze:"Bronze", tier_silver:"Prata",
     tier_gold:"Ouro", tier_platinum:"Platina", tier_diamond:"Diamante",
     wall_stock:"Paredes", guides:"Guias de parede", path_guide:"Guia de caminho",
+    mode_coop:"Cooperativo", mode_coop_desc:"2 contra 2 — você e um amigo contra bots",
+    mode_online:"Online", mode_online_desc:"Jogue com um amigo pela internet",
+    coop_note:"🤝 Se qualquer companheiro chegar à meta, vocês vencem juntos",
+    h7:"Cooperativo: se qualquer companheiro chegar à meta, o time todo vence.",
+    online_title:"Jogar online",
+    ol_create:"Criar sala", ol_create_sub:"Receba um código para compartilhar com um amigo",
+    ol_join:"Entrar com código", ol_join_sub:"Digite o código do seu amigo",
+    ol_p2p_note:"Conexão direta entre jogadores — sem servidores nem cadastro",
+    ol_open:"Abrir sala", ol_kind_1v1:"Duelo 1v1", ol_kind_coop:"Co-op 2v2",
+    ol_bots_lbl:"Força dos bots", ol_code:"Código da sala", ol_join_ph:"CÓDIGO", ol_join_btn:"Entrar",
+    ol_copy:"Copiar código", ol_copied:"Copiado!", ol_copy_link:"Copiar link de convite",
+    ol_creating:"Abrindo sala…", ol_waiting:"Esperando seu amigo…",
+    ol_connecting:"Conectando…", ol_starting:"Conectado — começando…",
+    ol_notfound:"Sala não encontrada — confira o código", ol_net_err:"Falha na conexão — verifique sua internet",
+    ol_busy:"Esta sala já está cheia", ol_closed:"Sala fechada",
+    ol_peer_left:"Seu oponente saiu da partida", ol_continue_bot:"Continuar contra bot",
+    ol_left_toast:"Você saiu da partida", ol_no_restart:"Indisponível em partidas online",
+    turn_remote:"{name} está jogando", rm_wait:"Esperando o oponente…", rm_peer:"O oponente quer a revanche!",
+    coop_win:"Seu time venceu!", coop_lose:"Os bots venceram!",
+    team_us:"Nós", team_them:"Eles", react_toast:"{name}: {e}",
   },
   it: {
     tagline:"Raggiungi il lato opposto. Intrappolali.",
@@ -1308,6 +1571,26 @@ const I18N = {
     tier_paper:"Carta", tier_bronze:"Bronzo", tier_silver:"Argento",
     tier_gold:"Oro", tier_platinum:"Platino", tier_diamond:"Diamante",
     wall_stock:"Muri", guides:"Guide muri", path_guide:"Guida percorso",
+    mode_coop:"Co-op", mode_coop_desc:"2 contro 2 — tu e un amico contro i bot",
+    mode_online:"Online", mode_online_desc:"Gioca con un amico su internet",
+    coop_note:"🤝 Se qualsiasi compagno raggiunge il traguardo, vincete insieme",
+    h7:"Co-op: se qualsiasi compagno raggiunge il traguardo, vince tutta la squadra.",
+    online_title:"Gioca online",
+    ol_create:"Crea stanza", ol_create_sub:"Ottieni un codice da condividere con un amico",
+    ol_join:"Entra con codice", ol_join_sub:"Inserisci il codice del tuo amico",
+    ol_p2p_note:"Connessione diretta tra giocatori — senza server né registrazione",
+    ol_open:"Apri stanza", ol_kind_1v1:"Duello 1v1", ol_kind_coop:"Co-op 2v2",
+    ol_bots_lbl:"Forza dei bot", ol_code:"Codice stanza", ol_join_ph:"CODICE", ol_join_btn:"Entra",
+    ol_copy:"Copia codice", ol_copied:"Copiato!", ol_copy_link:"Copia link invito",
+    ol_creating:"Apertura stanza…", ol_waiting:"In attesa del tuo amico…",
+    ol_connecting:"Connessione…", ol_starting:"Connesso — si comincia…",
+    ol_notfound:"Stanza non trovata — controlla il codice", ol_net_err:"Connessione fallita — controlla internet",
+    ol_busy:"Questa stanza è già piena", ol_closed:"Stanza chiusa",
+    ol_peer_left:"Il tuo avversario ha lasciato la partita", ol_continue_bot:"Continua contro un bot",
+    ol_left_toast:"Hai lasciato la partita", ol_no_restart:"Non disponibile nelle partite online",
+    turn_remote:"{name} sta giocando", rm_wait:"In attesa dell'avversario…", rm_peer:"L'avversario vuole la rivincita!",
+    coop_win:"Vince la tua squadra!", coop_lose:"Vincono i bot!",
+    team_us:"Noi", team_them:"Loro", react_toast:"{name}: {e}",
   },
   tr: {
     tagline:"Karşı tarafa ulaş. Duvarlarla kapat.",
@@ -1381,6 +1664,26 @@ const I18N = {
     tier_paper:"Kâğıt", tier_bronze:"Bronz", tier_silver:"Gümüş",
     tier_gold:"Altın", tier_platinum:"Platin", tier_diamond:"Elmas",
     wall_stock:"Duvarlar", guides:"Duvar kılavuzları", path_guide:"Yol kılavuzu",
+    mode_coop:"İş birliği", mode_coop_desc:"2'ye 2 — sen ve bir arkadaş bota karşı",
+    mode_online:"Çevrimiçi", mode_online_desc:"İnternet üzerinden bir arkadaşa karşı oyna",
+    coop_note:"🤝 Takımından biri hedefe ulaşırsa birlikte kazanırsınız",
+    h7:"İş birliği: takım arkadaşı hedefe ulaşırsa tüm takım kazanır.",
+    online_title:"Çevrimiçi oyna",
+    ol_create:"Oda oluştur", ol_create_sub:"Arkadaşınla paylaşacak bir kod al",
+    ol_join:"Kodla katıl", ol_join_sub:"Arkadaşının kodunu gir",
+    ol_p2p_note:"Oyuncular arasında doğrudan bağlantı — sunucusuz, kayıtsız",
+    ol_open:"Odayı aç", ol_kind_1v1:"Düello 1v1", ol_kind_coop:"İş birliği 2v2",
+    ol_bots_lbl:"Bot gücü", ol_code:"Oda kodu", ol_join_ph:"KOD", ol_join_btn:"Katıl",
+    ol_copy:"Kodu kopyala", ol_copied:"Kopyalandı!", ol_copy_link:"Davet bağlantısını kopyala",
+    ol_creating:"Oda açılıyor…", ol_waiting:"Arkadaşın bekleniyor…",
+    ol_connecting:"Bağlanıyor…", ol_starting:"Bağlandı — başlıyor…",
+    ol_notfound:"Oda bulunamadı — kodu kontrol et", ol_net_err:"Bağlantı başarısız — internetini kontrol et",
+    ol_busy:"Bu oda zaten dolu", ol_closed:"Oda kapatıldı",
+    ol_peer_left:"Rakibin oyundan ayrıldı", ol_continue_bot:"Bota karşı devam et",
+    ol_left_toast:"Oyundan ayrıldın", ol_no_restart:"Çevrimiçi oyunlarda kullanılamaz",
+    turn_remote:"{name} oynuyor", rm_wait:"Rakip bekleniyor…", rm_peer:"Rakip rövanş istiyor!",
+    coop_win:"Takımın kazandı!", coop_lose:"Botlar kazandı!",
+    team_us:"Biz", team_them:"Onlar", react_toast:"{name}: {e}",
   }
 };
 
@@ -1841,15 +2144,15 @@ const Game = {
   hooks: null,
 
   newMatch(cfg){
-    // cfg: { mode:'duel'|'blitz'|'squad', players:[{type,difficulty,name,seat}], instantBots }
+    // cfg: { mode:'duel'|'blitz'|'squad'|'coop'|'online'|'onlineCoop', players:[{type,difficulty,name,seat,team}], startIdx, net, instantBots }
     this.cfg = cfg;
     this.over = false; this.paused = false;
     this.moveCount = 0; this.startTime = Date.now();
-    this.undoLeft = (cfg.players.some(p => p.type === "bot")) ? 1 : 0;
+    this.undoLeft = (!cfg.net && cfg.players.some(p => p.type === "bot")) ? 1 : 0;
     this.hintLeft = 3;
     this.history = [];
     this.stopBlitz();
-    const walls = cfg.mode === "blitz" ? 6 : (cfg.mode === "squad" ? 5 : 10);
+    const walls = cfg.mode === "blitz" ? 6 : ((cfg.mode === "squad" || cfg.mode === "coop" || cfg.mode === "onlineCoop") ? 5 : 10);
     if (cfg.mode === "puzzle" && cfg.puzzle){
       // puzzle: custom setup from the generated position (me → row 0, rival → row 8, rival frozen)
       const P = cfg.puzzle;
@@ -1871,7 +2174,7 @@ const Game = {
         return { r:s.r, c:s.c, walls, goal:s.goal, active:true };
       });
       this.state = Rules.newState(rp);
-      this.state.turn = 0;
+      this.state.turn = cfg.startIdx || 0;
     }
     this.players = cfg.players.map((p, i) => ({
       ...p, color: PLAYER_COLORS[i], walls, moves: 0, wallsUsed: 0, idx: i
@@ -1898,7 +2201,9 @@ const Game = {
       if (this.cfg.mode === "blitz") this.startBlitz();
     } else {
       this.stopBlitz();
+      if (this.players[i].type === "remote") return; // the peer plays this seat — never simulate it locally
       this.on("botThinking", i);
+      if (this.cfg.net && this.cfg.net.role === "guest") return; // online co-op: the host drives the bots
       if (this.cfg.instantBots) return; // test mode: caller steps manually
       const delay = 380 + Math.random() * 520;
       const turnAt = this.state.turn;
@@ -1941,6 +2246,17 @@ const Game = {
     p.moves++;
     if (mv.type === "wall"){ p.wallsUsed++; p.walls--; }
     Rules.applyMove(this.state, pi, mv);
+    // online: broadcast this action (a local human move, or a bot move when we are the host)
+    if (this.cfg.net && !this._replay){
+      const mover = this.players[pi];
+      if (mover && (mover.type === "human" || (mover.type === "bot" && this.cfg.net.role === "host"))){
+        let out;
+        if (this.cfg.net.role === "guest" && mv.type === "wall") out = { type:"wall", r: 7 - mv.r, c: 7 - mv.c, o: mv.o };
+        else if (this.cfg.net.role === "guest") out = { type:"move", r: 8 - mv.r, c: 8 - mv.c, jump: !!mv.jump };
+        else out = { type: mv.type, r: mv.r, c: mv.c, o: mv.o, jump: !!mv.jump };
+        try { Net.send({ t: "mv", pi, mv: out }); } catch(e){}
+      }
+    }
     this.moveCount++;
     // sudden death: matches can never last forever (safety net)
     if (this.moveCount >= (this.players.length === 2 ? 120 : 160)){
@@ -2017,9 +2333,27 @@ const Game = {
     return true;
   },
 
+  /* ---------- online: apply a move received from the peer ---------- */
+  applyRemote(pi, mv){
+    if (this.over || !this.cfg || !this.cfg.net || this._replay) return;
+    if (!mv || this.state.turn !== pi) return; // ignore stale or out-of-order packets
+    let m;
+    if (this.cfg.net.role === "guest"){ // guest plays in a 180°-rotated frame (own pawn at the bottom)
+      m = mv.type === "wall" ? { type:"wall", r: 7 - mv.r, c: 7 - mv.c, o: mv.o }
+                             : { type:"move", r: 8 - mv.r, c: 8 - mv.c, jump: !!mv.jump };
+    } else m = mv;
+    this._replay = true;
+    try {
+      if (m.type === "wall") this.doMove(pi, { type: "wall", r: m.r, c: m.c, o: m.o });
+      else this.doMove(pi, { type: "move", r: m.r, c: m.c, jump: !!m.jump });
+    } catch(e){}
+    this._replay = false;
+  },
+
   /* ---------- undo & hint (vs bots) ---------- */
   canUndo(){
     if (this.over || this.undoLeft <= 0 || !this.history.length) return false;
+    if (this.cfg.net) return false; // undo would desync an online match
     if (!this.cfg.players.some(p => p.type === "bot")) return false;
     return this.isHuman(this.state.turn);
   },
@@ -2983,6 +3317,239 @@ const Account = {
 
 const BOT_NAMES = ["Nova","Rex","Ziggy","Miro","Pixel","Kilo","Vega","Bruno","Luna","Otto","Juno","Falk"];
 
+/* ============ Online: direct P2P rooms (WebRTC via the public PeerJS broker) ============ */
+const NETMOCK = (function(){ try { return /[?&]netmock=1/.test(location.search); } catch(e){ return false; } })();
+
+/* BroadcastChannel stand-in for the tiny PeerJS surface we use.
+   Only active with ?netmock=1 — powers the automated E2E tests (two tabs, same origin). */
+function MockConn(ch, role, gid){
+  this._ch = ch; this._role = role; this._gid = gid;
+  this._cbs = {}; this.open = false; this._closed = false; this._hello = null;
+  const self = this;
+  ch.addEventListener("message", (ev) => {
+    const m = ev.data || {};
+    if (!m || typeof m !== "object") return;
+    if (m.k === "__m" && self.open){
+      if (self._role === "host" ? m.to === "host" : m.to === self._gid) self._fire("data", m.d);
+    } else if (m.k === "__accept" && self._role === "guest" && m.gid === self._gid && !self.open){
+      if (self._hello){ clearInterval(self._hello); self._hello = null; }
+      self._becomeOpen();
+    } else if (m.k === "__busy" && self._role === "guest" && m.gid === self._gid){
+      self._fire("data", { t: "busy" });
+    } else if (m.k === "__bye"){
+      if (self._role === "host" ? m.from === self._gid : m.from === "host") self._teardown();
+    }
+  });
+  if (role === "guest"){
+    let tries = 0;
+    const hello = () => { if (self.open || self._closed || tries > 24){ clearInterval(self._hello); self._hello = null; return; } tries++; try { ch.postMessage({ k: "__join", gid: self._gid }); } catch(e){} };
+    self._hello = setInterval(hello, 250);
+    hello();
+  } else {
+    try { ch.postMessage({ k: "__accept", gid: this._gid }); } catch(e){}
+    setTimeout(() => self._becomeOpen(), 0);
+  }
+}
+MockConn.prototype.on = function(ev, cb){ (this._cbs[ev] = this._cbs[ev] || []).push(cb); };
+MockConn.prototype._fire = function(ev, d){ (this._cbs[ev] || []).forEach(cb => { try { cb(d); } catch(e){} }); };
+MockConn.prototype._becomeOpen = function(){ if (this.open || this._closed) return; this.open = true; this._fire("open"); };
+MockConn.prototype._teardown = function(){ if (this._closed) return; this._closed = true; this.open = false; if (this._hello){ clearInterval(this._hello); this._hello = null; } this._fire("close"); };
+MockConn.prototype.send = function(d){ if (this.open){ try { this._ch.postMessage({ k: "__m", to: this._role === "host" ? this._gid : "host", d: d }); } catch(e){} } };
+MockConn.prototype.close = function(){ if (this._closed) return; try { this._ch.postMessage({ k: "__bye", from: this._role === "host" ? "host" : this._gid }); } catch(e){} this._teardown(); };
+
+function MockPeer(id){
+  this._id = id || null; this._cbs = {}; this._ch = null; this._gid = null;
+  this._opened = false; this._pending = [];
+  if (id){
+    this._ch = new BroadcastChannel(id);
+    const self = this;
+    this._ch.addEventListener("message", (ev) => {
+      const m = ev.data || {};
+      if (!m || typeof m !== "object" || m.k !== "__join") return;
+      if (!self._opened){ self._pending.push(m); return; }
+      if (self._gid){ try { self._ch.postMessage({ k: "__busy", gid: m.gid }); } catch(e){} return; }
+      self._gid = m.gid;
+      const conn = new MockConn(self._ch, "host", m.gid);
+      self._fire("connection", conn);
+    });
+    setTimeout(() => {
+      this._opened = true;
+      this._fire("open", id);
+      const pend = this._pending.splice(0);
+      pend.forEach(m => {
+        if (this._gid){ try { this._ch.postMessage({ k: "__busy", gid: m.gid }); } catch(e){} return; }
+        this._gid = m.gid;
+        const conn = new MockConn(this._ch, "host", m.gid);
+        this._fire("connection", conn);
+      });
+    }, 30);
+  } else {
+    setTimeout(() => this._fire("open", "mock-" + Math.random().toString(36).slice(2, 8)), 30);
+  }
+}
+MockPeer.prototype.on = function(ev, cb){ (this._cbs[ev] = this._cbs[ev] || []).push(cb); };
+MockPeer.prototype._fire = function(ev, d){ (this._cbs[ev] || []).forEach(cb => { try { cb(d); } catch(e){} }); };
+MockPeer.prototype.connect = function(targetId){ return new MockConn(new BroadcastChannel(targetId), "guest", "g" + Math.random().toString(36).slice(2, 9)); };
+MockPeer.prototype.destroy = function(){
+  try { if (this._ch){ this._ch.postMessage({ k: "__bye", from: "host" }); this._ch.close(); } } catch(e){}
+};
+
+const Net = {
+  peer: null, conn: null, role: null, code: null,
+  inGame: false, _selfClose: false, _loading: false,
+  onPeerHi: null, onStart: null, onMoveMsg: null, onReactMsg: null,
+  onRematchMsg: null, onBusyMsg: null, onByeMsg: null, onCloseCb: null,
+
+  makePeer(id){ return NETMOCK ? new MockPeer(id) : new Peer(id); },
+  genCode(){
+    const A = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // no 0/O/1/I/L — codes must be easy to read aloud
+    let s = "";
+    for (let i = 0; i < 5; i++) s += A[(Math.random() * A.length) | 0];
+    return s;
+  },
+  loadLib(cb){
+    if (window.Peer || NETMOCK) return cb(true);
+    if (this._loading) return;
+    this._loading = true;
+    const urls = [
+      "https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js",
+      "https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"
+    ];
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length){ this._loading = false; return cb(false); }
+      const s = document.createElement("script");
+      s.src = urls[i++];
+      const to = setTimeout(() => { s.remove(); tryNext(); }, 9000);
+      s.onload = () => { clearTimeout(to); this._loading = false; cb(!!window.Peer); };
+      s.onerror = () => { clearTimeout(to); s.remove(); tryNext(); };
+      document.head.appendChild(s);
+    };
+    tryNext();
+  },
+  send(obj){ if (this.conn && this.conn.open){ try { this.conn.send(obj); } catch(e){} } },
+  selfClose(){ this._selfClose = true; },
+  waiting(){ return !!(this.peer || this.conn); },
+  cancel(){
+    this._selfClose = true;
+    this.cleanup();
+  },
+  cleanup(){
+    try { if (this.conn) this.conn.close(); } catch(e){}
+    try { if (this.peer) this.peer.destroy(); } catch(e){}
+    this.peer = null; this.conn = null; this.role = null; this.code = null;
+    this.inGame = false; this._selfClose = false;
+    this.onPeerHi = null; this.onStart = null; this.onBusyMsg = null; this.onByeMsg = null; this.onCloseCb = null;
+    // onMoveMsg / onReactMsg / onRematchMsg stay wired for the whole session
+  },
+
+  /* host: open a room, hand out the code, wait for exactly one guest */
+  hostRoom(cb){
+    // cb("code", CODE) | cb("connected") | cb("err", "lib"|"net")
+    this.role = "host";
+    const openRoom = (attempt) => {
+      if (attempt > 3) return cb("err", "net");
+      const code = this.genCode();
+      let peer;
+      try { peer = this.peer = this.makePeer("wrush-" + code); }
+      catch(e){ return cb("err", "net"); }
+      let opened = false;
+      const to = setTimeout(() => { if (!opened){ this.cancel(); cb("err", "net"); } }, 12000);
+      peer.on("open", () => {
+        opened = true; clearTimeout(to);
+        this.code = code;
+        cb("code", code);
+        peer.on("connection", (conn) => {
+          const arm = () => {
+            if (this.conn || this.inGame){ // room already full → reject the extra guest politely
+              try { conn.send({ t: "busy" }); setTimeout(() => { try { conn.close(); } catch(e){} }, 350); } catch(e){}
+              return;
+            }
+            this.conn = conn;
+            conn.on("data", (d) => this.dispatch(d));
+            conn.on("close", () => this.handleClose());
+            conn.on("error", () => this.handleClose());
+            cb("connected");
+          };
+          if (conn.open) arm();
+          else conn.on("open", arm);
+        });
+      });
+      peer.on("error", (err) => {
+        if (err && err.type === "unavailable-id"){ // 1-in-39M code collision → just roll a new code
+          clearTimeout(to);
+          try { peer.destroy(); } catch(e){}
+          this.peer = null;
+          openRoom(attempt + 1);
+          return;
+        }
+        if (!opened){ clearTimeout(to); this.cancel(); cb("err", "net"); }
+      });
+    };
+    this.loadLib((ok) => { if (!ok) return cb("err", "lib"); openRoom(1); });
+  },
+
+  /* guest: connect to a room code */
+  joinRoom(code, cb){
+    // cb("connected") | cb("err", "lib"|"net"|"notfound")
+    this.role = "guest";
+    this.loadLib((ok) => {
+      if (!ok) return cb("err", "lib");
+      let peer;
+      try { peer = this.peer = this.makePeer(null); }
+      catch(e){ return cb("err", "net"); }
+      let done = false;
+      const fail = (key) => {
+        if (done || !this.peer) return; // already connected or already cancelled
+        done = true;
+        this.cancel();
+        cb("err", key);
+      };
+      const to = setTimeout(() => fail("net"), 15000);
+      peer.on("open", () => {
+        const conn = peer.connect("wrush-" + code, { reliable: true });
+        conn.on("data", (d) => this.dispatch(d)); // attach early: a "room full" notice can arrive before open
+        conn.on("close", () => this.handleClose());
+        conn.on("error", () => fail("net"));
+        conn.on("open", () => {
+          if (done) return;
+          done = true; clearTimeout(to);
+          this.conn = conn; this.code = code;
+          cb("connected");
+        });
+      });
+      peer.on("error", (err) => {
+        clearTimeout(to);
+        fail(err && err.type === "peer-unavailable" ? "notfound" : "net");
+      });
+    });
+  },
+
+  dispatch(d){
+    if (!d || typeof d !== "object") return;
+    try {
+      if (d.t === "hi" && this.role === "host" && this.onPeerHi) this.onPeerHi(d);
+      else if (d.t === "start" && this.role === "guest" && this.onStart) this.onStart(d);
+      else if (d.t === "mv" && this.onMoveMsg) this.onMoveMsg(d);
+      else if (d.t === "re" && this.onReactMsg) this.onReactMsg(d);
+      else if (d.t === "rm" && this.onRematchMsg) this.onRematchMsg(d);
+      else if (d.t === "busy" && this.onBusyMsg) this.onBusyMsg(d);
+      else if (d.t === "bye" && this.onByeMsg) this.onByeMsg(d);
+    } catch(e){}
+  },
+
+  handleClose(){
+    if (this._selfClose) return;
+    const cb = this.onCloseCb;
+    const wasGame = this.inGame;
+    const wasRole = this.role;
+    try { if (this.conn) this.conn.close(); } catch(e){}
+    try { if (this.peer) this.peer.destroy(); } catch(e){}
+    this.peer = null; this.conn = null; this.role = wasRole; this.inGame = wasGame;
+    if (cb) cb(wasGame);
+  }
+};
+
 const UI = {
   view: "lang", langReturn: null, lastCfg: null, toastTimer: null,
   mainHuman: 0,
@@ -2999,7 +3566,7 @@ const UI = {
       if (from === "menu"){ this.showView("game"); this.openModal("menuModal"); this.refreshGameUI(); }
       else this.showView(from || "home");
     });
-    this.$("btnPlay").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.startFromHome(); });
+    this.$("btnPlay").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); if (this.selMode === "online"){ this.openOnline(); return; } this.startFromHome(); });
     this.$("btnHowto").addEventListener("click", () => { SFX.click(); this.openModal("howtoModal"); });
     this.$("howtoClose").addEventListener("click", () => { SFX.click(); this.closeModals(); });
     this.$("btnSound").addEventListener("click", () => this.toggleSound());
@@ -3007,22 +3574,23 @@ const UI = {
     // menu
     this.$("btnMenu").addEventListener("click", () => { SFX.click(); Game.paused = true; this.updateToggleLabels(); this.openModal("menuModal"); });
     this.$("btnResume").addEventListener("click", () => { SFX.click(); Game.paused = false; this.closeModals(); });
-    this.$("btnRestart").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
+    this.$("btnRestart").addEventListener("click", () => { SFX.click(); if (Game.cfg && Game.cfg.net){ this.closeModals(); this.toast(t("ol_no_restart")); return; } this.closeModals(); this.startMatch(this.lastCfg); });
     this.$("btnMenuHowto").addEventListener("click", () => { SFX.click(); this.openModal("howtoModal"); });
     this.$("btnMenuSound").addEventListener("click", () => this.toggleSound());
     this.$("btnMenuVibe").addEventListener("click", () => this.toggleVibe());
     this.$("btnMenuLang").addEventListener("click", () => { SFX.click(); this.openLang("menu"); });
-    this.$("btnQuit").addEventListener("click", () => { SFX.click(); Game.stopBlitz(); this.closeModals(); this.showView("home"); this.refreshHome(); });
+    this.$("btnQuit").addEventListener("click", () => { SFX.click(); this.goHome(); });
     // win overlay
     this.$("btnRematch").addEventListener("click", () => {
       SFX.click(); this.closeModals();
       if (Game.cfg && Game.cfg.mode === "puzzle"){ this.pzNext(); return; }
+      if (Game.cfg && Game.cfg.net){ this.netRematchRequest(); return; }
       this.startMatch(this.lastCfg);
     });
     this.$("btnWinHome").addEventListener("click", () => {
       SFX.click(); this.closeModals();
       if (Game.cfg && Game.cfg.mode === "puzzle"){ this.openPuzzles(); return; }
-      this.showView("home"); this.refreshHome();
+      this.goHome();
     });
     // game actions
     this.$("btnUndo").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.undo()) SFX.click(); else SFX.illegal(); });
@@ -3032,9 +3600,10 @@ const UI = {
     document.querySelectorAll(".modeCard").forEach(b => b.addEventListener("click", () => {
       SFX.click(); this.selMode = b.dataset.mode;
       document.querySelectorAll(".modeCard").forEach(x => x.classList.toggle("sel", x === b));
-      this.$("oppRow").classList.toggle("hidden", false);
+      this.$("oppRow").classList.toggle("hidden", this.selMode === "online");
       this.$("seatsRow").classList.toggle("hidden", this.selMode !== "squad");
-      this.$("humanOppBtn").style.display = this.selMode === "squad" ? "none" : "";
+      this.$("coopNote").classList.toggle("hidden", this.selMode !== "coop");
+      this.$("humanOppBtn").style.display = (this.selMode === "squad" || this.selMode === "coop") ? "none" : "";
       this.renderSeats();
     }));
     document.querySelectorAll("#oppSeg button").forEach(b => b.addEventListener("click", () => {
@@ -3069,6 +3638,14 @@ const UI = {
     const savedLang = (()=>{ try{ return localStorage.getItem("wr_lang"); }catch(e){ return null; } })();
     setLang(savedLang && I18N[savedLang] ? savedLang : (detectLang() || "en"));
     this.showView("lang");
+    // invite link (?room=CODE) → land on the join screen once the player is in
+    try {
+      const rc = (new URLSearchParams(location.search).get("room") || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+      if (rc.length === 5){
+        this._pendingRoom = rc;
+        history.replaceState(null, "", location.pathname);
+      }
+    } catch(e){}
     const sug = detectLang();
     if (sug){
       const card = document.querySelector('.langBtn[data-lang="' + sug + '"]');
@@ -3094,9 +3671,10 @@ const UI = {
   openLang(from){ this.langReturn = from; this.closeModals(); this.showView("lang"); this.$("langBack").classList.remove("hidden"); },
   showView(v){
     this.view = v;
-    ["langView","homeView","gameView","accountView","playersView","puzzlesView","botsView","boardView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
+    ["langView","homeView","gameView","accountView","playersView","puzzlesView","botsView","boardView","onlineView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
     if (v !== "puzzles") this.stopDailyTick();
     if (v !== "lang") this.$("langBack").classList.add("hidden");
+    if (v !== "online" && !Net.inGame && Net.waiting()) Net.cancel(); // leaving the lobby closes the waiting room
     if (v === "game") setTimeout(() => R.resize(), 30);
   },
   openModal(id){ this.closeModals(); this.$(id).classList.remove("hidden"); },
@@ -3177,6 +3755,15 @@ const UI = {
       });
       if (players.length < 2){ this.toast(t("need_players")); return; }
       if (humanN < 1){ this.toast(t("need_human")); return; }
+    } else if (this.selMode === "coop"){
+      // local co-op: two humans on this device team up against two bots (2v2)
+      const randAv = () => Account.AVATARS[(Math.random() * Account.AVATARS.length) | 0].id;
+      players = [
+        { type:"human", seat:"S", name, avatar: prof.avatar, team: 0 },
+        { type:"bot", seat:"W", difficulty: diff, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0], avatar: randAv(), team: 1 },
+        { type:"human", seat:"N", name: t("you") + " 2", team: 0 },
+        { type:"bot", seat:"E", difficulty: diff, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0], avatar: randAv(), team: 1 }
+      ];
     } else {
       players = [
         { type:"human", seat:"S", name, avatar: prof.avatar },
@@ -3193,6 +3780,8 @@ const UI = {
     Input.clearGhost();
     R.particles = []; R.confetti = []; R.animMap = {};
     this.showView("game");
+    this.hideReactRow();
+    this.$("btnReact").classList.toggle("hidden", !cfg.net);
     setTimeout(() => {
       R.resize();
       this.mainHuman = cfg.players.findIndex(p => p.type === "human");
@@ -3206,6 +3795,8 @@ const UI = {
       this.$("hintCount").textContent = Game.hintLeft;
       this.$("btnHint").disabled = false;
       this.$("btnRematch").textContent = t("rematch");
+      this.$("btnRematch").disabled = false;
+      this._myRm = false; this._peerRm = false;
       const isPz = cfg.mode === "puzzle";
       this.$("pzBar").classList.toggle("hidden", !isPz);
       if (isPz){
@@ -3246,6 +3837,19 @@ const UI = {
       const wl = document.createElement("div");
       wl.className = "chipWalls"; wl.id = "chipWalls" + i;
       info.append(top, wl);
+      const teams = Game.cfg && Game.players.some(pp => pp.team != null);
+      if (teams && p.team != null){
+        const myTeam = (Game.players[this.mainHuman] || {}).team;
+        const tag = document.createElement("span");
+        tag.className = "chipTeam " + (p.team === myTeam ? "us" : "them");
+        tag.textContent = t(p.team === myTeam ? "team_us" : "team_them");
+        info.appendChild(tag);
+      }
+      if (p.type === "remote"){
+        const net = document.createElement("span");
+        net.className = "chipNet"; net.textContent = "🌐";
+        av.appendChild(net);
+      }
       chip.append(av, info);
       wrap.appendChild(chip);
     });
@@ -3260,7 +3864,7 @@ const UI = {
       const wl = this.$("chipWalls" + i);
       if (wl){
         wl.innerHTML = "";
-        let total = Game.cfg.mode === "blitz" ? 6 : Game.cfg.mode === "squad" ? 5 : 10;
+        let total = Game.cfg.mode === "blitz" ? 6 : (Game.cfg.mode === "squad" || Game.cfg.mode === "coop" || Game.cfg.mode === "onlineCoop") ? 5 : 10;
         if (Game.cfg.mode === "puzzle") total = Game.cfg.puzzle.type === "race" ? 0 : 10;
         for (let k = 0; k < total; k++){
           const pip = document.createElement("i");
@@ -3287,6 +3891,7 @@ const UI = {
       SFX.turnPing();
     } else {
       R.setLegal([]);
+      if (p.type === "remote") this.banner(t("turn_remote", { name: p.name }), true);
     }
     this.$("btnUndo").classList.toggle("hidden", !(Game.undoLeft > 0 && Game.canUndo()));
     this.$("undoCount").textContent = Game.undoLeft;
@@ -3336,8 +3941,9 @@ const UI = {
   onWin(d){
     this.updateChips();
     R.setLegal([]);
-    const winner = Game.players[d.pi];
-    const humanWon = winner.type === "human";
+    const winner = Game.players[d.pi] || {};
+    const teams = !!(Game.cfg && Game.players.some(p => p.team != null));
+    const myTeam = (Game.players[this.mainHuman] || {}).team;
     if (Game.cfg && Game.cfg.mode === "puzzle"){
       const P = Game.cfg.puzzle;
       if (P.type === "race" && d.pi === 0 && Game.players[0].moves > P.K){
@@ -3357,32 +3963,47 @@ const UI = {
     }
     this.applyLadder(d);
     setTimeout(() => {
+      let icon, title, sub;
       if (d.draw){
-        R.celebrate();
-        SFX.jump(); Haptic.buzz(3);
-        this.$("winIcon").textContent = "🤝";
-        this.$("winTitle").textContent = t("draw");
-      } else if (humanWon){
-        R.celebrate();
-        SFX.win(); Haptic.buzz(3);
-        this.$("winIcon").textContent = "🏆";
-        this.$("winTitle").textContent = t("win");
+        R.celebrate(); SFX.jump(); Haptic.buzz(3);
+        icon = "🤝"; title = t("draw"); sub = t("draw_note");
+      } else if (teams){
+        if (winner.team === myTeam){
+          R.celebrate(); SFX.win(); Haptic.buzz(3);
+          icon = "🏆"; title = t("coop_win");
+        } else {
+          SFX.lose(); Haptic.buzz(2);
+          icon = "🤖"; title = t("coop_lose");
+        }
+        sub = t("winner", { name: winner.name });
+        if (d.sudden) sub += " · " + t("by_proximity");
+      } else if (winner.type === "remote"){
+        if (d.pi === this.mainHuman){ R.celebrate(); SFX.win(); Haptic.buzz(3); icon = "🏆"; title = t("win"); sub = t("good_game"); }
+        else { SFX.lose(); Haptic.buzz(2); icon = "🌐"; title = t("lose"); sub = t("winner", { name: winner.name }); }
+        if (d.sudden) sub += " · " + t("by_proximity");
+      } else if (winner.type === "human"){
+        R.celebrate(); SFX.win(); Haptic.buzz(3);
+        icon = "🏆"; title = t("win");
+        sub = d.sudden ? t("winner", { name: winner.name }) + " · " + t("by_proximity")
+                       : (d.pi === this.mainHuman ? t("good_game") : t("winner", { name: winner.name }));
       } else {
         SFX.lose(); Haptic.buzz(2);
-        this.$("winIcon").textContent = "🤖";
-        this.$("winTitle").textContent = t("lose");
+        icon = "🤖"; title = t("lose");
+        sub = t("winner", { name: winner.name });
+        if (d.sudden) sub += " · " + t("by_proximity");
       }
-      this.$("winSub").textContent = d.draw
-        ? t("draw_note")
-        : (d.sudden
-            ? t("winner", { name: winner.name }) + " · " + t("by_proximity")
-            : ((d.pi === this.mainHuman && humanWon) ? t("good_game") : t("winner", { name: winner.name })));
+      this.$("winIcon").textContent = icon;
+      this.$("winTitle").textContent = title;
+      this.$("winSub").textContent = sub;
       this.$("wsMoves").textContent = d.moves;
       this.$("wsMovesLbl").textContent = t("moves");
       this.$("wsWalls").textContent = d.wallsUsed;
       const s = Math.floor(d.time / 1000);
       this.$("wsTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
       this.saveStats(d);
+      const rb = this.$("btnRematch");
+      rb.disabled = false;
+      rb.textContent = t("rematch");
       this.openModal("winOverlay");
     }, 650);
   },
@@ -3402,7 +4023,21 @@ const UI = {
     const cur = Account.current();
     if (!cur) return;
     const hasBot = Game.players.some(p => p.type === "bot");
-    if (!hasBot) return;
+    if (!hasBot) return; // hotseat & online duels never touch the record (no stat farming)
+    if (Game.players.some(p => p.team != null)){
+      // team modes (co-op): the whole team shares the result
+      const my = Game.players[this.mainHuman] || {};
+      const winner = Game.players[d.pi] || {};
+      const mainWon = !d.draw && winner.type === "human" && winner.team === my.team;
+      Account.recordStats(st => {
+        st.g++;
+        if (d.draw){ /* draw counts as a game, streak preserved */ }
+        else if (mainWon){ st.w++; st.streak++; }
+        else { st.streak = 0; }
+        return st;
+      });
+      return;
+    }
     const mainWon = d.pi === this.mainHuman && Game.players[d.pi] && Game.players[d.pi].type === "human";
     Account.recordStats(st => {
       st.g++;
@@ -3437,6 +4072,10 @@ const UI = {
       this.$("pcSub").textContent = t("wins") + " " + (st.w || 0) + " · " + t("games") + " " + (st.g || 0) + " · " + t("streak") + " " + (st.streak || 0);
     } else card.classList.add("hidden");
     this.refreshHub();
+    if (this._pendingRoom && Account.current()){
+      const rc = this._pendingRoom; this._pendingRoom = null;
+      setTimeout(() => this.openOnline(rc), 60);
+    }
   },
   openAccount(mode, from, targetId){
     this.accMode = mode || "create"; this.accFrom = from || null; this.accTarget = targetId || null;
@@ -3489,10 +4128,255 @@ const UI = {
   },
   goHome(){
     try { Game.stopBlitz(); } catch(e){}
+    this.netLeave();
     this.closeModals();
     this.showView("home");
     this.refreshHome();
     this.renderSeats();
+  },
+  netLeave(){
+    this.hideReactRow();
+    const inNetGame = !!(Game.cfg && Game.cfg.net);
+    if (!inNetGame && !Net.inGame && !Net.waiting()) return;
+    Net.selfClose();
+    if (inNetGame && !Game.over){ try { Net.send({ t: "bye" }); } catch(e){} }
+    setTimeout(() => { try { Net.cleanup(); } catch(e){} }, inNetGame ? 180 : 0);
+  },
+
+  /* ---------- online (P2P rooms) ---------- */
+  openOnline(prefill){
+    if (!Account.current() && !this.guest){ this.openAccount("create", "online"); return; }
+    this._myRm = false; this._peerRm = false;
+    this.showView("online");
+    this.olShow(prefill ? "join" : "home");
+    if (prefill){
+      this.$("olInput").value = prefill;
+      setTimeout(() => { try { this.$("olInput").focus(); } catch(e){} }, 80);
+    }
+  },
+  olShow(which){
+    ["olHome","olSetup","olHostWait","olJoinBox"].forEach(id => this.$(id).classList.add("hidden"));
+    const map = { home:"olHome", setup:"olSetup", host:"olHostWait", join:"olJoinBox" };
+    if (map[which]) this.$(map[which]).classList.remove("hidden");
+    if (which === "setup") this.$("olDiffRow").classList.toggle("hidden", this.olKind !== "coop");
+    if (which !== "join") this.$("olJoinStatus").textContent = "";
+  },
+  olAddDots(el){ const d = document.createElement("span"); d.className = "dots"; el.appendChild(d); },
+  olStatusSet(id, key, dots){
+    const el = this.$(id);
+    el.innerHTML = "";
+    el.append(document.createTextNode(t(key)));
+    if (dots) this.olAddDots(el);
+  },
+  olHostOpen(){
+    SFX.init(); SFX.resume(); SFX.click();
+    this.$("olCode").textContent = "·····";
+    this.olShow("host");
+    this.olStatusSet("olStatus", "ol_creating", true);
+    Net.cancel();
+    Net.onPeerHi = (d) => this.netHostStart(d);
+    Net.onCloseCb = (wasGame) => this.netClosed(wasGame);
+    Net.hostRoom((kind, data) => {
+      if (kind === "code"){
+        this._olLastCode = data;
+        this.$("olCode").textContent = data;
+        this.olStatusSet("olStatus", "ol_waiting", true);
+      } else if (kind === "connected"){
+        this.olStatusSet("olStatus", "ol_starting", false);
+      } else {
+        this.olNetErr(data, "olStatus");
+      }
+    });
+  },
+  olJoinGo(){
+    const code = (this.$("olInput").value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (code.length !== 5){ SFX.illegal(); this.toast(t("ol_notfound")); return; }
+    SFX.init(); SFX.resume(); SFX.click();
+    this.$("olJoinBtn").disabled = true;
+    this.olStatusSet("olJoinStatus", "ol_connecting", true);
+    Net.cancel();
+    Net.onStart = (d) => this.netGuestStart(d);
+    Net.onCloseCb = (wasGame) => this.netClosed(wasGame);
+    Net.onBusyMsg = () => { // the room already has two players
+      this.$("olJoinBtn").disabled = false;
+      this.olStatusSet("olJoinStatus", "ol_busy", false);
+      SFX.illegal();
+      try { Net.cancel(); } catch(e){}
+    };
+    Net.joinRoom(code, (kind, key) => {
+      if (kind === "connected"){
+        this.olStatusSet("olJoinStatus", "ol_starting", false);
+        const prof = Account.current() || this.guest || { name: "Guest", avatar: "fox" };
+        Net.send({ t: "hi", name: prof.name, avatar: prof.avatar });
+        clearTimeout(this._olStartTo);
+        this._olStartTo = setTimeout(() => {
+          if (!(Game.cfg && Game.cfg.net)){
+            this.$("olJoinBtn").disabled = false;
+            this.olStatusSet("olJoinStatus", "ol_net_err", false);
+            try { Net.cancel(); } catch(e){}
+          }
+        }, 20000);
+      } else {
+        this.$("olJoinBtn").disabled = false;
+        this.olNetErr(key, "olJoinStatus");
+      }
+    });
+  },
+  olCancel(){
+    SFX.click();
+    Net.cancel();
+    this.$("olJoinBtn").disabled = false;
+    this.olShow("home");
+  },
+  olNetErr(key, id){
+    this.olStatusSet(id, key === "notfound" ? "ol_notfound" : "ol_net_err", false);
+    SFX.illegal();
+  },
+  olCopy(linkMode){
+    SFX.click();
+    const code = Net.code || this._olLastCode || "";
+    if (!code) return;
+    let txt = code;
+    if (linkMode && location.protocol.indexOf("http") === 0){
+      try { const u = new URL(location.href); u.search = "?room=" + code; txt = u.toString(); }
+      catch(e){ txt = code; }
+    }
+    const done = () => { this.toast(t("ol_copied")); SFX.pickupHint(); };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, () => this.olCopyFallback(txt, done));
+    } else this.olCopyFallback(txt, done);
+  },
+  olCopyFallback(txt, done){
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy");
+      ta.remove(); done();
+    } catch(e){ this.toast(t("ol_code") + ": " + txt); }
+  },
+
+  netHostStart(hi){
+    if (Net.inGame && Game.cfg && Game.cfg.net) return; // match already running — ignore a duplicate "hi"
+    const prof = Account.current() || this.guest || { name: "Host", avatar: "fox" };
+    const coop = this.olKind === "coop";
+    const diff = this.olDiff || "medium";
+    const gname = String((hi && hi.name) || "Guest").slice(0, 14);
+    const gav = (hi && hi.avatar) || "fox";
+    const mode = coop ? "onlineCoop" : "online";
+    const players = coop ? [
+      { role:"host", seat:"S", name: prof.name, avatar: prof.avatar, team: 0 },
+      { role:"bot", seat:"W", name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0], avatar: Account.AVATARS[(Math.random() * Account.AVATARS.length) | 0].id, team: 1, difficulty: diff },
+      { role:"guest", seat:"N", name: gname, avatar: gav, team: 0 },
+      { role:"bot", seat:"E", name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0], avatar: Account.AVATARS[(Math.random() * Account.AVATARS.length) | 0].id, team: 1, difficulty: diff }
+    ] : [
+      { role:"host", seat:"S", name: prof.name, avatar: prof.avatar },
+      { role:"guest", seat:"N", name: gname, avatar: gav }
+    ];
+    const startIdx = (Math.random() * players.length) | 0;
+    this._netPrevStart = startIdx;
+    this._netPlayers = { t: "start", youAre: players.findIndex(p => p.role === "guest"), mode, startIdx, players };
+    this._myRm = false; this._peerRm = false;
+    Net.inGame = true;
+    Net.send(this._netPlayers);
+    this.startMatch({ mode, players: players.map(p => Object.assign({}, p, { type: p.role === "host" ? "human" : p.role === "guest" ? "remote" : "bot" })), net: { role: "host" }, startIdx });
+  },
+  netGuestStart(d){
+    if (!d || !d.players || !d.players.length) return;
+    if (Net.inGame && Game.cfg && Game.cfg.net && !Game.over) return; // a match is already running — ignore a duplicate "start"
+    clearTimeout(this._olStartTo);
+    const MIRROR = { S: "N", N: "S", W: "E", E: "W" }; // guest plays the same game in a 180°-rotated frame: own pawn at the bottom
+    const players = d.players.map(p => ({
+      type: p.role === "guest" ? "human" : (p.role === "host" ? "remote" : "bot"),
+      seat: MIRROR[p.seat] || p.seat,
+      name: p.name, avatar: p.avatar, team: p.team, difficulty: p.difficulty
+    }));
+    this._netPlayers = d;
+    this._netPrevStart = d.startIdx || 0;
+    this._myRm = false; this._peerRm = false;
+    Net.inGame = true;
+    this.startMatch({ mode: d.mode, players, net: { role: "guest" }, startIdx: d.startIdx });
+  },
+  netClosed(wasGame){
+    if (!wasGame){
+      // the room died before the match started
+      if (this.view === "online"){
+        if (!this.$("olJoinBox").classList.contains("hidden")){
+          this.$("olJoinBtn").disabled = false;
+          this.olStatusSet("olJoinStatus", "ol_closed", false);
+        } else if (!this.$("olHostWait").classList.contains("hidden")){
+          this.olStatusSet("olStatus", "ol_closed", false);
+        }
+      }
+      try { Net.cleanup(); } catch(e){}
+      return;
+    }
+    if (Game.over || !Game.cfg || !Game.cfg.net){
+      this.toast(t("ol_peer_left"));
+      try { Net.cleanup(); } catch(e){}
+      return;
+    }
+    Game.paused = true;
+    this.hideReactRow();
+    this.openModal("peerLeftModal");
+  },
+  netContinueBot(){
+    SFX.click();
+    this.closeModals();
+    Net.cancel();
+    const cfg = Game.cfg;
+    if (!cfg || !cfg.net){ this.goHome(); return; }
+    cfg.net = null;
+    Game.players.forEach(p => { if (p.type === "remote"){ p.type = "bot"; p.difficulty = "medium"; } });
+    Game.paused = false;
+    this.$("btnReact").classList.add("hidden");
+    this.renderChips();
+    if (!Game.over) Game.beginTurn();
+  },
+  netPlHome(){
+    SFX.click();
+    this.closeModals();
+    Game.paused = false;
+    this.goHome();
+  },
+  netRematchRequest(){
+    if (!Game.cfg || !Game.cfg.net || !Game.over) return; // rematch only exists on the win overlay
+    this._myRm = true;
+    const b = this.$("btnRematch");
+    b.disabled = true;
+    b.textContent = t("rm_wait");
+    Net.send({ t: "rm" });
+    if (this._peerRm && Game.cfg.net.role === "host") this.netRematchStart();
+  },
+  netOnRematch(){
+    this._peerRm = true;
+    if (!Game.cfg || !Game.cfg.net) return;
+    if (this._myRm){
+      if (Game.cfg.net.role === "host") this.netRematchStart();
+      else { const b = this.$("btnRematch"); b.disabled = true; b.textContent = t("rm_wait"); }
+    } else {
+      this.toast(t("rm_peer"));
+      try { SFX.turnPing(); } catch(e){}
+    }
+  },
+  netRematchStart(){
+    const d = this._netPlayers;
+    if (!d || !d.players) return;
+    const startIdx = ((this._netPrevStart || 0) + 1) % d.players.length;
+    this._netPrevStart = startIdx;
+    Net.send({ t: "start", youAre: d.youAre, mode: d.mode, startIdx, players: d.players });
+    this.startMatch({ mode: d.mode, players: d.players.map(p => Object.assign({}, p, { type: p.role === "host" ? "human" : p.role === "guest" ? "remote" : "bot" })), net: { role: "host" }, startIdx });
+  },
+  toggleReactRow(){
+    SFX.init(); SFX.resume(); SFX.click();
+    this.$("reactRow").classList.toggle("hidden");
+  },
+  hideReactRow(){ try { this.$("reactRow").classList.add("hidden"); } catch(e){} },
+  sendReact(e){
+    SFX.click();
+    this.hideReactRow();
+    const prof = Account.current() || this.guest || { name: "?" };
+    Net.send({ t: "re", e, name: prof.name });
   },
   openPlayers(from){
     this.playersFrom = from || "home";
@@ -3611,11 +4495,15 @@ const AppNav = {
         if (Game.cfg && Game.cfg.mode === "puzzle" && !Game.over){ UI.openPuzzles(); return; }
         if (Game.over){
           if (Game.cfg && Game.cfg.mode === "puzzle"){ UI.openPuzzles(); return; }
-          UI.showView("home"); UI.refreshHome(); return;
+          UI.goHome(); return;
         }
         Game.paused = true;
         UI.updateToggleLabels();
         UI.openModal("menuModal");
+        return;
+      }
+      if (UI.view === "online"){
+        UI.goHome();
         return;
       }
       if (UI.view === "puzzles" || UI.view === "bots" || UI.view === "board"){
@@ -4192,6 +5080,37 @@ Object.assign(UI, {
     this.$("btnMenuPath").addEventListener("click", () => {
       SFX.click(); Settings.pathGuide = !Settings.pathGuide; Settings.save(); this.updateToggleLabels(); R.pathDirty = true;
     });
+    // ---- online rooms (P2P) ----
+    this.olKind = "1v1"; this.olDiff = "medium";
+    this.$("olCreate").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.olShow("setup"); });
+    this.$("olSetupBack").addEventListener("click", () => { SFX.click(); this.olShow("home"); });
+    document.querySelectorAll("#olKind button").forEach(b => b.addEventListener("click", () => {
+      SFX.click(); this.olKind = b.dataset.kind;
+      document.querySelectorAll("#olKind button").forEach(x => x.classList.toggle("sel", x === b));
+      this.$("olDiffRow").classList.toggle("hidden", this.olKind !== "coop");
+    }));
+    document.querySelectorAll("#olDiff button").forEach(b => b.addEventListener("click", () => {
+      SFX.click(); this.olDiff = b.dataset.d;
+      document.querySelectorAll("#olDiff button").forEach(x => x.classList.toggle("sel", x === b));
+    }));
+    this.$("olOpen").addEventListener("click", () => this.olHostOpen());
+    this.$("olHostCancel").addEventListener("click", () => this.olCancel());
+    this.$("olJoin").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.olShow("join"); setTimeout(() => { try { this.$("olInput").focus(); } catch(e){} }, 80); });
+    this.$("olJoinBack").addEventListener("click", () => this.olCancel());
+    this.$("olJoinBtn").addEventListener("click", () => this.olJoinGo());
+    this.$("olInput").addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); this.olJoinGo(); } });
+    this.$("olInput").addEventListener("input", (e) => { e.target.value = (e.target.value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 5); });
+    this.$("olCopy").addEventListener("click", () => this.olCopy(false));
+    this.$("olCopyLink").addEventListener("click", () => this.olCopy(true));
+    this.$("btnReact").addEventListener("click", () => this.toggleReactRow());
+    this.$("btnPlBot").addEventListener("click", () => this.netContinueBot());
+    this.$("btnPlHome").addEventListener("click", () => this.netPlHome());
+    document.querySelectorAll("#reactRow button").forEach(b => b.addEventListener("click", () => this.sendReact(b.dataset.e)));
+    // persistent net message handlers (survive Net.cleanup)
+    Net.onMoveMsg = (d) => { if (Game.cfg && Game.cfg.net) Game.applyRemote(d.pi, d.mv); };
+    Net.onReactMsg = (d) => { this.toast(t("react_toast", { name: d.name || "?", e: d.e || "👋" })); try { SFX.turnPing(); } catch(e){} };
+    Net.onRematchMsg = () => this.netOnRematch();
+    Net.onByeMsg = () => { this._peerBye = true; }; // the transport close event carries the UX
     this.updateToggleLabels();
   }
 });
