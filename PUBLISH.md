@@ -13,7 +13,7 @@
 | `package.json` + `capacitor.config.json` | مشروع **Capacitor** لتوليد تطبيق Android/iOS أصلي |
 | `scripts/prepare-www.mjs` | ينسخ اللعبة إلى `www/` قبل بناء التطبيق |
 | `assets/` | الأيقونة المصدر (1024) + شاشة البداية (2732) |
-| `screenshots/android/` + `screenshots/ios/` | لقطات شاشة جاهزة للمتاجر (1080×2400 و 1290×2796) |
+| `screenshots/android/` + `screenshots/ios/` | 8 لقطات شاشة جاهزة للمتاجر لكل منصة (أندرويد 1080×2400، آيفون 6.3″ 1206×2622) |
 | `store/listing-*.md` | نصوص المتجر الجاهزة (عربي/إنجليزي/5 لغات أخرى) |
 | `privacy-policy.html` | سياسة الخصوصية (مطلوبة من المتجرين) |
 
@@ -96,7 +96,7 @@ cd android
 2. **Store listing**: الصق النصوص من `store/listing-ar-en.md`، ارفع:
    - App icon: `icons/icon-512.png`
    - Feature graphic: 1024×500 (يمكن توليدها من الأيقونة مع خلفية كريمية)
-   - Screenshots: ملفات `screenshots/android/` (6 لقطات)
+   - Screenshots: ملفات `screenshots/android/` (8 لقطات: اللغات، الحساب، الرئيسية، اللعب، اللاعبون، الفوز، معاينة الجدار، كيف تلعب)
    - أضف لغات أخرى من `store/listing-more.md`
 3. **App content** (كلها سهلة لأن اللعبة لا تجمع بيانات):
    - Privacy policy URL: رابط Pages من الخطوة 1
@@ -126,13 +126,13 @@ npm run open:ios   # يفتح Xcode
 
 في [App Store Connect](https://appstoreconnect.apple.com):
 1. My Apps → **+ New App** → Name: `WallRush` → Bundle ID من Xcode
-2. املأ البيانات من `store/listing-ar-en.md` + ارفع لقطات `screenshots/ios/`
+2. املأ البيانات من `store/listing-ar-en.md` + ارفع لقطات `screenshots/ios/` (8 لقطات بنفس الترتيب)
 3. App Privacy → **No Data Collected**
 4. Age Rating → لا عنف، لا مقامرة، لا محتوى → 4+
 5. Build → اختر الأرشيف المرفوع → **Submit for Review**
 6. المراجعة عادة **24-48 ساعة**
 
-> ملاحظة Apple 4.2 (الحد الأدنى من الوظائف): لعبة لوحية كاملة مع ذكاء اصطناعي و4 لغات وأوضاع متعددة تتجاوز هذا الشرط بسهولة.
+> ملاحظة Apple 4.2 (الحد الأدنى من الوظائف): لعبة لوحية كاملة مع ذكاء اصطناعي و8 لغات وحسابات لاعبين محلية وأوضاع متعددة تتجاوز هذا الشرط بسهولة.
 
 ---
 

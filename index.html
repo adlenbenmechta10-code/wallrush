@@ -275,6 +275,91 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
   .sectionTitle { margin:4px 0 10px; }
 }
 
+
+/* ---------- v1.2.0: language emblems + player accounts ---------- */
+.langFlag { width:62px; height:44px; border:2.5px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card); box-shadow:2px 2px 0 rgba(41,36,28,.85); display:block; }
+.langFlag svg { display:block; width:100%; height:100%; }
+.langBtn.current { border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
+.langBtn.current .langName { color:var(--red); }
+.curChip {
+  position:absolute; top:8px; inset-inline-start:8px; width:22px; height:22px; border-radius:50%;
+  background:var(--red); color:var(--card); border:2px solid var(--line);
+  font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; line-height:1;
+}
+.miniFlag { display:inline-flex; width:22px; height:15px; border:1.5px solid var(--line); border-radius:3.5px; overflow:hidden; flex-shrink:0; }
+.miniFlag svg { display:block; width:100%; height:100%; }
+#homeLinks .miniFlag { margin-inline-start:6px; }
+.bigBtn .miniFlag { margin-inline-start:9px; }
+.chipAvatar.hasAv { background:var(--card2) !important; padding:2px; }
+.chipAvatar.hasAv svg { width:100%; height:100%; display:block; }
+.chipAvatar.hasAv::before, .chipAvatar.hasAv::after { display:none; }
+
+/* account & players views */
+#accountView, #playersView { width:100%; max-width:460px; margin:0 auto; }
+.accSub { font-size:13px; color:var(--ink-soft); font-weight:600; text-align:center; margin:-6px 0 12px; line-height:1.5; }
+.avatarGrid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; width:100%; }
+.avBtn {
+  aspect-ratio:1; padding:5px; border-radius:14px; cursor:pointer; background:var(--card2);
+  border:2.5px solid rgba(41,36,28,.28); display:flex; align-items:center; justify-content:center;
+  transition:transform .1s ease, box-shadow .1s ease, border-color .1s ease, background .1s ease;
+}
+.avBtn svg { width:100%; height:100%; display:block; }
+.avBtn.sel { background:var(--card); border-color:var(--line); box-shadow:3px 3px 0 var(--line); transform:translate(-1px,-1px); }
+.avBtn:active { transform:translate(2px,2px); box-shadow:none; }
+.textField {
+  width:100%; padding:12px 16px; font-size:16px; font-family:var(--font-body); font-weight:600; color:var(--ink); border-radius:12px; outline:none;
+  background:var(--card); border:2px solid var(--line);
+}
+.textField::placeholder { color:var(--ink-faint); font-weight:400; }
+.textField:focus { border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
+.ctaBtn {
+  width:100%; margin:20px 0 12px; padding:13px; font-family:var(--font-disp); font-weight:400; font-size:22px; letter-spacing:1.5px; color:var(--card);
+  background:var(--red); border:3px solid var(--line); border-radius:14px; cursor:pointer;
+  box-shadow:4px 4px 0 var(--line); transition:transform .1s ease, box-shadow .1s ease;
+}
+.ctaBtn:active { transform:translate(3px,3px); box-shadow:1px 1px 0 var(--line); }
+html[dir="rtl"] .ctaBtn { letter-spacing:0; }
+#profileCard {
+  display:flex; align-items:center; gap:12px; width:100%; margin-bottom:14px; padding:11px 14px; cursor:pointer;
+  background:var(--card); border:2.5px solid var(--line); border-radius:16px; box-shadow:3px 3px 0 var(--line);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+#profileCard:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.pAvatar { width:52px; height:52px; border-radius:13px; border:2.5px solid var(--line); overflow:hidden; flex-shrink:0; background:var(--card2); }
+.pAvatar svg { width:100%; height:100%; display:block; }
+#pcInfo { display:flex; flex-direction:column; gap:2px; min-width:0; flex:1; text-align:start; }
+#pcName { font-family:var(--font-disp); font-weight:400; font-size:19px; line-height:1.2; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#pcSub { font-size:11.5px; color:var(--ink-soft); font-weight:600; }
+#pcSwitch { font-size:20px; color:var(--red); flex-shrink:0; }
+.playerList { display:flex; flex-direction:column; gap:12px; width:100%; }
+.playerCard { display:flex; align-items:stretch; gap:8px; width:100%; }
+.playerCard.sel .pcMain { border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
+.pcMain {
+  flex:1; display:flex; align-items:center; gap:12px; padding:10px 14px; cursor:pointer; text-align:start;
+  background:var(--card); border:2.5px solid var(--line); border-radius:15px; box-shadow:3px 3px 0 var(--line);
+  transition:transform .1s ease, box-shadow .1s ease; min-width:0;
+}
+.pcMain:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.pcInfo { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.pcInfo b { font-family:var(--font-disp); font-weight:400; font-size:17px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pcInfo small { font-size:11px; color:var(--ink-soft); font-weight:600; }
+.pcIcon {
+  width:46px; border-radius:15px; cursor:pointer; font-size:17px; color:var(--ink);
+  background:var(--card); border:2.5px solid var(--line); box-shadow:3px 3px 0 var(--line);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+.pcIcon:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.pcIcon.del { color:var(--red); border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
+.pcIcon.del.arm { background:var(--red); color:var(--card); }
+.playerCard.add { border:2.5px dashed rgba(41,36,28,.45); border-radius:15px; background:var(--card2); padding:13px; align-items:center; justify-content:center; gap:10px; cursor:pointer; color:var(--ink-soft); font-weight:700; font-size:14px; }
+.playerCard.add:active { transform:translate(1px,1px); }
+.pcPlus { font-family:var(--font-disp); font-size:22px; color:var(--red); line-height:1; }
+@media (max-height:730px), (max-width:359px){
+  .langFlag { width:50px; height:36px; }
+  .avatarGrid { gap:8px; }
+  .pAvatar { width:44px; height:44px; }
+}
+
 /* ---------- Web splash ---------- */
 #webSplash {
   position:fixed; inset:0; z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
@@ -340,17 +425,38 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
     </div>
     <h2 class="sectionTitle" data-i18n="choose_lang">Choose your language</h2>
     <div class="langCards">
-      <button class="langBtn" data-lang="ar"><span class="langGlyph">ع</span><span class="langName">العربية</span></button>
-      <button class="langBtn" data-lang="en"><span class="langGlyph">A</span><span class="langName">English</span></button>
-      <button class="langBtn" data-lang="es"><span class="langGlyph">Ñ</span><span class="langName">Español</span></button>
-      <button class="langBtn" data-lang="fr"><span class="langGlyph">É</span><span class="langName">Français</span></button>
-      <button class="langBtn" data-lang="de"><span class="langGlyph">D</span><span class="langName">Deutsch</span></button>
-      <button class="langBtn" data-lang="pt"><span class="langGlyph">P</span><span class="langName">Português</span></button>
-      <button class="langBtn" data-lang="it"><span class="langGlyph">I</span><span class="langName">Italiano</span></button>
-      <button class="langBtn" data-lang="tr"><span class="langGlyph">T</span><span class="langName">Türkçe</span></button>
+      <button class="langBtn" data-lang="ar"><span class="langFlag" data-flag="ar"></span><span class="langName">العربية</span></button>
+      <button class="langBtn" data-lang="en"><span class="langFlag" data-flag="en"></span><span class="langName">English</span></button>
+      <button class="langBtn" data-lang="es"><span class="langFlag" data-flag="es"></span><span class="langName">Español</span></button>
+      <button class="langBtn" data-lang="fr"><span class="langFlag" data-flag="fr"></span><span class="langName">Français</span></button>
+      <button class="langBtn" data-lang="de"><span class="langFlag" data-flag="de"></span><span class="langName">Deutsch</span></button>
+      <button class="langBtn" data-lang="pt"><span class="langFlag" data-flag="pt"></span><span class="langName">Português</span></button>
+      <button class="langBtn" data-lang="it"><span class="langFlag" data-flag="it"></span><span class="langName">Italiano</span></button>
+      <button class="langBtn" data-lang="tr"><span class="langFlag" data-flag="tr"></span><span class="langName">Türkçe</span></button>
     </div>
     <button id="langBack" class="pillBtn hidden" data-i18n="back">Back</button>
     <div class="footNote" data-i18n="credits">An original race &amp; block board game</div>
+  </section>
+
+  <!-- ============ ACCOUNT VIEW (required before playing) ============ -->
+  <section id="accountView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" id="accTitle" data-i18n="account_title">Create your account</h2>
+    <p class="accSub" id="accSub" data-i18n="account_sub">Pick an avatar and a name — required before your first game</p>
+    <label class="fieldLabel" data-i18n="choose_avatar">Your avatar</label>
+    <div id="avatarGrid" class="avatarGrid"></div>
+    <label class="fieldLabel" for="accName" data-i18n="enter_name">Player name</label>
+    <input id="accName" class="textField" maxlength="14" autocomplete="off" spellcheck="false" placeholder="Player" data-i18n-ph="name_ph">
+    <button id="accSubmit" class="ctaBtn" data-i18n="btn_create">Create &amp; play</button>
+    <div class="footNote" data-i18n="account_note">Your account is saved on this device. Works offline.</div>
+  </section>
+
+  <!-- ============ PLAYERS VIEW (switch / edit / new) ============ -->
+  <section id="playersView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" data-i18n="players_title">Who's playing?</h2>
+    <div id="playerList" class="playerList"></div>
+    <div class="footNote" data-i18n="account_note">Your account is saved on this device. Works offline.</div>
   </section>
 
   <!-- ============ HOME VIEW ============ -->
@@ -366,8 +472,11 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
       <div class="statBox"><b id="statStreak">0</b><span data-i18n="streak">Streak</span></div>
     </div>
 
-    <label class="fieldLabel" for="nameInput" data-i18n="your_name">Your name</label>
-    <input id="nameInput" maxlength="12" autocomplete="off" spellcheck="false" placeholder="Player" data-i18n-ph="name_ph">
+    <div id="profileCard" class="hidden">
+      <div id="pcAvatar" class="pAvatar"></div>
+      <div id="pcInfo"><b id="pcName"></b><span id="pcSub"></span></div>
+      <span id="pcSwitch">⇄</span>
+    </div>
 
     <label class="fieldLabel" data-i18n="mode_lbl">Mode</label>
     <div id="modeCards">
@@ -405,9 +514,9 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
     <div id="homeLinks">
       <button id="btnHowto" data-i18n="howto">How to play</button>
       <button id="btnSound"><span id="soundLabelOn" data-i18n="sound">Sound</span><span id="soundLabelOff" class="hidden" data-i18n="sound_off">Muted</span></button>
-      <button id="btnLang" data-i18n="language">Language</button>
+      <button id="btnLang"><span data-i18n="language">Language</span><span class="miniFlag" id="miniFlagHome"></span></button>
     </div>
-    <div class="footNote" data-i18n="offline_note">Works offline. No account needed.</div>
+    <div class="footNote" data-i18n="offline_note">Runs fully offline</div>
   </section>
 
   <!-- ============ HOW TO PLAY MODAL ============ -->
@@ -435,9 +544,10 @@ html[dir="rtl"] #btnPlay, html[dir="rtl"] .logo { letter-spacing:0 !important; }
       <button id="btnMenuHowto" class="bigBtn" data-i18n="howto">How to play</button>
       <button id="btnMenuSound" class="bigBtn" data-i18n="sound">Sound</button>
       <button id="btnMenuVibe" class="bigBtn ghost" data-i18n="vibration">Vibration</button>
-      <button id="btnMenuLang" class="bigBtn" data-i18n="language">Language</button>
+      <button id="btnMenuLang" class="bigBtn"><span data-i18n="language">Language</span><span class="miniFlag" id="miniFlagMenu"></span></button>
+      <button id="btnMenuPlayer" class="bigBtn ghost" data-i18n="switch_player">Switch player</button>
       <button id="btnQuit" class="bigBtn danger" data-i18n="quit">Quit</button>
-      <p class="menuVersion">WallRush v1.1.0</p>
+      <p class="menuVersion">WallRush v1.2.0</p>
     </div>
   </div>
 
@@ -505,11 +615,28 @@ const I18N = {
     coach_title:"Quick tip",
     coach_body:"Tap a glowing cell to move, or tap a groove between cells to build a wall. Confirm with ✓.",
     got_it:"Got it!",
-    offline_note:"Works offline. No account needed.",
+    offline_note:"Runs fully offline",
     credits:"An original race & block board game",
     you:"You", bot_win_toast:"💡 Tip: block their path, don't chase it",
     vibration:"Vibration", vibration_off:"Off", back_again:"Press back again to exit",
-    draw:"Draw!", draw_note:"Equal distance — what a battle!", by_proximity:"closest to the goal"
+    draw:"Draw!", draw_note:"Equal distance — what a battle!", by_proximity:"closest to the goal",
+    account_title:"Create your account",
+    edit_title:"Edit account",
+    account_sub:"Pick an avatar and a name — required before your first game",
+    choose_avatar:"Your avatar",
+    enter_name:"Player name",
+    btn_create:"Create & play",
+    btn_save:"Save",
+    hello_toast:"Hello, {name}!",
+    welcome_back:"Welcome back, {name}!",
+    players_title:"Who's playing?",
+    new_player:"New player",
+    switch_player:"Switch player",
+    edit_profile:"Edit",
+    confirm_del:"Tap again to delete",
+    name_required:"Please enter your name",
+    account_note:"Your account is saved on this device. Works offline.",
+    profile_saved:"Profile saved",
   },
   ar: {
     tagline:"اسبقهم إلى الجهة الأخرى… واحصرهم بالجدران",
@@ -542,11 +669,28 @@ const I18N = {
     coach_title:"تلميح سريع",
     coach_body:"اضغط خلية متوهجة للتحرك، أو اضغط على الفجوة بين الخلايا لبناء جدار، ثم أكّد بزر ✓.",
     got_it:"فهمت!",
-    offline_note:"تعمل دون اتصال. لا تحتاج حساباً.",
+    offline_note:"تعمل كاملًا دون اتصال بالإنترنت",
     credits:"لعبة سباق وجدران أصلية",
     you:"أنت", bot_win_toast:"💡 نصيحة: اعترض طريقه ولا تلاحقه",
     vibration:"الاهتزاز", vibration_off:"مغلق", back_again:"اضغط رجوع مرة أخرى للخروج",
-    draw:"تعادل!", draw_note:"مسافة متساوية — معركة رائعة!", by_proximity:"الأقرب إلى الهدف"
+    draw:"تعادل!", draw_note:"مسافة متساوية — معركة رائعة!", by_proximity:"الأقرب إلى الهدف",
+    account_title:"أنشئ حسابك",
+    edit_title:"تعديل حسابك",
+    account_sub:"اختر صورة رمزية واسمًا — مطلوب قبل أول مباراة",
+    choose_avatar:"صورتك الرمزية",
+    enter_name:"اسم اللاعب",
+    btn_create:"أنشئ والعب",
+    btn_save:"حفظ",
+    hello_toast:"مرحبًا {name}!",
+    welcome_back:"أهلًا بعودتك {name}!",
+    players_title:"من سيلعب؟",
+    new_player:"لاعب جديد",
+    switch_player:"تبديل اللاعب",
+    edit_profile:"تعديل",
+    confirm_del:"اضغط مجددًا للحذف",
+    name_required:"اكتب اسمك أولًا",
+    account_note:"يُحفظ حسابك على جهازك ويعمل دون اتصال.",
+    profile_saved:"تم حفظ حسابك",
   },
   es: {
     tagline:"Llega al otro lado. Múralos.",
@@ -579,11 +723,28 @@ const I18N = {
     coach_title:"Consejo rápido",
     coach_body:"Toca una casilla brillante para moverte, o una ranura entre casillas para construir un muro. Confirma con ✓.",
     got_it:"¡Entendido!",
-    offline_note:"Funciona sin conexión. Sin cuenta.",
+    offline_note:"Funciona completamente sin conexión",
     credits:"Un juego original de carreras y muros",
     you:"Tú", bot_win_toast:"💡 Consejo: bloquea su camino, no lo persigas",
     vibration:"Vibración", vibration_off:"Desactivada", back_again:"Pulsa atrás otra vez para salir",
-    draw:"¡Empate!", draw_note:"Distancia igual — ¡qué batalla!", by_proximity:"el más cercano a la meta"
+    draw:"¡Empate!", draw_note:"Distancia igual — ¡qué batalla!", by_proximity:"el más cercano a la meta",
+    account_title:"Crea tu cuenta",
+    edit_title:"Editar cuenta",
+    account_sub:"Elige avatar y nombre: obligatorio antes de tu primera partida",
+    choose_avatar:"Tu avatar",
+    enter_name:"Nombre del jugador",
+    btn_create:"Crear y jugar",
+    btn_save:"Guardar",
+    hello_toast:"¡Hola, {name}!",
+    welcome_back:"¡Bienvenido de nuevo, {name}!",
+    players_title:"¿Quién juega?",
+    new_player:"Nuevo jugador",
+    switch_player:"Cambiar jugador",
+    edit_profile:"Editar",
+    confirm_del:"Toca otra vez para borrar",
+    name_required:"Escribe tu nombre",
+    account_note:"Tu cuenta se guarda en tu dispositivo. Funciona sin conexión.",
+    profile_saved:"Perfil guardado",
   },
   fr: {
     tagline:"Atteins le côté opposé. Enferme-les.",
@@ -616,11 +777,28 @@ const I18N = {
     coach_title:"Astuce rapide",
     coach_body:"Touche une case illuminée pour avancer, ou une rainure entre les cases pour construire un mur. Confirme avec ✓.",
     got_it:"Compris !",
-    offline_note:"Fonctionne hors ligne. Sans compte.",
+    offline_note:"Fonctionne entièrement hors ligne",
     credits:"Un jeu original de course et de murs",
     you:"Toi", bot_win_toast:"💡 Astuce : bloque son chemin, ne le poursuis pas",
     vibration:"Vibration", vibration_off:"Désactivée", back_again:"Appuie encore sur retour pour quitter",
-    draw:"Égalité !", draw_note:"Même distance — quel duel !", by_proximity:"le plus proche de l'arrivée"
+    draw:"Égalité !", draw_note:"Même distance — quel duel !", by_proximity:"le plus proche de l'arrivée",
+    account_title:"Créez votre compte",
+    edit_title:"Modifier le compte",
+    account_sub:"Choisis un avatar et un nom — requis avant la première partie",
+    choose_avatar:"Votre avatar",
+    enter_name:"Nom du joueur",
+    btn_create:"Créer et jouer",
+    btn_save:"Enregistrer",
+    hello_toast:"Salut {name} !",
+    welcome_back:"Bon retour, {name} !",
+    players_title:"Qui joue ?",
+    new_player:"Nouveau joueur",
+    switch_player:"Changer de joueur",
+    edit_profile:"Modifier",
+    confirm_del:"Touchez à nouveau pour supprimer",
+    name_required:"Écris ton nom",
+    account_note:"Votre compte est enregistré sur votre appareil. Fonctionne hors ligne.",
+    profile_saved:"Profil enregistré",
   },
   de: {
     tagline:"Erreiche die andere Seite. Baue sie ein.",
@@ -653,11 +831,28 @@ const I18N = {
     coach_title:"Kurzer Hinweis",
     coach_body:"Tippe ein leuchtendes Feld zum Ziehen oder in die Rille zwischen Feldern, um eine Mauer zu bauen. Bestätige mit ✓.",
     got_it:"Verstanden!",
-    offline_note:"Funktioniert offline. Kein Konto nötig.",
+    offline_note:"Läuft komplett offline",
     credits:"Ein originales Rennen-und-Mauern-Brettspiel",
     you:"Du", bot_win_toast:"💡 Tipp: blockiere seinen Weg, jage ihn nicht",
     vibration:"Vibration", vibration_off:"Aus", back_again:"Drücke nochmal Zurück zum Beenden",
-    draw:"Unentschieden!", draw_note:"Gleiche Distanz — was für ein Kampf!", by_proximity:"am nächsten am Ziel"
+    draw:"Unentschieden!", draw_note:"Gleiche Distanz — was für ein Kampf!", by_proximity:"am nächsten am Ziel",
+    account_title:"Konto erstellen",
+    edit_title:"Konto bearbeiten",
+    account_sub:"Wähle Avatar und Namen — vor der ersten Partie nötig",
+    choose_avatar:"Dein Avatar",
+    enter_name:"Spielername",
+    btn_create:"Erstellen & spielen",
+    btn_save:"Speichern",
+    hello_toast:"Hallo, {name}!",
+    welcome_back:"Willkommen zurück, {name}!",
+    players_title:"Wer spielt?",
+    new_player:"Neuer Spieler",
+    switch_player:"Spieler wechseln",
+    edit_profile:"Bearbeiten",
+    confirm_del:"Zum Löschen erneut tippen",
+    name_required:"Bitte Namen eingeben",
+    account_note:"Dein Konto wird auf diesem Gerät gespeichert. Funktioniert offline.",
+    profile_saved:"Profil gespeichert",
   },
   pt: {
     tagline:"Chegue ao lado oposto. Encurrale-os.",
@@ -690,11 +885,28 @@ const I18N = {
     coach_title:"Dica rápida",
     coach_body:"Toque numa casa brilhante para mover, ou numa ranhura entre casas para construir uma parede. Confirme com ✓.",
     got_it:"Entendi!",
-    offline_note:"Funciona offline. Sem conta.",
+    offline_note:"Funciona totalmente offline",
     credits:"Um jogo original de corrida e paredes",
     you:"Você", bot_win_toast:"💡 Dica: bloqueie o caminho dele, não persiga",
     vibration:"Vibração", vibration_off:"Desligada", back_again:"Toque em voltar de novo para sair",
-    draw:"Empate!", draw_note:"Distância igual — que batalha!", by_proximity:"o mais perto da meta"
+    draw:"Empate!", draw_note:"Distância igual — que batalha!", by_proximity:"o mais perto da meta",
+    account_title:"Crie sua conta",
+    edit_title:"Editar conta",
+    account_sub:"Escolha avatar e nome: obrigatório antes da primeira partida",
+    choose_avatar:"Seu avatar",
+    enter_name:"Nome do jogador",
+    btn_create:"Criar e jogar",
+    btn_save:"Salvar",
+    hello_toast:"Olá, {name}!",
+    welcome_back:"Bem-vindo de volta, {name}!",
+    players_title:"Quem vai jogar?",
+    new_player:"Novo jogador",
+    switch_player:"Trocar jogador",
+    edit_profile:"Editar",
+    confirm_del:"Toque de novo para apagar",
+    name_required:"Escreva seu nome",
+    account_note:"Sua conta fica salva no seu aparelho. Funciona offline.",
+    profile_saved:"Perfil salvo",
   },
   it: {
     tagline:"Raggiungi il lato opposto. Intrappolali.",
@@ -727,11 +939,28 @@ const I18N = {
     coach_title:"Consiglio veloce",
     coach_body:"Tocca una casella luminosa per muoverti, o una scanalatura tra le caselle per costruire un muro. Conferma con ✓.",
     got_it:"Capito!",
-    offline_note:"Funziona offline. Senza account.",
+    offline_note:"Funziona completamente offline",
     credits:"Un gioco originale di corse e muri",
     you:"Tu", bot_win_toast:"💡 Consiglio: blocca il suo percorso, non inseguirlo",
     vibration:"Vibrazione", vibration_off:"Disattivata", back_again:"Premi ancora indietro per uscire",
-    draw:"Pareggio!", draw_note:"Distanza pari — che battaglia!", by_proximity:"il più vicino al traguardo"
+    draw:"Pareggio!", draw_note:"Distanza pari — che battaglia!", by_proximity:"il più vicino al traguardo",
+    account_title:"Crea il tuo account",
+    edit_title:"Modifica l'account",
+    account_sub:"Scegli avatar e nome: necessario prima della prima partita",
+    choose_avatar:"Il tuo avatar",
+    enter_name:"Nome del giocatore",
+    btn_create:"Crea e gioca",
+    btn_save:"Salva",
+    hello_toast:"Ciao, {name}!",
+    welcome_back:"Bentornato, {name}!",
+    players_title:"Chi gioca?",
+    new_player:"Nuovo giocatore",
+    switch_player:"Cambia giocatore",
+    edit_profile:"Modifica",
+    confirm_del:"Tocca di nuovo per eliminare",
+    name_required:"Scrivi il tuo nome",
+    account_note:"Il tuo account è salvato sul dispositivo. Funziona offline.",
+    profile_saved:"Profilo salvato",
   },
   tr: {
     tagline:"Karşı tarafa ulaş. Duvarlarla kapat.",
@@ -764,11 +993,28 @@ const I18N = {
     coach_title:"Hızlı ipucu",
     coach_body:"Hareket için parlayan kareye, duvar için kareler arasındaki oluğa dokun ve ✓ ile onayla.",
     got_it:"Anladım!",
-    offline_note:"Çevrimdışı çalışır. Hesap gerekmez.",
+    offline_note:"Tamamen çevrimdışı çalışır",
     credits:"Özgün bir yarış ve duvar oyunu",
     you:"Sen", bot_win_toast:"💡 İpucu: peşinden koşma, yolunu kes",
     vibration:"Titreşim", vibration_off:"Kapalı", back_again:"Çıkmak için geriye tekrar bas",
-    draw:"Berabere!", draw_note:"Eşit mesafe — ne mücadeleydi!", by_proximity:"hedefe en yakın"
+    draw:"Berabere!", draw_note:"Eşit mesafe — ne mücadeleydi!", by_proximity:"hedefe en yakın",
+    account_title:"Hesabını oluştur",
+    edit_title:"Hesabını düzenle",
+    account_sub:"Bir avatar ve isim seç — ilk maçtan önce gerekli",
+    choose_avatar:"Avatarın",
+    enter_name:"Oyuncu adı",
+    btn_create:"Oluştur ve oyna",
+    btn_save:"Kaydet",
+    hello_toast:"Merhaba, {name}!",
+    welcome_back:"Tekrar hoş geldin, {name}!",
+    players_title:"Kim oynayacak?",
+    new_player:"Yeni oyuncu",
+    switch_player:"Oyuncu değiştir",
+    edit_profile:"Düzenle",
+    confirm_del:"Silmek için tekrar dokun",
+    name_required:"Lütfen adını yaz",
+    account_note:"Hesabın cihazında saklanır. Çevrimdışı çalışır.",
+    profile_saved:"Profil kaydedildi",
   }
 };
 
@@ -793,6 +1039,19 @@ function setLang(lang){
   document.documentElement.lang = LANG;
   document.documentElement.dir = (LANG === "ar") ? "rtl" : "ltr";
   applyI18n();
+  try {
+    document.querySelectorAll(".langBtn").forEach(b => {
+      const cur = b.dataset.lang === LANG;
+      b.classList.toggle("current", cur);
+      let chip = b.querySelector(".curChip");
+      if (cur && !chip){ chip = document.createElement("span"); chip.className = "curChip"; chip.textContent = "\u2713"; b.appendChild(chip); }
+      else if (!cur && chip) chip.remove();
+    });
+    ["miniFlagHome","miniFlagMenu"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = (typeof FLAGS !== "undefined" && FLAGS[LANG]) || "";
+    });
+  } catch(e){}
 }
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.getAttribute("data-i18n")); });
@@ -2000,6 +2259,85 @@ try {
   Settings.pathGuide = localStorage.getItem("wr_pathguide") !== "0";
 } catch(e){}
 
+const FLAGS = {
+  ar:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#0e9f76"/><circle cx="42" cy="32" r="15" fill="#fffdf4"/><circle cx="48" cy="32" r="12.2" fill="#0e9f76"/><polygon points="64.0,25.0 65.7,29.7 70.7,29.8 66.8,32.9 68.1,37.7 64.0,34.9 59.9,37.7 61.2,32.9 57.3,29.8 62.3,29.7" fill="#fffdf4"/></svg>',
+  en:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#3272d9"/><path d="M0 0L96 64M96 0L0 64" stroke="#fffdf4" stroke-width="15"/><path d="M0 0L96 64M96 0L0 64" stroke="#e5484d" stroke-width="6"/><rect x="37" width="22" height="64" fill="#fffdf4"/><rect y="21" width="96" height="22" fill="#fffdf4"/><rect x="42" width="12" height="64" fill="#e5484d"/><rect y="26" width="96" height="12" fill="#e5484d"/></svg>',
+  es:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#e5484d"/><rect y="16" width="96" height="32" fill="#f2b705"/></svg>',
+  fr:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#3272d9"/><rect x="32" width="32" height="64" fill="#fffdf4"/><rect x="64" width="32" height="64" fill="#e5484d"/></svg>',
+  de:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#29241c"/><rect y="21.3" width="96" height="21.3" fill="#e5484d"/><rect y="42.6" width="96" height="21.4" fill="#f2b705"/></svg>',
+  pt:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#0e9f76"/><rect x="58" width="38" height="64" fill="#e5484d"/><circle cx="48" cy="32" r="12.5" fill="#f2b705"/><circle cx="48" cy="32" r="6" fill="#e5484d"/></svg>',
+  it:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#0e9f76"/><rect x="32" width="32" height="64" fill="#fffdf4"/><rect x="64" width="32" height="64" fill="#e5484d"/></svg>',
+  tr:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#e5484d"/><circle cx="41" cy="32" r="14.5" fill="#fffdf4"/><circle cx="46.5" cy="32" r="11.6" fill="#e5484d"/><polygon points="67.0,25.6 68.5,29.9 73.1,30.0 69.5,32.8 70.8,37.2 67.0,34.6 63.2,37.2 64.5,32.8 60.9,30.0 65.5,29.9" fill="#fffdf4"/></svg>'
+};
+
+/* ============ Player accounts (local, offline, no servers) ============ */
+const Account = {
+  AVATARS: [
+    { id:'fox', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#ef8b3a"/><path d="M13 26L18 8L28 19Z" fill="#ef8b3a" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><path d="M51 26L46 8L36 19Z" fill="#ef8b3a" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="32" cy="44" rx="13" ry="10" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="25" cy="32" r="3" fill="#29241c"/><circle cx="39" cy="32" r="3" fill="#29241c"/><path d="M28 40h8l-4 5.5z" fill="#29241c"/></svg>' },
+    { id:'panda', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#fffdf4"/><circle cx="15" cy="16" r="8" fill="#29241c"/><circle cx="49" cy="16" r="8" fill="#29241c"/><ellipse cx="23" cy="34" rx="6" ry="7.5" fill="#29241c" transform="rotate(-14 23 34)"/><ellipse cx="41" cy="34" rx="6" ry="7.5" fill="#29241c" transform="rotate(14 41 34)"/><circle cx="24" cy="33" r="1.9" fill="#fffdf4"/><circle cx="40" cy="33" r="1.9" fill="#fffdf4"/><ellipse cx="32" cy="45" rx="4.2" ry="3.2" fill="#29241c"/></svg>' },
+    { id:'owl', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#f2b705"/><path d="M12 21L17 6L25 16Z" fill="#f2b705" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><path d="M52 21L47 6L39 16Z" fill="#f2b705" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="23" cy="33" r="9" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="41" cy="33" r="9" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="24" cy="34" r="3.4" fill="#29241c"/><circle cx="40" cy="34" r="3.4" fill="#29241c"/><path d="M32 39L36.5 45L32 50L27.5 45Z" fill="#ef8b3a" stroke="#29241c" stroke-width="2.2" stroke-linejoin="round"/></svg>' },
+    { id:'cat', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#8e9aa6"/><path d="M14 26L17 10L28 18Z" fill="#8e9aa6" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><path d="M50 26L47 10L36 18Z" fill="#8e9aa6" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="24" cy="31" r="3" fill="#29241c"/><circle cx="40" cy="31" r="3" fill="#29241c"/><path d="M29 37v4" stroke="#29241c" stroke-width="2.4" stroke-linecap="round"/><path d="M25 44q7 6 14 0" fill="none" stroke="#29241c" stroke-width="2.5" stroke-linecap="round"/><path d="M11 35h9M11 41h9M44 35h9M44 41h9" stroke="#29241c" stroke-width="2" stroke-linecap="round"/></svg>' },
+    { id:'frog', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#9fd8b8"/><circle cx="21" cy="21" r="9" fill="#9fd8b8" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="43" cy="21" r="9" fill="#9fd8b8" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="21" cy="21" r="3.2" fill="#29241c"/><circle cx="43" cy="21" r="3.2" fill="#29241c"/><path d="M21 42q11 9 22 0" fill="none" stroke="#29241c" stroke-width="2.8" stroke-linecap="round"/><circle cx="14" cy="37" r="3" fill="#e5484d" opacity=".5"/><circle cx="50" cy="37" r="3" fill="#e5484d" opacity=".5"/></svg>' },
+    { id:'lion', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#ef8b3a"/><circle cx="32" cy="33" r="17.5" fill="#a4531c" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="32" cy="33" r="11.5" fill="#f2b705" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="27.5" cy="30.5" r="2.6" fill="#29241c"/><circle cx="36.5" cy="30.5" r="2.6" fill="#29241c"/><path d="M32 34.5v3.5" stroke="#29241c" stroke-width="2.4" stroke-linecap="round"/><path d="M27 41q5 4 10 0" fill="none" stroke="#29241c" stroke-width="2.4" stroke-linecap="round"/></svg>' },
+    { id:'robot', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#3272d9"/><path d="M32 5v8" stroke="#29241c" stroke-width="2.5"/><circle cx="32" cy="6" r="3.5" fill="#e5484d" stroke="#29241c" stroke-width="2.2"/><rect x="15" y="13" width="34" height="30" rx="8" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><rect x="23" y="22" width="6" height="7" rx="1.5" fill="#29241c"/><rect x="35" y="22" width="6" height="7" rx="1.5" fill="#29241c"/><path d="M24 35h16" stroke="#29241c" stroke-width="2.5" stroke-linecap="round"/><rect x="20" y="49" width="24" height="7" rx="3.5" fill="#f2b705" stroke="#29241c" stroke-width="2.5"/></svg>' },
+    { id:'alien', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#2aa6a0"/><ellipse cx="32" cy="32" rx="16" ry="19" fill="#d9f2e9" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="25.5" cy="30" rx="4" ry="6.2" fill="#29241c" transform="rotate(18 25.5 30)"/><ellipse cx="38.5" cy="30" rx="4" ry="6.2" fill="#29241c" transform="rotate(-18 38.5 30)"/><path d="M28 43q4 3 8 0" fill="none" stroke="#29241c" stroke-width="2.4" stroke-linecap="round"/></svg>' },
+    { id:'ghost', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#7d8489"/><path d="M18 24a14 14 0 0 1 28 0v24l-4.7 4-4.6-4-4.7 4-4.7-4-4.6 4-4.7-4z" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="26" cy="27" r="3" fill="#29241c"/><circle cx="38" cy="27" r="3" fill="#29241c"/><ellipse cx="32" cy="36" rx="3.4" ry="4.4" fill="#29241c"/></svg>' },
+    { id:'rocket', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#29241c"/><path d="M28 46h8l-4 11z" fill="#f2b705" stroke="#29241c" stroke-width="2" stroke-linejoin="round"/><path d="M22 38l-7 12 10-4z" fill="#e5484d" stroke="#29241c" stroke-width="2.2" stroke-linejoin="round"/><path d="M42 38l7 12-10-4z" fill="#e5484d" stroke="#29241c" stroke-width="2.2" stroke-linejoin="round"/><path d="M32 6c7 6 10 14 10 24 0 6-2 11-4 16H26c-2-5-4-10-4-16 0-10 3-18 10-24z" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="32" cy="25" r="5" fill="#3272d9" stroke="#29241c" stroke-width="2.4"/></svg>' },
+    { id:'crown', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#e5484d"/><path d="M15 42V24l9 8 8-14 8 14 9-8v18z" fill="#f2b705" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><rect x="15" y="42" width="34" height="7" fill="#f2b705" stroke="#29241c" stroke-width="2.5"/><circle cx="32" cy="19.5" r="2.6" fill="#fffdf4" stroke="#29241c" stroke-width="1.8"/><circle cx="24" cy="45.5" r="2.2" fill="#e5484d"/><circle cx="40" cy="45.5" r="2.2" fill="#e5484d"/><circle cx="32" cy="45.5" r="2.2" fill="#3272d9"/></svg>' },
+    { id:'star', svg:'<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="13" fill="#f2b705"/><polygon points="32.0,14.0 36.2,25.2 48.2,25.7 38.8,33.2 42.0,44.8 32.0,38.2 22.0,44.8 25.2,33.2 15.8,25.7 27.8,25.2" fill="#fffdf4" stroke="#29241c" stroke-width="2.5" stroke-linejoin="round"/><circle cx="27" cy="29" r="2" fill="#29241c"/><circle cx="37" cy="29" r="2" fill="#29241c"/><path d="M28 35q4 3 8 0" fill="none" stroke="#29241c" stroke-width="2.2" stroke-linecap="round"/></svg>' }
+  ],
+  storageOk(){ try { localStorage.setItem("wr_t","1"); localStorage.removeItem("wr_t"); return true; } catch(e){ return false; } },
+  profiles(){ try { return JSON.parse(localStorage.getItem("wr_profiles") || "[]") || []; } catch(e){ return []; } },
+  byId(id){ return this.profiles().find(p => p.id === id) || null; },
+  current(){
+    let id = null;
+    try { id = localStorage.getItem("wr_uid"); } catch(e){}
+    if (!id) return null;
+    return this.byId(id);
+  },
+  setCurrent(id){ try { localStorage.setItem("wr_uid", id); } catch(e){} },
+  save(list){ try { localStorage.setItem("wr_profiles", JSON.stringify(list)); } catch(e){} },
+  create(name, avatarId){
+    if (!this.storageOk()) return null;
+    const list = this.profiles();
+    const p = { id: "p" + Date.now().toString(36) + ((Math.random()*46656)|0).toString(36), name, avatar: avatarId, stats: { w:0, g:0, streak:0 }, created: Date.now() };
+    try { // import legacy v1.1 record once
+      if (!localStorage.getItem("wr_migrated")){
+        const old = JSON.parse(localStorage.getItem("wr_stats") || "null");
+        if (old){ p.stats = { w: old.w || 0, g: old.g || 0, streak: old.streak || 0 }; }
+        localStorage.setItem("wr_migrated", "1");
+      }
+    } catch(e){}
+    list.push(p); this.save(list); this.setCurrent(p.id);
+    return p;
+  },
+  update(id, patch){
+    if (!id) return;
+    const list = this.profiles();
+    const p = list.find(x => x.id === id);
+    if (!p) return;
+    Object.assign(p, patch);
+    this.save(list);
+  },
+  remove(id){
+    this.save(this.profiles().filter(p => p.id !== id));
+    try { if (localStorage.getItem("wr_uid") === id) localStorage.removeItem("wr_uid"); } catch(e){}
+  },
+  avatarSvg(aid){
+    const a = this.AVATARS.find(x => x.id === aid);
+    return a ? a.svg : this.AVATARS[0].svg;
+  },
+  recordStats(fn){
+    const cur = this.current();
+    if (!cur) return;
+    const list = this.profiles();
+    const p = list.find(x => x.id === cur.id);
+    if (!p) return;
+    p.stats = fn(Object.assign({ w:0, g:0, streak:0 }, p.stats || {}));
+    this.save(list);
+  }
+};
+
 const BOT_NAMES = ["Nova","Rex","Ziggy","Miro","Pixel","Kilo","Vega","Bruno","Luna","Otto","Juno","Falk"];
 
 const UI = {
@@ -2031,10 +2369,10 @@ const UI = {
     this.$("btnMenuSound").addEventListener("click", () => this.toggleSound());
     this.$("btnMenuVibe").addEventListener("click", () => this.toggleVibe());
     this.$("btnMenuLang").addEventListener("click", () => { SFX.click(); this.openLang("menu"); });
-    this.$("btnQuit").addEventListener("click", () => { SFX.click(); Game.stopBlitz(); this.closeModals(); this.showView("home"); this.refreshStats(); });
+    this.$("btnQuit").addEventListener("click", () => { SFX.click(); Game.stopBlitz(); this.closeModals(); this.showView("home"); this.refreshHome(); });
     // win overlay
     this.$("btnRematch").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
-    this.$("btnWinHome").addEventListener("click", () => { SFX.click(); this.closeModals(); this.showView("home"); this.refreshStats(); });
+    this.$("btnWinHome").addEventListener("click", () => { SFX.click(); this.closeModals(); this.showView("home"); this.refreshHome(); });
     // game actions
     this.$("btnUndo").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.undo()) SFX.click(); else SFX.illegal(); });
     this.$("btnHint").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.useHint()) SFX.pickupHint(); });
@@ -2052,9 +2390,12 @@ const UI = {
       SFX.click(); this.selOpp = b.dataset.opp;
       document.querySelectorAll("#oppSeg button").forEach(x => x.classList.toggle("sel", x === b));
     }));
-    // name persistence
-    const ni = this.$("nameInput");
-    ni.addEventListener("input", () => { try{ localStorage.setItem("wr_name", ni.value); }catch(e){} });
+    // player account wiring (an account is required before playing)
+    this.injectFlags();
+    this.$("accSubmit").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.submitAccount(); });
+    this.$("accName").addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); this.submitAccount(); } });
+    this.$("profileCard").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.openPlayers("home"); });
+    this.$("btnMenuPlayer").addEventListener("click", () => { SFX.click(); this.closeModals(); this.openPlayers("menu"); });
     // defaults
     this.selMode = "duel"; this.selOpp = "medium";
     this.seats = { S:"human", W:"bot", N:"bot", E:"off" };
@@ -2069,38 +2410,36 @@ const UI = {
       tick: (sec) => this.onTick(sec),
       timeout: () => UI.toast(t("timeout"))
     };
-    // boot
+    // boot — the language screen is ALWAYS the first thing the player sees
     const savedLang = (()=>{ try{ return localStorage.getItem("wr_lang"); }catch(e){ return null; } })();
-    if (savedLang && I18N[savedLang]){ setLang(savedLang); this.showView("home"); }
-    else {
-      this.showView("lang");
-      const sug = detectLang();
-      if (sug){
-        const card = document.querySelector('.langBtn[data-lang="' + sug + '"]');
-        if (card && !card.querySelector(".langBadge")){
-          const b = document.createElement("span");
-          b.className = "langBadge";
-          b.textContent = LANG_SUGGESTED[sug] || "";
-          card.appendChild(b);
-        }
+    setLang(savedLang && I18N[savedLang] ? savedLang : (detectLang() || "en"));
+    this.showView("lang");
+    const sug = detectLang();
+    if (sug){
+      const card = document.querySelector('.langBtn[data-lang="' + sug + '"]');
+      if (card && !card.querySelector(".langBadge")){
+        const b = document.createElement("span");
+        b.className = "langBadge";
+        b.textContent = LANG_SUGGESTED[sug] || "";
+        card.appendChild(b);
       }
     }
-    try { ni.value = localStorage.getItem("wr_name") || ""; } catch(e){}
-    this.refreshStats(); this.updateSoundLabels(); this.updateVibeLabels();
+    this.refreshHome(); this.updateSoundLabels(); this.updateVibeLabels();
   },
 
   pickLang(lang){
     setLang(lang);
-    if (this.langReturn === "menu"){ this.showView("game"); this.openModal("menuModal"); this.refreshGameUI(); }
-    else if (this.langReturn === "home"){ this.showView("home"); this.refreshStats(); }
+    const back = this.langReturn; this.langReturn = null;
+    if (!Account.current()){ this.openAccount("create", back || "home"); return; } // account required before playing
+    if (back === "menu"){ this.showView("game"); this.openModal("menuModal"); this.refreshGameUI(); }
     else this.showView("home");
-    this.langReturn = null;
+    this.refreshHome();
     this.renderSeats(); // re-localize seat labels after language change
   },
   openLang(from){ this.langReturn = from; this.closeModals(); this.showView("lang"); this.$("langBack").classList.remove("hidden"); },
   showView(v){
     this.view = v;
-    ["langView","homeView","gameView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
+    ["langView","homeView","gameView","accountView","playersView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
     if (v !== "lang") this.$("langBack").classList.add("hidden");
     if (v === "game") setTimeout(() => R.resize(), 30);
   },
@@ -2162,7 +2501,9 @@ const UI = {
     });
   },
   startFromHome(){
-    const name = (this.$("nameInput").value || "").trim().slice(0, 12) || t("you");
+    const prof = Account.current() || this.guest;
+    if (!prof){ this.openAccount("create", "home"); return; }
+    const name = prof.name;
     let players = [];
     const diff = this.selOpp === "human" ? "medium" : this.selOpp;
     if (this.selMode === "squad"){
@@ -2173,7 +2514,7 @@ const UI = {
         if (type === "off") return;
         if (type === "human"){
           humanN++;
-          players.push({ type:"human", seat, name: humanN === 1 ? name : t("you") + " " + humanN });
+          players.push(humanN === 1 ? { type:"human", seat, name, avatar: prof.avatar } : { type:"human", seat, name: t("you") + " " + humanN });
         } else {
           players.push({ type:"bot", seat, difficulty: diff, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0] });
         }
@@ -2182,7 +2523,7 @@ const UI = {
       if (humanN < 1){ this.toast(t("need_human")); return; }
     } else {
       players = [
-        { type:"human", seat:"S", name },
+        { type:"human", seat:"S", name, avatar: prof.avatar },
         this.selOpp === "human"
           ? { type:"human", seat:"N", name: t("you") + " 2" }
           : { type:"bot", seat:"N", difficulty: this.selOpp, name: BOT_NAMES[(Math.random() * BOT_NAMES.length) | 0] }
@@ -2222,6 +2563,7 @@ const UI = {
       chip.className = "chip"; chip.id = "chip" + i; chip.style.color = p.color;
       const av = document.createElement("div");
       av.className = "chipAvatar"; av.style.background = p.color;
+      if (p.avatar){ av.innerHTML = Account.avatarSvg(p.avatar); av.classList.add("hasAv"); }
       const info = document.createElement("div");
       info.className = "chipInfo";
       const nm = document.createElement("div");
@@ -2350,27 +2692,154 @@ const UI = {
     if (sec <= 5 && sec > 0) SFX.tick();
   },
   saveStats(d){
-    try {
-      const st = JSON.parse(localStorage.getItem("wr_stats") || "{}");
-      st.w = st.w || 0; st.g = st.g || 0; st.streak = st.streak || 0;
-      const hasBot = Game.players.some(p => p.type === "bot");
-      const mainWon = d.pi === this.mainHuman && Game.players[d.pi].type === "human";
-      if (hasBot){
-        st.g++;
-        if (d.draw){ /* draw counts as a game, streak preserved */ }
-        else if (mainWon){ st.w++; st.streak++; }
-        else if (Game.players[d.pi].type === "bot") st.streak = 0;
-      }
-      localStorage.setItem("wr_stats", JSON.stringify(st));
-    } catch(e){}
+    const cur = Account.current();
+    if (!cur) return;
+    const hasBot = Game.players.some(p => p.type === "bot");
+    if (!hasBot) return;
+    const mainWon = d.pi === this.mainHuman && Game.players[d.pi] && Game.players[d.pi].type === "human";
+    Account.recordStats(st => {
+      st.g++;
+      if (d.draw){ /* draw counts as a game, streak preserved */ }
+      else if (mainWon){ st.w++; st.streak++; }
+      else if (Game.players[d.pi] && Game.players[d.pi].type === "bot") st.streak = 0;
+      return st;
+    });
   },
   refreshStats(){
-    try {
-      const st = JSON.parse(localStorage.getItem("wr_stats") || "{}");
-      this.$("statWins").textContent = st.w || 0;
-      this.$("statGames").textContent = st.g || 0;
-      this.$("statStreak").textContent = st.streak || 0;
-    } catch(e){}
+    const p = Account.current() || this.guest;
+    const st = (p && p.stats) || {};
+    this.$("statWins").textContent = st.w || 0;
+    this.$("statGames").textContent = st.g || 0;
+    this.$("statStreak").textContent = st.streak || 0;
+  },
+
+  /* ---------- player accounts ---------- */
+  injectFlags(){
+    document.querySelectorAll(".langFlag").forEach(el => { el.innerHTML = FLAGS[el.dataset.flag] || ""; });
+  },
+  refreshHome(){
+    this.refreshStats();
+    const p = Account.current() || this.guest;
+    const card = this.$("profileCard");
+    if (!card) return;
+    if (p){
+      card.classList.remove("hidden");
+      this.$("pcAvatar").innerHTML = Account.avatarSvg(p.avatar);
+      this.$("pcName").textContent = p.name;
+      const st = p.stats || {};
+      this.$("pcSub").textContent = t("wins") + " " + (st.w || 0) + " · " + t("games") + " " + (st.g || 0) + " · " + t("streak") + " " + (st.streak || 0);
+    } else card.classList.add("hidden");
+  },
+  openAccount(mode, from, targetId){
+    this.accMode = mode || "create"; this.accFrom = from || null; this.accTarget = targetId || null;
+    this.showView("account");
+    this.$("accTitle").textContent = t(this.accMode === "edit" ? "edit_title" : "account_title");
+    this.$("accSubmit").textContent = t(this.accMode === "edit" ? "btn_save" : "btn_create");
+    let name = "", av = Account.AVATARS[0].id;
+    if (this.accMode === "edit"){
+      const tp = Account.byId(this.accTarget) || Account.current();
+      if (tp){ name = tp.name; av = tp.avatar; }
+    } else {
+      try { name = localStorage.getItem("wr_name") || ""; } catch(e){}
+    }
+    this.selAvatar = av;
+    const inp = this.$("accName");
+    inp.value = name;
+    this.renderAvatarGrid();
+    setTimeout(() => { try { inp.focus(); } catch(e){} }, 80);
+  },
+  renderAvatarGrid(){
+    const wrap = this.$("avatarGrid");
+    wrap.innerHTML = "";
+    Account.AVATARS.forEach(a => {
+      const b = document.createElement("button");
+      b.className = "avBtn" + (a.id === this.selAvatar ? " sel" : "");
+      b.type = "button";
+      b.innerHTML = a.svg;
+      b.addEventListener("click", () => { SFX.click(); this.selAvatar = a.id; wrap.querySelectorAll(".avBtn").forEach(x => x.classList.toggle("sel", x === b)); });
+      wrap.appendChild(b);
+    });
+  },
+  submitAccount(){
+    const raw = this.$("accName").value || "";
+    const name = raw.trim().slice(0, 14);
+    if (!name){ SFX.illegal(); this.toast(t("name_required")); return; }
+    if (this.accMode === "edit"){
+      const id = this.accTarget || (Account.current() && Account.current().id);
+      if (id){ Account.update(id, { name, avatar: this.selAvatar }); this.toast(t("profile_saved")); }
+      SFX.pickupHint();
+      this.openPlayers(this.playersFrom || "home");
+      return;
+    }
+    const p = Account.create(name, this.selAvatar);
+    if (!p || !Account.current()){ // storage unavailable: in-memory guest fallback
+      this.guest = { name, avatar: this.selAvatar, stats: { w:0, g:0, streak:0 } };
+    }
+    SFX.pickupHint();
+    this.goHome();
+    this.toast(t("hello_toast", { name }));
+  },
+  goHome(){
+    try { Game.stopBlitz(); } catch(e){}
+    this.closeModals();
+    this.showView("home");
+    this.refreshHome();
+    this.renderSeats();
+  },
+  openPlayers(from){
+    this.playersFrom = from || "home";
+    this.showView("players");
+    this.renderPlayers();
+  },
+  renderPlayers(){
+    const wrap = this.$("playerList");
+    wrap.innerHTML = "";
+    const cur = Account.current();
+    Account.profiles().forEach(p => {
+      const card = document.createElement("div");
+      card.className = "playerCard" + (cur && cur.id === p.id ? " sel" : "");
+      const main = document.createElement("button");
+      main.className = "pcMain"; main.type = "button";
+      const st = p.stats || {};
+      main.innerHTML = '<span class="pAvatar">' + Account.avatarSvg(p.avatar) + '</span>' +
+        '<span class="pcInfo"><b></b><small>' + t("wins") + " " + (st.w || 0) + " · " + t("games") + " " + (st.g || 0) + '</small></span>';
+      main.querySelector("b").textContent = p.name;
+      main.addEventListener("click", () => {
+        SFX.click();
+        Account.setCurrent(p.id);
+        this.guest = null;
+        this.goHome();
+        this.toast(t("welcome_back", { name: p.name }));
+      });
+      const edit = document.createElement("button");
+      edit.className = "pcIcon"; edit.type = "button"; edit.title = t("edit_profile"); edit.textContent = "\u270E";
+      edit.addEventListener("click", (e) => { e.stopPropagation(); SFX.click(); this.openAccount("edit", null, p.id); });
+      const del = document.createElement("button");
+      del.className = "pcIcon del"; del.type = "button"; del.title = t("confirm_del"); del.textContent = "\u2715";
+      let armed = false, tm = null;
+      del.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!armed){
+          armed = true; del.classList.add("arm"); del.textContent = "!";
+          SFX.illegal();
+          tm = setTimeout(() => { armed = false; del.classList.remove("arm"); del.textContent = "\u2715"; }, 2300);
+          return;
+        }
+        clearTimeout(tm);
+        SFX.wall();
+        Account.remove(p.id);
+        if (!Account.current()) this.openAccount("create", this.playersFrom || "home");
+        else this.renderPlayers();
+      });
+      card.append(main, edit, del);
+      wrap.appendChild(card);
+    });
+    const add = document.createElement("button");
+    add.className = "playerCard add"; add.type = "button";
+    add.innerHTML = '<span class="pcPlus">+</span><span class="pcAddLbl"></span>';
+    add.querySelector(".pcAddLbl").textContent = t("new_player");
+    add.addEventListener("click", () => { SFX.click(); this.openAccount("create", this.playersFrom || "home"); });
+    wrap.appendChild(add);
   },
   refreshGameUI(){
     this.renderChips();
@@ -2431,13 +2900,22 @@ const AppNav = {
         return;
       }
       if (UI.view === "game"){
-        if (Game.over){ UI.showView("home"); UI.refreshStats(); return; }
+        if (Game.over){ UI.showView("home"); UI.refreshHome(); return; }
         Game.paused = true;
         UI.openModal("menuModal");
         return;
       }
       if (UI.view === "lang"){
         if (UI.langReturn) this.$lb();
+        return;
+      }
+      if (UI.view === "account"){
+        UI.showView("lang"); // the account gate sits between language and home
+        return;
+      }
+      if (UI.view === "players"){
+        if (UI.playersFrom === "menu"){ UI.showView("game"); UI.openModal("menuModal"); UI.refreshGameUI(); }
+        else { UI.showView("home"); UI.refreshHome(); }
         return;
       }
       const now = Date.now();

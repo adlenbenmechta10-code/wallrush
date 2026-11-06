@@ -34,7 +34,7 @@
 🎨 تصميم «نادي الألعاب الورقية» — ألوان دافئة وخطوط مدمجة أنيقة
 💡 تلميحات، تراجع، ودليل مسار للمبتدئين
 📊 إحصائياتك محفوظة: انتصارات، مباريات، سلسلة
-📴 تعمل 100% دون اتصال — لا حسابات، لا إعلانات، لا بيانات تُجمع
+📴 تعمل 100% دون اتصال — حساب محلي على جهازك فقط، لا إعلانات، لا بيانات تُجمع
 📳 اهتزاز اختياري وتأثيرات صوتية مولّدة برمجياً
 
 لعبة عائلية مناسبة لكل الأعمار — حمّلها الآن وابدأ أول مبارزة!
@@ -70,7 +70,7 @@ Race your rival to the opposite side of the board and block their path with wall
 🎨 Cozy "board-game club" design — warm colors and clean typography
 💡 Hints, undo and path guide for beginners
 📊 Local stats: wins, games, win streak
-📴 100% offline — no accounts, no ads, zero data collected
+📴 100% offline — local device profiles only, no ads, zero data collected
 📳 Optional haptics and synthesized sound effects
 
 A family-friendly game for all ages — download now and play your first duel!

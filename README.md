@@ -13,14 +13,15 @@
 - 🤖 **ذكاء اصطناعي** بثلاثة مستويات (سهل/متوسط/صعب) بخوارزمية Minimax مع تشذيب Alpha-Beta.
 - ⚡ **وضع Blitz**: 6 جدران و10 ثوانٍ لكل دور — حركة تلقائية عند انتهاء الوقت.
 - 🎯 **وضع الرباعية**: حتى 4 لاعبين (بشر/روبوتات) على نفس الشاشة، كل واحد من جهة.
-- 🌍 **8 لغات**: العربية (RTL كامل) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — شاشة اختيار اللغة عند أول تشغيل مع تمييز اللغة المقترحة تلقائياً حسب لغة الجهاز.
+- 🌍 **8 لغات**: العربية (RTL كامل) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — **شاشة اللغات أول شاشة دائماً** عند كل تشغيل، لكل لغة **شعار/علم خاص** بأسلوب ورقي، مع تمييز اللغة الحالية ✓ واللغة المقترحة تلقائياً حسب لغة الجهاز.
 - ⚔️ **الموت المفاجئ**: بعد 120 نقلة يفوز الأقرب إلى الهدف — لا مباريات لا نهائية أبداً (مع دعم التعادل).
 - 🎨 **تصميم «نادي الألعاب الورقية»**: خلفية كريمية دافئة، ألوان مسطحة جسورة (أحمر/أزرق/ذهبي/أخضر)، حدود حبرية سميكة وظلال صلبة — بدون تدرّجات. خطوط **Lalezar** و**Changa** مدمجة داخل الملف (تعمل دون اتصال).
 - 💡 **تلميحات** و**تراجع** و**دليل المسار** لمساعدة المبتدئين.
-- 📊 إحصائيات محفوظة (انتصارات، مباريات، سلسلة).
+- 👤 **حساب لاعب إلزامي** قبل أول مباراة: اختر صورة رمزية من 12 شخصية (ثعلب، باندا، بومة، روبوت…) واسمًا — مع دعم عدة حسابات على نفس الجهاز، تبديل اللاعب، تعديل الحساب وحذفه، واستيراد سجل الإنجازات القديم تلقائياً.
+- 📊 إحصائيات محفوظة **لكل حساب** (انتصارات، مباريات، سلسلة) — تظهر في بطاقة الحساب وفي شريط السجل.
 - 🔊 مؤثرات صوتية مولّدة برمجياً (بدون ملفات خارجية).
 - 📳 **اهتزاز اختياري** للتغذية الراجعة (يُوقف من القائمة).
-- 📱 **ملف واحد** يعمل دون اتصال — لا حسابات، لا سيرفرات.
+- 📱 **ملف واحد** يعمل دون اتصال — حسابات محلية على الجهاز، لا سيرفرات.
 - 🛒 **جاهزة للنشر**: مشروع **Capacitor** كامل + أيقونات ولقطات شاشة المتاجر + نصوص القوائم + سياسة الخصوصية (انظر `PUBLISH.md`).
 
 ## 🎮 طريقة اللعب
@@ -57,20 +58,23 @@ A complete mobile-first strategy board game inspired by **race & block** games (
 - 🤖 **AI** with 3 difficulties (Easy/Medium/Hard) — Minimax with Alpha-Beta pruning.
 - ⚡ **Blitz mode**: 6 walls, 10 seconds per turn, auto-move on timeout.
 - 🎯 **Squad mode**: up to 4 players (human/bot mix) on one screen, one per edge.
-- 🌍 **8 languages**: العربية (full RTL) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — language picker on first launch, with the device language auto-suggested.
+- 🌍 **8 languages**: العربية (full RTL) • English • Español • Français • Deutsch • Português • Italiano • Türkçe — **the language screen is always the first screen** on every launch, each language has its **own SVG emblem** in papercraft style, with the current one marked ✓ and the device language auto-suggested.
 - ⚔️ **Sudden death**: after 120 moves the closest player to the goal wins — no endless matches (draws supported).
 - 💡 Hints, undo, and a path guide for beginners.
-- 📊 Local stats (wins, games, streak).
+- 👤 **Mandatory player account** before the first game: pick one of 12 avatars (fox, panda, owl, robot…) and a name — multiple accounts per device, player switching, edit/delete, and automatic import of your legacy record.
+- 📊 Local stats **per account** (wins, games, streak) shown on the profile card and stats strip.
 - 🔊 Procedural sound effects (no external files).
 - 📳 Optional haptic feedback (toggle in menu).
-- 📱 **Single file**, works offline — no accounts, no servers.
+- 📱 **Single file**, works offline — local device accounts, no servers.
 - 🛒 **Store-ready**: full **Capacitor** project + store icons, screenshots, listings in 8 languages, privacy policy (see `PUBLISH.md`).
 
 ## 📸 Screenshots
 
-| Language picker | Home | Mid-game | Victory |
+| Language picker | Player account | Home | Switch player |
 |---|---|---|---|
-| ![Languages](screenshots/android/01-languages.png) | ![Home](screenshots/android/02-home.png) | ![Game](screenshots/android/04-game.png) | ![Victory](screenshots/android/06-victory.png) |
+| ![Languages](screenshots/android/01-languages.png) | ![Account](screenshots/android/02-account.png) | ![Home](screenshots/android/03-home.png) | ![Players](screenshots/android/05-players.png) |
+
+Mid-game, victory, wall preview and the how-to-play screen: `screenshots/android/04-game.png`, `06-victory.png`, `07-wall-preview.png`, `08-howto.png` (iOS set: `screenshots/ios/`).
 
 ## 🚀 Run it
 

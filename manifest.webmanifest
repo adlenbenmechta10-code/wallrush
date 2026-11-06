@@ -1,7 +1,7 @@
 {
   "name": "WallRush — Wall Race",
   "short_name": "WallRush",
-  "description": "Race to the far side and wall your rivals in — a fast, strategic board game. Play offline in 8 languages.",
+  "description": "Race to the far side and wall your rivals in — a fast, strategic board game. Local player profiles, 8 languages, fully offline.",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",

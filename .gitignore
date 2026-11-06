@@ -1,8 +1,8 @@
 # build artifacts
 node_modules/
 www/
-android/
-ios/
+/android/
+/ios/
 dist/
 
 # OS

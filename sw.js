@@ -1,6 +1,6 @@
-/* WallRush service worker — offline cache-first, v1.1.0 */
+/* WallRush service worker — offline cache-first, v1.2.0 */
 "use strict";
-const CACHE = "wallrush-v1.1.0";
+const CACHE = "wallrush-v1.2.0";
 const ASSETS = [
   "./",
   "./index.html",

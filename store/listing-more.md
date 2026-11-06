@@ -21,7 +21,7 @@
 
 **Name:** WallRush — Mauerrennen
 **Kurzbeschreibung:** Erreiche die andere Seite und mauere deine Rivalen ein. Offline-Strategie.
-**Beschreibung (Auszug):** ergänze die englische Version um: « 🇩🇪 Komplett auf Deutsch spielbar. Drei KI-Stufen, Blitz-Modus, bis zu 4 Spieler auf einem Bildschirm. Ohne Konto, ohne Werbung, offline. »
+**Beschreibung (Auszug):** ergänze die englische Version um: « 🇩🇪 Komplett auf Deutsch spielbar. Drei KI-Stufen, Blitz-Modus, bis zu 4 Spieler auf einem Bildschirm. Lokale Spielerprofile, keine Werbung, offline. »
 
 ## Português (pt-BR)
 
@@ -33,7 +33,7 @@
 
 **Nome:** WallRush — Corsa ai Muri
 **Descrizione breve:** Raggiungi il lato opposto e intrappola i rivali con i muri. Strategia offline.
-**Descrizione completa (estratto):** aggiungi alla versione inglese: « 🇮🇹 Giocabile interamente in italiano. Tre livelli di IA, modalità Blitz, fino a 4 giocatori su uno schermo. Senza account, senza pubblicità, offline. »
+**Descrizione completa (estratto):** aggiungi alla versione inglese: « 🇮🇹 Giocabile interamente in italiano. Tre livelli di IA, modalità Blitz, fino a 4 giocatori su uno schermo. Profili locali sul dispositivo, senza pubblicità, offline. »
 
 ## Türkçe (tr)
 
