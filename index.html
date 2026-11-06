@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="description" content="WallRush — race to the far side and wall your rivals in. A fast, strategic board game. 8 languages, offline, free.">
+<meta name="description" content="WallRush — race to the far side and wall your rivals in. Puzzles, a daily challenge and a bot ladder. 8 languages, offline, free.">
 <meta name="apple-mobile-web-app-title" content="WallRush">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
@@ -378,6 +378,130 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
   .view { padding-top:28px; }
   #gameView { max-width:640px; margin:0 auto; }
 }
+
+/* ============ v1.3.0 — hubs, puzzles, ladder, ranking, wall UX ============ */
+
+/* ---------- Home hub cards ---------- */
+#hubRow { display:flex; gap:10px; width:100%; margin-bottom:4px; }
+.hubCard {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:12px 4px 10px; min-width:0;
+  background:var(--card); border:2.5px solid var(--line); border-radius:14px; color:var(--ink); cursor:pointer;
+  box-shadow:3px 3px 0 var(--line);
+  transition:transform .1s ease, box-shadow .1s ease, border-color .1s ease;
+}
+.hubCard:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.hubCard:hover { border-color:var(--red); }
+.hubIcon { font-size:24px; line-height:1; }
+.hubCard b { font-family:var(--font-disp); font-weight:400; font-size:14px; line-height:1.15; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+.hubCard small { font-size:10px; color:var(--ink-soft); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+
+/* ---------- Game: puzzle bar ---------- */
+#pzBar { width:100%; display:flex; align-items:center; gap:8px; margin:2px 0 4px; }
+#pzBar .iconBtn { width:38px; height:38px; font-size:17px; flex-shrink:0; }
+#pzBack { font-size:24px; line-height:1; font-family:var(--font-disp); }
+html[dir="rtl"] #pzBack { transform:scaleX(-1); }
+#pzInfo { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; background:var(--card); border:2px solid var(--line); border-radius:11px; padding:5px 11px; box-shadow:2.5px 2.5px 0 var(--line); text-align:start; }
+#pzTitle { font-family:var(--font-disp); font-weight:400; font-size:15px; line-height:1.2; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#pzGoal { font-size:11px; color:var(--ink-soft); font-weight:600; line-height:1.3; }
+#pzMeta { flex-shrink:0; font-family:var(--font-disp); font-weight:400; font-size:15px; color:var(--ink); background:var(--card2); border:2px solid rgba(41,36,28,.3); border-radius:10px; padding:6px 10px; white-space:nowrap; }
+#pzMeta .mRed { color:var(--red); } #pzMeta .mBlue { color:var(--blue); }
+
+/* ---------- Wall stock pill ---------- */
+#wallStock { pointer-events:none; flex:0 0 auto; justify-content:center; opacity:.95; }
+
+/* ---------- Chips: distance counter ---------- */
+.chipTop { display:flex; align-items:center; gap:4px; min-width:0; }
+.chipTop .chipName { flex:0 1 auto; }
+.chipDist { flex-shrink:0; font-size:10px; font-weight:700; color:var(--ink-soft); background:var(--card2); border:1.5px solid rgba(41,36,28,.25); border-radius:6px; padding:0 4px; line-height:1.5; }
+
+/* ---------- Menu toggles row ---------- */
+#menuToggles { display:flex; gap:8px; }
+#menuToggles .bigBtn { margin:6px 0; font-size:14px; padding:9px 6px; }
+#menuToggles .bigBtn.on { background:var(--green); color:var(--card); }
+#menuToggles .bigBtn.off { opacity:.75; }
+
+#winElo { font-family:var(--font-disp); font-size:17px; color:var(--ink); margin:-6px 0 12px; }
+#winElo b { color:var(--red); }
+
+/* ---------- Puzzles view ---------- */
+#puzzlesView { width:100%; max-width:460px; margin:0 auto; }
+#dailyCard {
+  display:flex; align-items:center; gap:12px; width:100%; padding:14px; cursor:pointer;
+  background:var(--card); border:2.5px solid var(--line); border-radius:16px; box-shadow:3px 3px 0 var(--line);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+#dailyCard:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.dcIcon { font-size:34px; flex-shrink:0; }
+.dcMain { flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; text-align:start; }
+.dcMain b { font-family:var(--font-disp); font-weight:400; font-size:18px; line-height:1.2; color:var(--ink); }
+.dcSub { font-size:11.5px; color:var(--ink-soft); font-weight:600; line-height:1.35; }
+.dcMeta { font-size:11px; font-weight:700; color:var(--green); }
+#dailyCard.done { border-color:var(--green); box-shadow:3px 3px 0 var(--green); }
+#dailyCard.done .dcMain b { color:var(--green); }
+.ctaBtn.small { width:auto; margin:0; padding:10px 16px; font-size:16px; letter-spacing:.5px; flex-shrink:0; }
+#dailyCard.done .ctaBtn.small { background:var(--green); }
+#dailyFoot { width:100%; text-align:center; font-size:11.5px; font-weight:700; color:var(--ink-soft); margin:8px 0 4px; }
+#dailyCountdown b { color:var(--red); font-family:var(--font-disp); font-weight:400; font-size:13px; }
+#pzQuick { display:flex; flex-direction:column; gap:10px; width:100%; }
+.pzCard {
+  display:flex; align-items:center; gap:12px; width:100%; padding:13px 14px; cursor:pointer; text-align:start;
+  background:var(--card); border:2.5px solid var(--line); border-radius:15px; box-shadow:3px 3px 0 var(--line); color:var(--ink);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+.pzCard:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.pzIcon { font-size:26px; flex-shrink:0; }
+.pzCard b { font-family:var(--font-disp); font-weight:400; font-size:16px; line-height:1.2; display:block; }
+.pzCard small { font-size:11px; color:var(--ink-soft); font-weight:600; line-height:1.35; display:block; margin-top:2px; }
+#pzSolvedNote { padding-top:14px; }
+#puzzlesView .pillBtn, #botsView .pillBtn, #boardView .pillBtn { margin-top:16px; min-width:140px; }
+
+/* ---------- Bots ladder view ---------- */
+#botsView { width:100%; max-width:460px; margin:0 auto; }
+#myTierCard {
+  display:flex; align-items:center; gap:12px; width:100%; padding:12px 14px; margin-bottom:14px;
+  background:var(--card); border:2.5px solid var(--line); border-radius:16px; box-shadow:3px 3px 0 var(--line);
+}
+#tierBadge { width:52px; height:52px; border-radius:14px; border:2.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; }
+.mtcInfo { display:flex; flex-direction:column; gap:2px; min-width:0; }
+#myRating { font-family:var(--font-disp); font-weight:400; font-size:22px; line-height:1.1; color:var(--ink); }
+#myTierName { font-size:12px; font-weight:700; color:var(--ink-soft); }
+#botList { display:flex; flex-direction:column; gap:10px; width:100%; }
+.botCard {
+  display:flex; align-items:center; gap:11px; width:100%; padding:10px 12px;
+  background:var(--card); border:2.5px solid var(--line); border-radius:15px; box-shadow:3px 3px 0 var(--line);
+}
+.botCard .bAvatar { width:44px; height:44px; border-radius:12px; border:2.5px solid var(--line); overflow:hidden; flex-shrink:0; background:var(--card2); }
+.botCard .bAvatar svg { width:100%; height:100%; display:block; }
+.botCard .bInfo { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; text-align:start; }
+.botCard .bName { font-family:var(--font-disp); font-weight:400; font-size:17px; line-height:1.15; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.botCard .bName .beaten { color:var(--green); }
+.botCard .bSub { font-size:10.5px; color:var(--ink-soft); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.botCard .bTag { display:inline-block; font-size:9.5px; font-weight:700; color:var(--card); background:var(--ink-soft); border-radius:6px; padding:1px 6px; margin-inline-end:4px; }
+.botCard .bTag.e { background:var(--green); } .botCard .bTag.m { background:var(--blue); }
+.botCard .bTag.h { background:#c47b3d; } .botCard .bTag.x { background:var(--red); }
+.botCard .bPlay { flex-shrink:0; width:auto; margin:0; padding:9px 14px; font-size:15px; letter-spacing:.5px; }
+
+/* ---------- Ranking view ---------- */
+#boardView { width:100%; max-width:460px; margin:0 auto; }
+#rankTable { display:flex; flex-direction:column; gap:8px; width:100%; }
+.rankRow {
+  display:flex; align-items:center; gap:10px; width:100%; padding:8px 12px;
+  background:var(--card); border:2px solid rgba(41,36,28,.28); border-radius:12px;
+}
+.rankRow.me { border-color:var(--line); box-shadow:3px 3px 0 var(--line); background:var(--card); }
+.rankRow .rk { font-family:var(--font-disp); font-weight:400; font-size:16px; width:26px; color:var(--ink-soft); flex-shrink:0; }
+.rankRow.me .rk { color:var(--red); }
+.rankRow .rAvatar { width:34px; height:34px; border-radius:10px; border:2px solid var(--line); overflow:hidden; flex-shrink:0; background:var(--card2); }
+.rankRow .rAvatar svg { width:100%; height:100%; display:block; }
+.rankRow .rName { flex:1; min-width:0; font-size:13px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:start; }
+.rankRow .rTier { font-size:9.5px; font-weight:700; color:var(--ink-soft); border:1.5px solid rgba(41,36,28,.3); border-radius:6px; padding:1px 6px; flex-shrink:0; }
+.rankRow .rRating { font-family:var(--font-disp); font-weight:400; font-size:16px; color:var(--ink); flex-shrink:0; min-width:36px; text-align:end; }
+
+@media (max-height:730px), (max-width:359px){
+  .hubCard { padding:9px 3px 8px; }
+  .hubIcon { font-size:20px; }
+  #pzBar .iconBtn { width:34px; height:34px; }
+}
 </style>
 </head>
 <body>
@@ -395,6 +519,17 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
       <button id="btnMenu" class="iconBtn" aria-label="menu">☰</button>
     </header>
 
+    <div id="pzBar" class="hidden">
+      <button id="pzBack" class="iconBtn pzNav" aria-label="back">‹</button>
+      <div id="pzInfo">
+        <b id="pzTitle"></b>
+        <span id="pzGoal"></span>
+      </div>
+      <div id="pzMeta"></div>
+      <button id="pzRetry" class="iconBtn" aria-label="retry">⟳</button>
+      <button id="pzHint" class="iconBtn" aria-label="hint">💡</button>
+    </div>
+
     <div id="boardWrap">
       <canvas id="board"></canvas>
       <div id="turnBanner" class="hidden"></div>
@@ -411,6 +546,7 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
         <button id="btnCancel" class="pillBtn no">✗ <span data-i18n="cancel_w">Cancel</span></button>
       </div>
       <div id="gameActions">
+        <div id="wallStock" class="pillBtn stock">🧱 <b id="stockCount">10</b></div>
         <button id="btnUndo" class="pillBtn">↩ <span data-i18n="undo">Undo</span> <b id="undoCount">1</b></button>
         <button id="btnHint" class="pillBtn">💡 <span data-i18n="hint">Hint</span> <b id="hintCount">3</b></button>
       </div>
@@ -478,6 +614,24 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
       <span id="pcSwitch">⇄</span>
     </div>
 
+    <div id="hubRow">
+      <button class="hubCard" id="hubPz">
+        <span class="hubIcon">🧩</span>
+        <b data-i18n="hub_puzzles">Puzzles</b>
+        <small id="hubPzSub">—</small>
+      </button>
+      <button class="hubCard" id="hubBots">
+        <span class="hubIcon">🤖</span>
+        <b data-i18n="hub_bots">Bot ladder</b>
+        <small id="hubBotsSub">—</small>
+      </button>
+      <button class="hubCard" id="hubBoard">
+        <span class="hubIcon">🏆</span>
+        <b data-i18n="hub_board">Ranking</b>
+        <small id="hubBoardSub">—</small>
+      </button>
+    </div>
+
     <label class="fieldLabel" data-i18n="mode_lbl">Mode</label>
     <div id="modeCards">
       <button class="modeCard sel" data-mode="duel">
@@ -519,6 +673,60 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
     <div class="footNote" data-i18n="offline_note">Runs fully offline</div>
   </section>
 
+  <!-- ============ PUZZLES VIEW ============ -->
+  <section id="puzzlesView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" data-i18n="hub_puzzles">Puzzles</h2>
+
+    <div id="dailyCard">
+      <span class="dcIcon">🗓️</span>
+      <div class="dcMain">
+        <b data-i18n="pz_daily">Daily challenge</b>
+        <span class="dcSub" data-i18n="pz_daily_sub">3 puzzles — a fresh set every day</span>
+        <span class="dcMeta" id="dailyMeta"></span>
+      </div>
+      <button id="dailyPlay" class="ctaBtn small" data-i18n="pz_play">Play</button>
+    </div>
+    <div id="dailyFoot"><span id="dailyCountdown"></span></div>
+
+    <label class="fieldLabel" data-i18n="pz_practice">Practice</label>
+    <div id="pzQuick">
+      <button class="pzCard" id="pzWall">
+        <span class="pzIcon">🧱</span>
+        <b data-i18n="pz_wall_t">Wall puzzle</b>
+        <small data-i18n="pz_wall_g">Place one wall that makes your path shorter than your rival's</small>
+      </button>
+      <button class="pzCard" id="pzRace">
+        <span class="pzIcon">🏁</span>
+        <b data-i18n="pz_race_t">Race puzzle</b>
+        <small data-i18n="pz_race_g2">Find the shortest path to your goal line</small>
+      </button>
+    </div>
+    <div class="footNote" id="pzSolvedNote"></div>
+    <button id="pzBackBtn" class="pillBtn" data-i18n="home">Home</button>
+  </section>
+
+  <!-- ============ BOTS LADDER VIEW ============ -->
+  <section id="botsView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" data-i18n="bots_title">Bot ladder</h2>
+    <div id="myTierCard">
+      <span id="tierBadge"></span>
+      <div class="mtcInfo"><b id="myRating"></b><span id="myTierName"></span></div>
+    </div>
+    <div id="botList"></div>
+    <button id="botsBackBtn" class="pillBtn" data-i18n="home">Home</button>
+  </section>
+
+  <!-- ============ CLUB RANKING VIEW ============ -->
+  <section id="boardView" class="view hidden">
+    <div class="logoWrap small"><div class="logo">WALL<span>RUSH</span></div></div>
+    <h2 class="sectionTitle" data-i18n="board_title">Club ranking</h2>
+    <div id="rankTable"></div>
+    <div class="footNote" id="rankFoot"></div>
+    <button id="boardBackBtn" class="pillBtn" data-i18n="home">Home</button>
+  </section>
+
   <!-- ============ HOW TO PLAY MODAL ============ -->
   <div id="howtoModal" class="modal hidden">
     <div class="modalCard">
@@ -544,10 +752,14 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
       <button id="btnMenuHowto" class="bigBtn" data-i18n="howto">How to play</button>
       <button id="btnMenuSound" class="bigBtn" data-i18n="sound">Sound</button>
       <button id="btnMenuVibe" class="bigBtn ghost" data-i18n="vibration">Vibration</button>
+      <div id="menuToggles">
+        <button id="btnMenuGuides" class="bigBtn ghost"></button>
+        <button id="btnMenuPath" class="bigBtn ghost"></button>
+      </div>
       <button id="btnMenuLang" class="bigBtn"><span data-i18n="language">Language</span><span class="miniFlag" id="miniFlagMenu"></span></button>
       <button id="btnMenuPlayer" class="bigBtn ghost" data-i18n="switch_player">Switch player</button>
       <button id="btnQuit" class="bigBtn danger" data-i18n="quit">Quit</button>
-      <p class="menuVersion">WallRush v1.2.0</p>
+      <p class="menuVersion">WallRush v1.3.0</p>
     </div>
   </div>
 
@@ -557,8 +769,9 @@ html[dir="rtl"] .ctaBtn { letter-spacing:0; }
       <div id="winIcon">🏆</div>
       <h2 id="winTitle">Victory!</h2>
       <p id="winSub"></p>
+      <p id="winElo" class="hidden"></p>
       <div id="winStats">
-        <div class="statBox"><b id="wsMoves">0</b><span data-i18n="moves">Moves</span></div>
+        <div class="statBox"><b id="wsMoves">0</b><span id="wsMovesLbl" data-i18n="moves">Moves</span></div>
         <div class="statBox"><b id="wsWalls">0</b><span data-i18n="walls_used">Walls used</span></div>
         <div class="statBox"><b id="wsTime">0:00</b><span data-i18n="time">Time</span></div>
       </div>
@@ -601,7 +814,7 @@ const I18N = {
     h3:"Walls block everyone. You have a limited stock.",
     h4:"Jump over an adjacent rival. If blocked behind, jump sideways.",
     h5:"You can never fully block a path to the goal.",
-    h6:"Tap a glowing cell to move. Tap a groove to build a wall.",
+    h6:"Tap a glowing cell to move. Tap — or press and drag along — a groove to build a wall.",
     sound:"Sound", sound_off:"Muted", language:"Language",
     menu:"Menu", resume:"Resume", restart:"Restart", quit:"Quit", rematch:"Rematch", home:"Home",
     your_turn:"Your turn", turn_of:"{name}'s turn", thinking:"{name} is thinking",
@@ -613,7 +826,7 @@ const I18N = {
     moves:"Moves", walls_used:"Walls used", time:"Time",
     timeout:"Time's up — auto move",
     coach_title:"Quick tip",
-    coach_body:"Tap a glowing cell to move, or tap a groove between cells to build a wall. Confirm with ✓.",
+    coach_body:"Tap a glowing cell to move — or press a groove and drag to aim your wall, then release to drop it. Tap works too: confirm with ✓.",
     got_it:"Got it!",
     offline_note:"Runs fully offline",
     credits:"An original race & block board game",
@@ -636,7 +849,26 @@ const I18N = {
     confirm_del:"Tap again to delete",
     name_required:"Please enter your name",
     account_note:"Your account is saved on this device. Works offline.",
-    profile_saved:"Profile saved",
+        profile_saved:"Profile saved",
+    hub_puzzles:"Puzzles", hub_bots:"Bot ladder", hub_board:"Ranking",
+    hub_pz_sub:"{n} solved", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Daily challenge", pz_daily_sub:"3 puzzles — a fresh set every day",
+    pz_play:"Play", pz_done:"Done!", pz_next_in:"New set in", pz_day_streak:"{n}-day streak",
+    pz_wall_t:"Wall puzzle", pz_race_t:"Race puzzle",
+    pz_wall_g:"Place one wall that makes your path shorter than your rival's",
+    pz_race_g:"Reach your goal line in {n} moves or fewer",
+    pz_race_g2:"Find the shortest path to your goal line",
+    pz_moves:"Moves {n}/{k}", pz_tries:"Tries", pz_retry:"Retry", pz_new:"Next puzzle",
+    pz_wrong:"That wall doesn't turn the race — try another",
+    pz_no_move:"This puzzle needs a wall, not a move",
+    pz_slow:"Too slow — retry and find the shortest path",
+    pz_solved:"Puzzle solved!", pz_practice:"Practice", pz_solved_total:"{n} solved in total",
+    bots_title:"Bot ladder", bots_your:"Your rating", bots_play:"Challenge",
+    bots_record:"{w}W · {l}L", expert:"Expert",
+    board_title:"Club ranking", board_you:"You",
+    tier_paper:"Paper", tier_bronze:"Bronze", tier_silver:"Silver",
+    tier_gold:"Gold", tier_platinum:"Platinum", tier_diamond:"Diamond",
+    wall_stock:"Walls", guides:"Wall guides", path_guide:"Path guide",
   },
   ar: {
     tagline:"اسبقهم إلى الجهة الأخرى… واحصرهم بالجدران",
@@ -655,7 +887,7 @@ const I18N = {
     h3:"الجدران تعيق الجميع، ولكل لاعب مخزون محدود منها.",
     h4:"اقفز فوق الخصم المجاور، وإذا اعترضه جدار خلفه فاقفز جانبياً.",
     h5:"لا يمكن حجب الطريق إلى الهدف بالكامل أبداً.",
-    h6:"اضغط خلية متوهجة للتحرك، أو اضغط الفجوة بين الخلايا لبناء جدار.",
+    h6:"اضغط خلية متوهجة للتحرك، أو اضغط واسحب على الفجوة بين الخلايا لبناء جدار.",
     sound:"الصوت", sound_off:"مكتوم", language:"اللغة",
     menu:"القائمة", resume:"استئناف", restart:"إعادة المباراة", quit:"خروج", rematch:"مباراة جديدة", home:"الرئيسية",
     your_turn:"دورك", turn_of:"دور {name}", thinking:"{name} يفكّر",
@@ -667,7 +899,7 @@ const I18N = {
     moves:"حركات", walls_used:"جدران مستعملة", time:"الوقت",
     timeout:"انتهى الوقت — حركة تلقائية",
     coach_title:"تلميح سريع",
-    coach_body:"اضغط خلية متوهجة للتحرك، أو اضغط على الفجوة بين الخلايا لبناء جدار، ثم أكّد بزر ✓.",
+    coach_body:"اضغط خلية متوهجة للتحرك، أو اضغط الفجوة بين الخلايا واسحب لتوجيه جدارك ثم ارفع إصبعك لإسقاطه. الضغط العادي يعمل أيضًا ثم أكّد بزر ✓.",
     got_it:"فهمت!",
     offline_note:"تعمل كاملًا دون اتصال بالإنترنت",
     credits:"لعبة سباق وجدران أصلية",
@@ -690,7 +922,26 @@ const I18N = {
     confirm_del:"اضغط مجددًا للحذف",
     name_required:"اكتب اسمك أولًا",
     account_note:"يُحفظ حسابك على جهازك ويعمل دون اتصال.",
-    profile_saved:"تم حفظ حسابك",
+        profile_saved:"تم حفظ حسابك",
+    hub_puzzles:"الألغاز", hub_bots:"سلّم الروبوتات", hub_board:"الترتيب",
+    hub_pz_sub:"حُلّ {n}", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"تحدي اليوم", pz_daily_sub:"3 ألغاز — مجموعة جديدة كل يوم",
+    pz_play:"العب", pz_done:"أكملته!", pz_next_in:"المجموعة الجديدة بعد", pz_day_streak:"سلسلة {n} يوم",
+    pz_wall_t:"لغز الجدار", pz_race_t:"لغز السباق",
+    pz_wall_g:"ضع جدارًا واحدًا يجعل طريقك أقصر من طريق خصمك",
+    pz_race_g:"اصِل إلى خط هدفك في {n} حركات أو أقل",
+    pz_race_g2:"اعثر على أقصر طريق إلى خط هدفك",
+    pz_moves:"الحركات {n}/{k}", pz_tries:"محاولات", pz_retry:"إعادة", pz_new:"اللغز التالي",
+    pz_wrong:"هذا الجدار لا يقلب السباق — جرّب جدارًا آخر",
+    pz_no_move:"هذا اللغز يريد جدارًا لا حركة",
+    pz_slow:"بطيء جدًا — أعد المحاولة وابحث عن أقصر طريق",
+    pz_solved:"حُلّ اللغز!", pz_practice:"تدريب", pz_solved_total:"حللت {n} لغزًا في المجموع",
+    bots_title:"سلّم الروبوتات", bots_your:"تقييمك", bots_play:"تحدَّ",
+    bots_record:"{w} فوز · {l} خسارة", expert:"خبير",
+    board_title:"ترتيب النادي", board_you:"أنت",
+    tier_paper:"ورقي", tier_bronze:"برونزي", tier_silver:"فضي",
+    tier_gold:"ذهبي", tier_platinum:"بلاتيني", tier_diamond:"ماسي",
+    wall_stock:"جدران", guides:"أدلة الجدران", path_guide:"دليل المسار",
   },
   es: {
     tagline:"Llega al otro lado. Múralos.",
@@ -709,7 +960,7 @@ const I18N = {
     h3:"Los muros bloquean a todos. Tu stock es limitado.",
     h4:"Salta sobre un rival adyacente; si está bloqueado detrás, salta en diagonal.",
     h5:"Nunca puedes bloquear por completo el camino a la meta.",
-    h6:"Toca una casilla brillante para moverte. Toca una ranura para construir un muro.",
+    h6:"Toca una casilla brillante para moverte. Toca —o mantén y arrastra— una ranura para construir un muro.",
     sound:"Sonido", sound_off:"Silenciado", language:"Idioma",
     menu:"Menú", resume:"Continuar", restart:"Reiniciar", quit:"Salir", rematch:"Revancha", home:"Inicio",
     your_turn:"Tu turno", turn_of:"Turno de {name}", thinking:"{name} está pensando",
@@ -721,7 +972,7 @@ const I18N = {
     moves:"Movimientos", walls_used:"Muros usados", time:"Tiempo",
     timeout:"¡Tiempo! — movimiento automático",
     coach_title:"Consejo rápido",
-    coach_body:"Toca una casilla brillante para moverte, o una ranura entre casillas para construir un muro. Confirma con ✓.",
+    coach_body:"Toca una casilla brillante para moverte —o mantén una ranura y arrastra para apuntar tu muro y suelta para colocarlo—. El toque simple también vale: confirma con ✓.",
     got_it:"¡Entendido!",
     offline_note:"Funciona completamente sin conexión",
     credits:"Un juego original de carreras y muros",
@@ -744,7 +995,26 @@ const I18N = {
     confirm_del:"Toca otra vez para borrar",
     name_required:"Escribe tu nombre",
     account_note:"Tu cuenta se guarda en tu dispositivo. Funciona sin conexión.",
-    profile_saved:"Perfil guardado",
+        profile_saved:"Perfil guardado",
+    hub_puzzles:"Puzzles", hub_bots:"Escalera de bots", hub_board:"Clasificación",
+    hub_pz_sub:"{n} resueltos", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Desafío diario", pz_daily_sub:"3 puzzles — una serie nueva cada día",
+    pz_play:"Jugar", pz_done:"¡Hecho!", pz_next_in:"Nueva serie en", pz_day_streak:"{n} días seguidos",
+    pz_wall_t:"Puzzle de muro", pz_race_t:"Puzzle de carrera",
+    pz_wall_g:"Coloca un muro que haga tu camino más corto que el de tu rival",
+    pz_race_g:"Llega a tu línea de meta en {n} movimientos o menos",
+    pz_race_g2:"Encuentra el camino más corto a tu línea de meta",
+    pz_moves:"Movimientos {n}/{k}", pz_tries:"Intentos", pz_retry:"Reintentar", pz_new:"Siguiente puzzle",
+    pz_wrong:"Ese muro no cambia la carrera — prueba otro",
+    pz_no_move:"Este puzzle pide un muro, no un movimiento",
+    pz_slow:"Demasiado lento — reintenta y busca el camino más corto",
+    pz_solved:"¡Puzzle resuelto!", pz_practice:"Práctica", pz_solved_total:"{n} resueltos en total",
+    bots_title:"Escalera de bots", bots_your:"Tu puntuación", bots_play:"Reto",
+    bots_record:"{w}V · {l}D", expert:"Experto",
+    board_title:"Clasificación del club", board_you:"Tú",
+    tier_paper:"Papel", tier_bronze:"Bronce", tier_silver:"Plata",
+    tier_gold:"Oro", tier_platinum:"Platino", tier_diamond:"Diamante",
+    wall_stock:"Muros", guides:"Guías de muros", path_guide:"Guía de ruta",
   },
   fr: {
     tagline:"Atteins le côté opposé. Enferme-les.",
@@ -763,7 +1033,7 @@ const I18N = {
     h3:"Les murs bloquent tout le monde. Ton stock est limité.",
     h4:"Saute par-dessus un rival adjacent ; si bloqué derrière, saute en diagonale.",
     h5:"Tu ne peux jamais bloquer totalement le chemin vers l'arrivée.",
-    h6:"Touche une case illuminée pour bouger. Touche une rainure pour construire un mur.",
+    h6:"Touche une case illuminée pour bouger. Touche —ou appuie et fais glisser— une rainure pour construire un mur.",
     sound:"Son", sound_off:"Muet", language:"Langue",
     menu:"Menu", resume:"Reprendre", restart:"Recommencer", quit:"Quitter", rematch:"Revanche", home:"Accueil",
     your_turn:"À toi", turn_of:"Tour de {name}", thinking:"{name} réfléchit",
@@ -775,7 +1045,7 @@ const I18N = {
     moves:"Coups", walls_used:"Murs utilisés", time:"Durée",
     timeout:"Temps écoulé — coup automatique",
     coach_title:"Astuce rapide",
-    coach_body:"Touche une case illuminée pour avancer, ou une rainure entre les cases pour construire un mur. Confirme avec ✓.",
+    coach_body:"Touche une case illuminée pour avancer —ou appuie sur une rainure et fais glisser pour viser ton mur, puis relâche pour le poser—. Le simple toucher marche aussi : confirme avec ✓.",
     got_it:"Compris !",
     offline_note:"Fonctionne entièrement hors ligne",
     credits:"Un jeu original de course et de murs",
@@ -798,7 +1068,26 @@ const I18N = {
     confirm_del:"Touchez à nouveau pour supprimer",
     name_required:"Écris ton nom",
     account_note:"Votre compte est enregistré sur votre appareil. Fonctionne hors ligne.",
-    profile_saved:"Profil enregistré",
+        profile_saved:"Profil enregistré",
+    hub_puzzles:"Casse-têtes", hub_bots:"Échelle des bots", hub_board:"Classement",
+    hub_pz_sub:"{n} résolus", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Défi du jour", pz_daily_sub:"3 casse-têtes — une série nouvelle chaque jour",
+    pz_play:"Jouer", pz_done:"Fait !", pz_next_in:"Nouvelle série dans", pz_day_streak:"{n} jours d'affilée",
+    pz_wall_t:"Casse-tête mur", pz_race_t:"Casse-tête course",
+    pz_wall_g:"Place un mur qui rend ton chemin plus court que celui de ton rival",
+    pz_race_g:"Atteins ta ligne d'arrivée en {n} coups ou moins",
+    pz_race_g2:"Trouve le chemin le plus court vers ta ligne d'arrivée",
+    pz_moves:"Coups {n}/{k}", pz_tries:"Essais", pz_retry:"Réessayer", pz_new:"Casse-tête suivant",
+    pz_wrong:"Ce mur ne renverse pas la course — essaie un autre",
+    pz_no_move:"Ce casse-tête demande un mur, pas un déplacement",
+    pz_slow:"Trop lent — réessaie et trouve le chemin le plus court",
+    pz_solved:"Casse-tête résolu !", pz_practice:"Entraînement", pz_solved_total:"{n} résolus au total",
+    bots_title:"Échelle des bots", bots_your:"Ton classement", bots_play:"Défier",
+    bots_record:"{w}V · {l}D", expert:"Expert",
+    board_title:"Classement du club", board_you:"Toi",
+    tier_paper:"Papier", tier_bronze:"Bronze", tier_silver:"Argent",
+    tier_gold:"Or", tier_platinum:"Platine", tier_diamond:"Diamant",
+    wall_stock:"Murs", guides:"Repères de murs", path_guide:"Guide de chemin",
   },
   de: {
     tagline:"Erreiche die andere Seite. Baue sie ein.",
@@ -817,7 +1106,7 @@ const I18N = {
     h3:"Mauern blockieren alle. Dein Vorrat ist begrenzt.",
     h4:"Springe über einen angrenzenden Gegner. Ist dahinter eine Mauer, springe diagonal.",
     h5:"Der Weg zum Ziel kann nie völlig blockiert werden.",
-    h6:"Tippe ein leuchtendes Feld zum Ziehen. Tippe in eine Rille, um eine Mauer zu bauen.",
+    h6:"Tippe ein leuchtendes Feld zum Ziehen. Tippe —oder ziehe entlang— einer Rille, um eine Mauer zu bauen.",
     sound:"Ton", sound_off:"Stumm", language:"Sprache",
     menu:"Menü", resume:"Fortsetzen", restart:"Neustart", quit:"Verlassen", rematch:"Revanche", home:"Start",
     your_turn:"Du bist dran", turn_of:"{name} ist dran", thinking:"{name} denkt nach",
@@ -829,7 +1118,7 @@ const I18N = {
     moves:"Züge", walls_used:"Benutzte Mauern", time:"Zeit",
     timeout:"Zeit um — automatischer Zug",
     coach_title:"Kurzer Hinweis",
-    coach_body:"Tippe ein leuchtendes Feld zum Ziehen oder in die Rille zwischen Feldern, um eine Mauer zu bauen. Bestätige mit ✓.",
+    coach_body:"Tippe ein leuchtendes Feld zum Ziehen —oder drücke eine Rille und ziehe, um deine Mauer auszurichten, und lass los, um sie fallen zu lassen—. Einfaches Tippen geht auch: bestätige mit ✓.",
     got_it:"Verstanden!",
     offline_note:"Läuft komplett offline",
     credits:"Ein originales Rennen-und-Mauern-Brettspiel",
@@ -852,7 +1141,26 @@ const I18N = {
     confirm_del:"Zum Löschen erneut tippen",
     name_required:"Bitte Namen eingeben",
     account_note:"Dein Konto wird auf diesem Gerät gespeichert. Funktioniert offline.",
-    profile_saved:"Profil gespeichert",
+        profile_saved:"Profil gespeichert",
+    hub_puzzles:"Rätsel", hub_bots:"Bot-Leiter", hub_board:"Rangliste",
+    hub_pz_sub:"{n} gelöst", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Tageschallenge", pz_daily_sub:"3 Rätsel — jeden Tag eine neue Serie",
+    pz_play:"Spielen", pz_done:"Geschafft!", pz_next_in:"Neue Serie in", pz_day_streak:"{n} Tage in Folge",
+    pz_wall_t:"Mauerrätsel", pz_race_t:"Ren Rätsel",
+    pz_wall_g:"Lege eine Mauer, die deinen Weg kürzer macht als den deines Gegners",
+    pz_race_g:"Erreiche deine Ziellinie in höchstens {n} Zügen",
+    pz_race_g2:"Finde den kürzesten Weg zur Ziellinie",
+    pz_moves:"Züge {n}/{k}", pz_tries:"Versuche", pz_retry:"Nochmal", pz_new:"Nächstes Rätsel",
+    pz_wrong:"Diese Mauer dreht das Rennen nicht — probiere eine andere",
+    pz_no_move:"Dieses Rätsel will eine Mauer, keinen Schritt",
+    pz_slow:"Zu langsam — versuch's nochmal und finde den kürzesten Weg",
+    pz_solved:"Rätsel gelöst!", pz_practice:"Übung", pz_solved_total:"{n} insgesamt gelöst",
+    bots_title:"Bot-Leiter", bots_your:"Dein Rating", bots_play:"Herausfordern",
+    bots_record:"{w}S · {l}N", expert:"Profi",
+    board_title:"Club-Rangliste", board_you:"Du",
+    tier_paper:"Papier", tier_bronze:"Bronze", tier_silver:"Silber",
+    tier_gold:"Gold", tier_platinum:"Platin", tier_diamond:"Diamant",
+    wall_stock:"Mauern", guides:"Mauer-Hilfen", path_guide:"Wegführer",
   },
   pt: {
     tagline:"Chegue ao lado oposto. Encurrale-os.",
@@ -871,7 +1179,7 @@ const I18N = {
     h3:"As paredes bloqueiam todos. Seu estoque é limitado.",
     h4:"Salte sobre um rival adjacente; se estiver bloqueado atrás, salte na diagonal.",
     h5:"Nunca dá para bloquear totalmente o caminho até a meta.",
-    h6:"Toque numa casa brilhante para mover. Toque numa ranhura para construir uma parede.",
+    h6:"Toque numa casa brilhante para mover. Toque —ou arraste ao longo de— uma ranhura para construir uma parede.",
     sound:"Som", sound_off:"Mudo", language:"Idioma",
     menu:"Menu", resume:"Continuar", restart:"Reiniciar", quit:"Sair", rematch:"Revanche", home:"Início",
     your_turn:"Sua vez", turn_of:"Vez de {name}", thinking:"{name} está pensando",
@@ -883,7 +1191,7 @@ const I18N = {
     moves:"Movimentos", walls_used:"Paredes usadas", time:"Tempo",
     timeout:"Tempo esgotado — jogada automática",
     coach_title:"Dica rápida",
-    coach_body:"Toque numa casa brilhante para mover, ou numa ranhura entre casas para construir uma parede. Confirme com ✓.",
+    coach_body:"Toque numa casa brilhante para mover —ou pressione uma ranhura e arraste para mirar sua parede e solte para soltá-la—. O toque simples também vale: confirme com ✓.",
     got_it:"Entendi!",
     offline_note:"Funciona totalmente offline",
     credits:"Um jogo original de corrida e paredes",
@@ -906,7 +1214,26 @@ const I18N = {
     confirm_del:"Toque de novo para apagar",
     name_required:"Escreva seu nome",
     account_note:"Sua conta fica salva no seu aparelho. Funciona offline.",
-    profile_saved:"Perfil salvo",
+        profile_saved:"Perfil salvo",
+    hub_puzzles:"Quebra-cabeças", hub_bots:"Escada de bots", hub_board:"Ranking",
+    hub_pz_sub:"{n} resolvidos", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Desafio do dia", pz_daily_sub:"3 quebra-cabeças — série nova todo dia",
+    pz_play:"Jogar", pz_done:"Feito!", pz_next_in:"Nova série em", pz_day_streak:"{n} dias seguidos",
+    pz_wall_t:"Quebra-cabeça de parede", pz_race_t:"Quebra-cabeça de corrida",
+    pz_wall_g:"Coloque uma parede que torne seu caminho mais curto que o do rival",
+    pz_race_g:"Chegue à sua linha de chegada em {n} movimentos ou menos",
+    pz_race_g2:"Ache o caminho mais curto até sua linha de chegada",
+    pz_moves:"Movimentos {n}/{k}", pz_tries:"Tentativas", pz_retry:"Tentar de novo", pz_new:"Próximo quebra-cabeça",
+    pz_wrong:"Essa parede não vira a corrida — tente outra",
+    pz_no_move:"Este quebra-cabeça pede uma parede, não um movimento",
+    pz_slow:"Muito lento — tente de novo e ache o caminho mais curto",
+    pz_solved:"Quebra-cabeça resolvido!", pz_practice:"Prática", pz_solved_total:"{n} resolvidos no total",
+    bots_title:"Escada de bots", bots_your:"Seu rating", bots_play:"Desafiar",
+    bots_record:"{w}V · {l}D", expert:"Especialista",
+    board_title:"Ranking do clube", board_you:"Você",
+    tier_paper:"Papel", tier_bronze:"Bronze", tier_silver:"Prata",
+    tier_gold:"Ouro", tier_platinum:"Platina", tier_diamond:"Diamante",
+    wall_stock:"Paredes", guides:"Guias de parede", path_guide:"Guia de caminho",
   },
   it: {
     tagline:"Raggiungi il lato opposto. Intrappolali.",
@@ -925,7 +1252,7 @@ const I18N = {
     h3:"I muri bloccano tutti. La tua scorta è limitata.",
     h4:"Salta sopra un rivale adiacente; se è bloccato dietro, salta in diagonale.",
     h5:"Non puoi mai bloccare del tutto il percorso verso il traguardo.",
-    h6:"Tocca una casella luminosa per muoverti. Tocca una scanalatura per costruire un muro.",
+    h6:"Tocca una casella luminosa per muoverti. Tocca —o trascina lungo— una scanalatura per costruire un muro.",
     sound:"Audio", sound_off:"Muto", language:"Lingua",
     menu:"Menu", resume:"Riprendi", restart:"Ricomincia", quit:"Esci", rematch:"Rivincita", home:"Home",
     your_turn:"Tocca a te", turn_of:"Turno di {name}", thinking:"{name} sta pensando",
@@ -937,7 +1264,7 @@ const I18N = {
     moves:"Mosse", walls_used:"Muri usati", time:"Tempo",
     timeout:"Tempo scaduto — mossa automatica",
     coach_title:"Consiglio veloce",
-    coach_body:"Tocca una casella luminosa per muoverti, o una scanalatura tra le caselle per costruire un muro. Conferma con ✓.",
+    coach_body:"Tocca una casella luminosa per muoverti —o premi una scanalatura e trascina per mirare il tuo muro, poi rilascia per farlo cadere—. Anche il tocco semplice va bene: conferma con ✓.",
     got_it:"Capito!",
     offline_note:"Funziona completamente offline",
     credits:"Un gioco originale di corse e muri",
@@ -960,7 +1287,26 @@ const I18N = {
     confirm_del:"Tocca di nuovo per eliminare",
     name_required:"Scrivi il tuo nome",
     account_note:"Il tuo account è salvato sul dispositivo. Funziona offline.",
-    profile_saved:"Profilo salvato",
+        profile_saved:"Profilo salvato",
+    hub_puzzles:"Indovinelli", hub_bots:"Scala dei bot", hub_board:"Classifica",
+    hub_pz_sub:"{n} risolti", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Sfida del giorno", pz_daily_sub:"3 indovinelli — una serie nuova ogni giorno",
+    pz_play:"Gioca", pz_done:"Fatto!", pz_next_in:"Nuova serie tra", pz_day_streak:"{n} giorni di fila",
+    pz_wall_t:"Indovinello muro", pz_race_t:"Indovinello corsa",
+    pz_wall_g:"Piazza un muro che renda il tuo percorso più corto di quello del rivale",
+    pz_race_g:"Raggiungi la tua linea d'arrivo in {n} mosse o meno",
+    pz_race_g2:"Trova il percorso più breve verso la tua linea d'arrivo",
+    pz_moves:"Mosse {n}/{k}", pz_tries:"Tentativi", pz_retry:"Riprova", pz_new:"Indovinello dopo",
+    pz_wrong:"Quel muro non ribalta la corsa — prova un altro",
+    pz_no_move:"Questo indovinello vuole un muro, non una mossa",
+    pz_slow:"Troppo lento — riprova e trova il percorso più breve",
+    pz_solved:"Indovinello risolto!", pz_practice:"Allenamento", pz_solved_total:"{n} risolti in totale",
+    bots_title:"Scala dei bot", bots_your:"Il tuo punteggio", bots_play:"Sfida",
+    bots_record:"{w}V · {l}S", expert:"Esperto",
+    board_title:"Classifica del club", board_you:"Tu",
+    tier_paper:"Carta", tier_bronze:"Bronzo", tier_silver:"Argento",
+    tier_gold:"Oro", tier_platinum:"Platino", tier_diamond:"Diamante",
+    wall_stock:"Muri", guides:"Guide muri", path_guide:"Guida percorso",
   },
   tr: {
     tagline:"Karşı tarafa ulaş. Duvarlarla kapat.",
@@ -979,7 +1325,7 @@ const I18N = {
     h3:"Duvarlar herkesi engeller. Stokun sınırlı.",
     h4:"Bitişik rakibin üstünden atla; arkası kapalıysa yana atla.",
     h5:"Hedefe giden yol asla tamamen kapatılamaz.",
-    h6:"Hareket için parlayan kareye, duvar için kareler arasındaki oluğa dokun.",
+    h6:"Hareket için parlayan kareye dokun; duvar için oluğa dokun ya da parmağını oluğun boyunca sürükle.",
     sound:"Ses", sound_off:"Sessiz", language:"Dil",
     menu:"Menü", resume:"Devam", restart:"Yeniden başlat", quit:"Çık", rematch:"Rövanş", home:"Ana sayfa",
     your_turn:"Sıra sende", turn_of:"{name}'in sırası", thinking:"{name} düşünüyor",
@@ -991,7 +1337,7 @@ const I18N = {
     moves:"Hamle", walls_used:"Kullanılan duvar", time:"Süre",
     timeout:"Süre bitti — otomatik hamle",
     coach_title:"Hızlı ipucu",
-    coach_body:"Hareket için parlayan kareye, duvar için kareler arasındaki oluğa dokun ve ✓ ile onayla.",
+    coach_body:"Hareket için parlayan kareye dokun —ya da bir oluğa basıp parmağını sürükleyerek duvarını nişan al ve bırak—. Sadece dokunmak da olur: ✓ ile onayla.",
     got_it:"Anladım!",
     offline_note:"Tamamen çevrimdışı çalışır",
     credits:"Özgün bir yarış ve duvar oyunu",
@@ -1014,7 +1360,26 @@ const I18N = {
     confirm_del:"Silmek için tekrar dokun",
     name_required:"Lütfen adını yaz",
     account_note:"Hesabın cihazında saklanır. Çevrimdışı çalışır.",
-    profile_saved:"Profil kaydedildi",
+        profile_saved:"Profil kaydedildi",
+    hub_puzzles:"Bilmeceler", hub_bots:"Bot merdiveni", hub_board:"Sıralama",
+    hub_pz_sub:"{n} çözüldü", hub_bots_sub:"{t} · {r}", hub_board_sub:"{t}",
+    pz_daily:"Günün yarışı", pz_daily_sub:"3 bilmece — her gün yeni bir seri",
+    pz_play:"Oyna", pz_done:"Tamam!", pz_next_in:"Yeni seri", pz_day_streak:"{n} gün üst üste",
+    pz_wall_t:"Duvar bilmecesi", pz_race_t:"Yarış bilmecesi",
+    pz_wall_g:"Rakibinin yolundan daha kısa yapacak tek bir duvar yerleştir",
+    pz_race_g:"Hedef çizgisine {n} hamlede veya daha azında ulaş",
+    pz_race_g2:"Hedef çizgisine giden en kısa yolu bul",
+    pz_moves:"Hamleler {n}/{k}", pz_tries:"Deneme", pz_retry:"Yeniden dene", pz_new:"Sonraki bilmece",
+    pz_wrong:"Bu duvar yarışı çevirmez — başka dene",
+    pz_no_move:"Bu bilmece duvar istiyor, hamle değil",
+    pz_slow:"Çok yavaş — tekrar dene ve en kısa yolu bul",
+    pz_solved:"Bilmece çözüldü!", pz_practice:"Alıştırma", pz_solved_total:"toplam {n} çözüldü",
+    bots_title:"Bot merdiveni", bots_your:"Puanın", bots_play:"Meydan oku",
+    bots_record:"{w}G · {l}M", expert:"Usta",
+    board_title:"Kulüp sıralaması", board_you:"Sen",
+    tier_paper:"Kâğıt", tier_bronze:"Bronz", tier_silver:"Gümüş",
+    tier_gold:"Altın", tier_platinum:"Platin", tier_diamond:"Elmas",
+    wall_stock:"Duvarlar", guides:"Duvar kılavuzları", path_guide:"Yol kılavuzu",
   }
 };
 
@@ -1388,7 +1753,8 @@ const AI = {
     const cfg = {
       easy:   { depth:1, limits:[10], noise:2, randTop:2 },
       medium: { depth:2, limits:[18, 12], noise:1.2, randTop:2 },
-      hard:   { depth:3, limits:[20, 14, 10], noise:0, randTop:1 }
+      hard:   { depth:3, limits:[20, 14, 10], noise:0, randTop:1 },
+      expert: { depth:4, limits:[22, 14, 10, 8], noise:0, randTop:1 }
     }[difficulty] || { depth:2, limits:[16, 12], noise:1, randTop:2 };
 
     const moves = this.orderedMoves(st, pi, cfg.limits[0]);
@@ -1483,15 +1849,36 @@ const Game = {
     this.history = [];
     this.stopBlitz();
     const walls = cfg.mode === "blitz" ? 6 : (cfg.mode === "squad" ? 5 : 10);
-    const rp = cfg.players.map(p => {
-      const s = SEAT_POS[p.seat];
-      return { r:s.r, c:s.c, walls, goal:s.goal, active:true };
-    });
-    this.state = Rules.newState(rp);
-    this.state.turn = 0;
+    if (cfg.mode === "puzzle" && cfg.puzzle){
+      // puzzle: custom setup from the generated position (me → row 0, rival → row 8, rival frozen)
+      const P = cfg.puzzle;
+      const rp = [
+        { r: P.me.r, c: P.me.c, walls: P.type === "race" ? 0 : 10, goal: { axis: "r", v: 0 }, active: true },
+        { r: P.op.r, c: P.op.c, walls: 0, goal: { axis: "r", v: 8 }, active: true }
+      ];
+      this.state = Rules.newState(rp);
+      this.state.turn = 0;
+      for (const w of P.walls){
+        if (Rules.canPlaceRaw(this.state, w.r, w.c, w.o)){
+          Rules.placeRaw(this.state, w.r, w.c, w.o);
+          this.state.wallList.push({ r: w.r, c: w.c, o: w.o, by: -1 });
+        }
+      }
+    } else {
+      const rp = cfg.players.map(p => {
+        const s = SEAT_POS[p.seat];
+        return { r:s.r, c:s.c, walls, goal:s.goal, active:true };
+      });
+      this.state = Rules.newState(rp);
+      this.state.turn = 0;
+    }
     this.players = cfg.players.map((p, i) => ({
       ...p, color: PLAYER_COLORS[i], walls, moves: 0, wallsUsed: 0, idx: i
     }));
+    if (cfg.mode === "puzzle" && this.state){
+      // puzzle stock comes from the generated position (race = 0 walls)
+      this.players.forEach((p, i) => { p.walls = this.state.players[i].walls; });
+    }
     this.beginTurn();
   },
 
@@ -1501,6 +1888,10 @@ const Game = {
   beginTurn(){
     if (this.over) return;
     const i = this.state.turn;
+    if (this.players[i] && this.players[i].type === "bot" && this.players[i].difficulty === "frozen"){
+      this.nextTurn(); // puzzle rival: static pawn, never moves
+      return;
+    }
     this.on("turn", i);
     if (this.isHuman(i)){
       if (this.cfg.mode === "blitz") this.startBlitz();
@@ -1545,6 +1936,7 @@ const Game = {
     this.history.push({ snap: Rules.clone(this.state), mover: pi });
     if (this.history.length > 400) this.history.shift();
     const p = this.players[pi];
+    this._lastMv = mv;
     p.moves++;
     if (mv.type === "wall"){ p.wallsUsed++; p.walls--; }
     Rules.applyMove(this.state, pi, mv);
@@ -1600,6 +1992,28 @@ const Game = {
     if (!chk.ok) return chk;
     this.doMove(pi, { type:"wall", r, c, o });
     return chk;
+  },
+
+  /* ---------- puzzle: revert a wrong attempt ---------- */
+  revertLast(){
+    if (!this.history.length) return false;
+    this.stopBlitz();
+    const h = this.history.pop();
+    this.state = h.snap;
+    this.moveCount = Math.max(0, this.moveCount - 1);
+    for (let i = 0; i < this.players.length; i++){
+      const sp = this.state.players[i], p = this.players[i];
+      p.walls = sp.walls;
+    }
+    if (this._lastMv){
+      const p = this.players[h.mover];
+      if (this._lastMv.type === "wall") p.wallsUsed = Math.max(0, p.wallsUsed - 1);
+      else p.moves = Math.max(0, p.moves - 1);
+    }
+    this.over = false;
+    this.on("undo");
+    this.beginTurn();
+    return true;
   },
 
   /* ---------- undo & hint (vs bots) ---------- */
@@ -1693,6 +2107,10 @@ const R = {
   boardX: 0, boardY: 0, CS: 40, frame: 6,
   staticCv: null, needStatic: true,
   ghost: null, ghostOk: true,
+  hover: null, hoverOk: true,
+  ghostImpact: null,
+  wallAnim: null,
+  spots: [], spotsKey: "",
   legal: [], legalJumps: {},
   hintMv: null, hintUntil: 0,
   animMap: {}, particles: [], confetti: [],
@@ -1751,6 +2169,40 @@ const R = {
     this.animMap[pi] = { fx: from.c, fy: from.r, tx: to.c, ty: to.r, start: performance.now(), dur: 170 + (jump ? 90 : 0), jump };
     this.eyeDir[pi] = { x: Math.sign(to.c - from.c), y: Math.sign(to.r - from.r) };
   },
+  dropWall(r, c, o, by){
+    const st = performance.now();
+    this.wallAnim = { r, c, o, by, start: isFinite(st) ? st : 0, dur: 340 };
+  },
+  anchorFor(x, y, o){
+    // nearest placeable wall anchor to pixel (x,y) for orientation o — used while dragging
+    const bx = (x - this.boardX) / this.CS, by = (y - this.boardY) / this.CS;
+    let r = Math.max(0, Math.min(7, Math.round(by) - 1));
+    let c = Math.max(0, Math.min(7, Math.round(bx) - 1));
+    const cands = [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1],[r-1,c-1],[r+1,c+1],[r-1,c+1],[r+1,c-1],[r-2,c],[r,c-2],[r+2,c],[r,c+2]];
+    for (const [rr, cc] of cands){
+      if (rr < 0 || rr > 7 || cc < 0 || cc > 7) continue;
+      if (Rules.canPlaceRaw(Game.state, rr, cc, o)) return { r: rr, c: cc, o };
+    }
+    return null;
+  },
+  wallSpotsNow(){
+    if (!Game.state || Game.over || !Game.isHuman(Game.state.turn)) return [];
+    if (!Settings.wallGuides) return [];
+    const p = Game.state.players[Game.state.turn];
+    if (p.walls <= 0) return [];
+    const key = Game.state.turn + ":" + Game.state.wallList.length + ":" + (Settings.wallGuides ? 1 : 0);
+    if (key === this.spotsKey) return this.spots;
+    const out = [];
+    for (let r = 0; r < 8; r++)
+      for (let c = 0; c < 8; c++){
+        const h = Rules.canPlaceRaw(Game.state, r, c, "h");
+        const v = Rules.canPlaceRaw(Game.state, r, c, "v");
+        if (h || v) out.push({ r, c, h, v });
+      }
+    this.spotsKey = key;
+    this.spots = out;
+    return out;
+  },
   slam(r, c, o){
     const rect = this.wallRect(r, c, o);
     for (let i = 0; i < 10; i++){
@@ -1781,7 +2233,8 @@ const R = {
       });
     }
   },
-  setGhost(g, ok){ this.ghost = g; this.ghostOk = ok; },
+  setGhost(g, ok){ this.ghost = g; this.ghostOk = ok; if (g) this.hover = null; },
+  setHover(w, ok){ this.hover = w; this.hoverOk = ok !== false; },
   setLegal(list){
     this.legal = list;
     this.legalJumps = {};
@@ -1880,26 +2333,49 @@ const R = {
         ctx.globalAlpha = 1;
       });
     }
-    // walls
+    // walls (owner-colored caps; the animating one is drawn live in frame())
     if (Game.state){
-      for (const w of Game.state.wallList) this.drawWallBar(ctx, w.r, w.c, w.o, false);
+      const wa = this.wallAnim;
+      for (const w of Game.state.wallList){
+        if (wa && wa.r === w.r && wa.c === w.c && wa.o === w.o) continue;
+        const col = (w.by >= 0 && Game.players[w.by]) ? Game.players[w.by].color : null;
+        this.drawWallBar(ctx, w.r, w.c, w.o, false, col);
+      }
     }
     this.needStatic = false;
   },
-  drawWallBar(ctx, r, c, o, ghost){
+  drawWallBar(ctx, r, c, o, ghost, ownerColor){
     const rect = this.wallRect(r, c, o);
-    rr(ctx, rect.x + 1, rect.y + 1, rect.w - 2, rect.h - 2, Math.min(6, rect.h / 2));
+    this.drawWallRect(ctx, rect.x, rect.y, rect.w, rect.h, ghost, this.ghostOk, ownerColor);
+  },
+  drawWallRect(ctx, x, y, w, h, ghost, ghostOk, ownerColor){
+    rr(ctx, x + 1, y + 1, w - 2, h - 2, Math.min(6, h / 2));
     if (ghost){
-      ctx.fillStyle = this.ghostOk ? "rgba(14,159,118,0.42)" : "rgba(229,72,77,0.42)";
+      ctx.fillStyle = ghostOk ? "rgba(14,159,118,0.42)" : "rgba(229,72,77,0.42)";
       ctx.fill();
       ctx.setLineDash([7, 5]);
       ctx.lineWidth = 2;
-      ctx.strokeStyle = this.ghostOk ? "#0e9f76" : "#e5484d";
+      ctx.strokeStyle = ghostOk ? "#0e9f76" : "#e5484d";
       ctx.stroke();
       ctx.setLineDash([]);
-    } else {
-      ctx.fillStyle = "#29241c"; ctx.fill();
-      ctx.strokeStyle = "rgba(255,253,244,0.4)"; ctx.lineWidth = 1; ctx.stroke();
+      return;
+    }
+    ctx.fillStyle = "#29241c"; ctx.fill();
+    ctx.strokeStyle = "rgba(255,253,244,0.4)"; ctx.lineWidth = 1; ctx.stroke();
+    if (ownerColor){
+      const cap = Math.max(5, Math.min(w, h) * 1.35);
+      ctx.fillStyle = ownerColor;
+      if (w >= h){
+        if (w > cap * 2.8){
+          rr(ctx, x + 3, y + 3, cap, h - 6, 3); ctx.fill();
+          rr(ctx, x + w - 3 - cap, y + 3, cap, h - 6, 3); ctx.fill();
+        } else { rr(ctx, x + 3, y + 3, w - 6, h - 6, 3); ctx.fill(); }
+      } else {
+        if (h > cap * 2.8){
+          rr(ctx, x + 3, y + 3, w - 6, cap, 3); ctx.fill();
+          rr(ctx, x + 3, y + h - 3 - cap, w - 6, cap, 3); ctx.fill();
+        } else { rr(ctx, x + 3, y + 3, w - 6, h - 6, 3); ctx.fill(); }
+      }
     }
   },
 
@@ -1919,6 +2395,37 @@ const R = {
     ctx.save();
     ctx.translate(sx, sy);
     ctx.drawImage(this.staticCv, 0, 0, this.W, this.H);
+
+    // ---- wall drop-in animation ("how the wall comes") ----
+    if (this.wallAnim){
+      const wa = this.wallAnim;
+      const k = Math.max(0, Math.min(1, (now - wa.start) / wa.dur));
+      if (k >= 1){
+        this.wallAnim = null;
+        this.needStatic = true; // bake the settled wall into the static layer
+      } else {
+        this.needStatic = true; // keep its slot empty in the static layer while flying
+        const e = 1 - Math.pow(1 - k, 3);
+        const rect = this.wallRect(wa.r, wa.c, wa.o);
+        const col = (wa.by >= 0 && Game.players[wa.by]) ? Game.players[wa.by].color : null;
+        const drop = this.CS * 1.15;
+        // landing shadow grows as the wall falls
+        ctx.save();
+        ctx.globalAlpha = 0.22 * e;
+        ctx.fillStyle = "#29241c";
+        ctx.beginPath();
+        ctx.ellipse(rect.x + rect.w / 2, rect.y + rect.h / 2, (rect.w / 2) * (0.4 + 0.6 * e), (rect.h / 2) * (0.4 + 0.6 * e), 0, 0, 7);
+        ctx.fill();
+        ctx.restore();
+        // the flying bar (slight stretch, then squash on landing)
+        ctx.save();
+        const stretch = 1 + Math.sin(Math.min(1, k * 1.25) * Math.PI) * 0.22;
+        ctx.translate(rect.x + rect.w / 2, rect.y + rect.h / 2 - (1 - e) * drop);
+        if (wa.o === "h") this.drawWallRect(ctx, -rect.w / 2, (-rect.h * stretch) / 2, rect.w, rect.h * stretch, false, true, col);
+        else this.drawWallRect(ctx, (-rect.w * stretch) / 2, -rect.h / 2, rect.w * stretch, rect.h, false, true, col);
+        ctx.restore();
+      }
+    }
 
     if (Game.state && !Game.over){
       const pi = Game.state.turn;
@@ -1983,8 +2490,64 @@ const R = {
           ctx.restore();
         }
       } else this.hintMv = null;
+      // wall hotspot guides (+ marks at every legal anchor)
+      if (isHumanTurn && !this.ghost && Settings.wallGuides){
+        const spots = this.wallSpotsNow();
+        if (spots.length){
+          const s = Math.max(2.5, this.CS * 0.09);
+          ctx.strokeStyle = "rgba(41,36,28,0.30)";
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.beginPath();
+          for (const sp of spots){
+            const x = this.boardX + (sp.c + 1) * this.CS, y = this.boardY + (sp.r + 1) * this.CS;
+            if (sp.h){ ctx.moveTo(x - s, y); ctx.lineTo(x + s, y); }
+            if (sp.v){ ctx.moveTo(x, y - s); ctx.lineTo(x, y + s); }
+          }
+          ctx.stroke();
+        }
+      }
+      // desktop hover preview (faint ghost before pressing)
+      if (isHumanTurn && !this.ghost && this.hover && this.hoverOk){
+        ctx.save();
+        ctx.globalAlpha = 0.45;
+        this.drawWallBar(ctx, this.hover.r, this.hover.c, this.hover.o, true);
+        ctx.restore();
+      } else if (isHumanTurn && !this.ghost && this.hover && !this.hoverOk){
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        this.drawWallBar(ctx, this.hover.r, this.hover.c, this.hover.o, true);
+        ctx.restore();
+      }
       // ghost wall
       if (this.ghost) this.drawWallBar(ctx, this.ghost.r, this.ghost.c, this.ghost.o, true);
+      // ghost impact: resulting race distances ("you 6 · rival 11")
+      if (this.ghost && this.ghostOk && this.ghostImpact && Game.players.length === 2){
+        const gi = this.ghostImpact;
+        const rect = this.wallRect(this.ghost.r, this.ghost.c, this.ghost.o);
+        const fs = Math.max(11, Math.round(this.CS * 0.36));
+        ctx.font = "700 " + fs + "px Changa, Arial, sans-serif";
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        const s0 = String(gi.d0), s1 = String(gi.d1);
+        const w0 = ctx.measureText(s0).width, w1 = ctx.measureText(s1).width;
+        const dot = ctx.measureText("·").width;
+        const pw = Math.max(64, w0 + w1 + dot + 26);
+        const ph = fs + 11;
+        let px = rect.x + rect.w / 2 - pw / 2;
+        px = Math.max(this.boardX - 4, Math.min(this.boardX + this.CS * 9 - pw + 4, px));
+        let py = rect.y - ph - 7;
+        if (py < this.boardY - 2) py = rect.y + rect.h + 7;
+        rr(ctx, px, py, pw, ph, ph / 2);
+        ctx.fillStyle = "#fffdf4"; ctx.fill();
+        ctx.strokeStyle = "#29241c"; ctx.lineWidth = 2; ctx.stroke();
+        const cy = py + ph / 2;
+        ctx.fillStyle = Game.players[0].color;
+        ctx.fillText(s0, px + 7 + w0 / 2, cy);
+        ctx.fillStyle = "#29241c";
+        ctx.fillText("·", px + 7 + w0 + dot / 2 + 3, cy);
+        ctx.fillStyle = Game.players[1].color;
+        ctx.fillText(s1, px + pw - 7 - w1 / 2, cy);
+      }
     }
 
     // pawns
@@ -2027,7 +2590,7 @@ const R = {
     let x = st.c, y = st.r, scale = 1;
     const a = this.animMap[i];
     if (a){
-      const k = Math.min(1, (performance.now() - a.start) / a.dur);
+      const k = Math.max(0, Math.min(1, (performance.now() - a.start) / a.dur));
       const e = 1 - (1 - k) * (1 - k);
       x = a.fx + (a.tx - a.fx) * e;
       y = a.fy + (a.ty - a.fy) * e;
@@ -2133,8 +2696,17 @@ const Input = {
     cv.addEventListener("pointerdown", (e) => {
       e.preventDefault();
       SFX.init(); SFX.resume();
-      this.onTap(e.clientX, e.clientY);
+      try { cv.setPointerCapture(e.pointerId); } catch(_){}
+      this.onDown(e.clientX, e.clientY);
     });
+    cv.addEventListener("pointermove", (e) => {
+      this.onMove(e.clientX, e.clientY, e.pointerType, e.buttons);
+    });
+    cv.addEventListener("pointerup", (e) => {
+      this.onUp(e.clientX, e.clientY);
+    });
+    cv.addEventListener("pointercancel", () => { this.drag = null; R.setHover(null); });
+    cv.addEventListener("pointerleave", () => { if (!this.drag) R.setHover(null); });
     document.getElementById("btnOk").addEventListener("click", () => { SFX.init(); this.confirmGhost(); });
     document.getElementById("btnCancel").addEventListener("click", () => { SFX.init(); this.clearGhost(); });
     document.getElementById("btnRotate").addEventListener("click", () => { SFX.init(); this.rotateGhost(); });
@@ -2142,20 +2714,22 @@ const Input = {
   },
 
   humanTurn(){
-    return Game.state && !Game.over && Game.isHuman(Game.state.turn);
+    return Game.state && !Game.over && !Game.paused && Game.isHuman(Game.state.turn);
   },
 
-  onTap(cx, cy){
+  onDown(cx, cy){
     if (!Game.state || Game.over) return;
     if (!this.humanTurn()) return;
     const rect = R.cv.getBoundingClientRect();
     const x = cx - rect.left, y = cy - rect.top;
     const hit = R.hitTest(cx, cy);
     const pi = Game.state.turn;
+    R.setHover(null);
 
     if (this.ghost){
       if (R.pointInGhost(x, y)){
-        this.confirmGhost();
+        // wait for pointerup — a press on the ghost may become a drag-adjust
+        this.drag = { sx: x, sy: y, moved: false, overGhost: true };
         return;
       }
       if (hit.kind === "groove"){
@@ -2164,6 +2738,7 @@ const Input = {
           return;
         }
         this.setGhost(hit.wall);
+        this.drag = { sx: x, sy: y, moved: false };
         return;
       }
       if (hit.kind === "cell"){
@@ -2175,15 +2750,66 @@ const Input = {
 
     if (hit.kind === "cell"){
       if (Game.tryMove(pi, hit.r, hit.c)) return;
-      // tapping own pawn or others: ignore quietly
+      if (Game.cfg.mode === "puzzle" && Game.cfg.puzzle.type === "wall"){ UI.toast(t("pz_no_move")); SFX.illegal(); }
       return;
     }
     if (hit.kind === "groove"){
       this.setGhost(hit.wall);
+      this.drag = { sx: x, sy: y, moved: false };
     }
   },
 
-  setGhost(wall){
+  onMove(cx, cy, ptype, buttons){
+    if (!Game.state || Game.over || !this.humanTurn()) return;
+    const rect = R.cv.getBoundingClientRect();
+    const x = cx - rect.left, y = cy - rect.top;
+
+    // --- dragging a wall: ghost follows the pointer, orientation from drag direction ---
+    if (this.drag){
+      const dx = x - this.drag.sx, dy = y - this.drag.sy;
+      if (!this.drag.moved && Math.hypot(dx, dy) > 13) this.drag.moved = true;
+      if (this.drag.moved){
+        const o = (Math.abs(dx) >= Math.abs(dy)) ? "h" : "v";
+        const a = R.anchorFor(x, y, o);
+        if (a && (!this.ghost || a.r !== this.ghost.r || a.c !== this.ghost.c || a.o !== this.ghost.o))
+          this.setGhostQuiet(a);
+        return;
+      }
+      return;
+    }
+
+    // --- desktop hover preview ---
+    if (ptype === "mouse" && !buttons){
+      const hit = R.hitTest(cx, cy);
+      if (hit.kind === "groove" && Game.state.players[Game.state.turn].walls > 0){
+        const ok = Game.wallCheck(Game.state.turn, hit.wall.r, hit.wall.c, hit.wall.o).ok;
+        R.setHover(hit.wall, ok);
+      } else R.setHover(null);
+    }
+  },
+
+  onUp(cx, cy){
+    const d = this.drag;
+    this.drag = null;
+    if (!d || !this.humanTurn()) return;
+    if (d.moved){
+      // drag released: drop the wall if the position is legal, else keep it for fixing
+      if (this.ghost){
+        if (this.ghostOk) this.confirmGhost();
+        else {
+          SFX.illegal();
+          if (this.ghostReason === "block") UI.toast(t("illegal_block"));
+          else if (this.ghostReason === "stock") UI.toast(t("no_walls"));
+          else UI.toast(t("illegal_place"));
+        }
+      }
+      return;
+    }
+    if (d.overGhost && this.ghost){ this.confirmGhost(); return; } // simple tap on ghost = place
+  },
+
+  setGhost(wall){ this.setGhostQuiet(wall, true); },
+  setGhostQuiet(wall, sound){
     if (!this.humanTurn()) return;
     const pi = Game.state.turn;
     const chk = Game.wallCheck(pi, wall.r, wall.c, wall.o);
@@ -2192,8 +2818,16 @@ const Input = {
     this.ghostReason = chk.reason;
     R.setGhost(wall, chk.ok);
     UI.showWallActions(chk.ok, chk.reason);
+    // path impact preview: resulting distances for both racers
+    if (chk.ok && Game.state.players.length === 2){
+      const st = Game.state;
+      Rules.placeRaw(st, wall.r, wall.c, wall.o);
+      const d0 = Rules.bfsDist(st, 0), d1 = Rules.bfsDist(st, 1);
+      Rules.removeRaw(st, wall.r, wall.c, wall.o);
+      R.ghostImpact = (d0 < 9999 && d1 < 9999) ? { d0, d1 } : null;
+    } else R.ghostImpact = null;
     if (!chk.ok && chk.reason === "stock"){ this.clearGhost(); UI.toast(t("no_walls")); SFX.illegal(); }
-    else SFX.click();
+    else if (sound) SFX.click();
   },
   rotateGhost(){
     if (!this.ghost) return;
@@ -2230,6 +2864,7 @@ const Input = {
   clearGhost(){
     this.ghost = null; this.ghostOk = false; this.ghostReason = null;
     R.setGhost(null, true);
+    R.ghostImpact = null;
     UI.showWallActions(null);
   },
 
@@ -2254,10 +2889,17 @@ const Input = {
 ;
 /* ============ Main — UI wiring, views, hooks ============ */
 "use strict";
-const Settings = { pathGuide: true };
+const Settings = { pathGuide: true, wallGuides: true };
 try {
   Settings.pathGuide = localStorage.getItem("wr_pathguide") !== "0";
+  Settings.wallGuides = localStorage.getItem("wr_guides") !== "0";
 } catch(e){}
+Settings.save = function(){
+  try {
+    localStorage.setItem("wr_guides", Settings.wallGuides ? "1" : "0");
+    localStorage.setItem("wr_pathguide", Settings.pathGuide ? "1" : "0");
+  } catch(e){}
+};
 
 const FLAGS = {
   ar:'<svg viewBox="0 0 96 64" xmlns="http://www.w3.org/2000/svg"><rect width="96" height="64" fill="#0e9f76"/><circle cx="42" cy="32" r="15" fill="#fffdf4"/><circle cx="48" cy="32" r="12.2" fill="#0e9f76"/><polygon points="64.0,25.0 65.7,29.7 70.7,29.8 66.8,32.9 68.1,37.7 64.0,34.9 59.9,37.7 61.2,32.9 57.3,29.8 62.3,29.7" fill="#fffdf4"/></svg>',
@@ -2362,7 +3004,7 @@ const UI = {
     this.$("btnSound").addEventListener("click", () => this.toggleSound());
     this.$("btnLang").addEventListener("click", () => { SFX.click(); this.openLang("home"); });
     // menu
-    this.$("btnMenu").addEventListener("click", () => { SFX.click(); Game.paused = true; this.openModal("menuModal"); });
+    this.$("btnMenu").addEventListener("click", () => { SFX.click(); Game.paused = true; this.updateToggleLabels(); this.openModal("menuModal"); });
     this.$("btnResume").addEventListener("click", () => { SFX.click(); Game.paused = false; this.closeModals(); });
     this.$("btnRestart").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
     this.$("btnMenuHowto").addEventListener("click", () => { SFX.click(); this.openModal("howtoModal"); });
@@ -2371,8 +3013,16 @@ const UI = {
     this.$("btnMenuLang").addEventListener("click", () => { SFX.click(); this.openLang("menu"); });
     this.$("btnQuit").addEventListener("click", () => { SFX.click(); Game.stopBlitz(); this.closeModals(); this.showView("home"); this.refreshHome(); });
     // win overlay
-    this.$("btnRematch").addEventListener("click", () => { SFX.click(); this.closeModals(); this.startMatch(this.lastCfg); });
-    this.$("btnWinHome").addEventListener("click", () => { SFX.click(); this.closeModals(); this.showView("home"); this.refreshHome(); });
+    this.$("btnRematch").addEventListener("click", () => {
+      SFX.click(); this.closeModals();
+      if (Game.cfg && Game.cfg.mode === "puzzle"){ this.pzNext(); return; }
+      this.startMatch(this.lastCfg);
+    });
+    this.$("btnWinHome").addEventListener("click", () => {
+      SFX.click(); this.closeModals();
+      if (Game.cfg && Game.cfg.mode === "puzzle"){ this.openPuzzles(); return; }
+      this.showView("home"); this.refreshHome();
+    });
     // game actions
     this.$("btnUndo").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.undo()) SFX.click(); else SFX.illegal(); });
     this.$("btnHint").addEventListener("click", () => { SFX.init(); SFX.resume(); if (Game.useHint()) SFX.pickupHint(); });
@@ -2439,7 +3089,8 @@ const UI = {
   openLang(from){ this.langReturn = from; this.closeModals(); this.showView("lang"); this.$("langBack").classList.remove("hidden"); },
   showView(v){
     this.view = v;
-    ["langView","homeView","gameView","accountView","playersView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
+    ["langView","homeView","gameView","accountView","playersView","puzzlesView","botsView","boardView"].forEach(id => this.$(id).classList.toggle("hidden", id !== v + "View"));
+    if (v !== "puzzles") this.stopDailyTick();
     if (v !== "lang") this.$("langBack").classList.add("hidden");
     if (v === "game") setTimeout(() => R.resize(), 30);
   },
@@ -2548,6 +3199,19 @@ const UI = {
       this.$("btnHint").classList.toggle("hidden", false);
       this.$("undoCount").textContent = Game.undoLeft;
       this.$("hintCount").textContent = Game.hintLeft;
+      this.$("btnRematch").textContent = t("rematch");
+      const isPz = cfg.mode === "puzzle";
+      this.$("pzBar").classList.toggle("hidden", !isPz);
+      if (isPz){
+        this._pzDone = false;
+        this.$("gameActions").classList.add("hidden");
+        const P = cfg.puzzle;
+        this.$("pzTitle").textContent = t(P.type === "wall" ? "pz_wall_t" : "pz_race_t");
+        this.$("pzGoal").textContent = P.type === "wall" ? t("pz_wall_g") : t("pz_race_g", { n: P.K });
+        this.pzAttempts = 0;
+        this.pzRefreshMeta();
+      }
+      this.updateStock();
       let coached = false;
       try { coached = localStorage.getItem("wr_coached") === "1"; } catch(e){}
       if (!coached) setTimeout(() => { Game.paused = true; this.openModal("coach"); }, 600);
@@ -2566,17 +3230,23 @@ const UI = {
       if (p.avatar){ av.innerHTML = Account.avatarSvg(p.avatar); av.classList.add("hasAv"); }
       const info = document.createElement("div");
       info.className = "chipInfo";
+      const top = document.createElement("div");
+      top.className = "chipTop";
       const nm = document.createElement("div");
       nm.className = "chipName"; nm.textContent = p.name; nm.id = "chipName" + i;
+      const ds = document.createElement("span");
+      ds.className = "chipDist"; ds.id = "chipDist" + i;
+      top.append(nm, ds);
       const wl = document.createElement("div");
       wl.className = "chipWalls"; wl.id = "chipWalls" + i;
-      info.append(nm, wl);
+      info.append(top, wl);
       chip.append(av, info);
       wrap.appendChild(chip);
     });
     this.updateChips();
   },
   updateChips(){
+    if (!Game.state) return;
     Game.players.forEach((p, i) => {
       const chip = this.$("chip" + i);
       if (!chip) return;
@@ -2584,14 +3254,21 @@ const UI = {
       const wl = this.$("chipWalls" + i);
       if (wl){
         wl.innerHTML = "";
-        const total = Game.cfg.mode === "blitz" ? 6 : Game.cfg.mode === "squad" ? 5 : 10;
+        let total = Game.cfg.mode === "blitz" ? 6 : Game.cfg.mode === "squad" ? 5 : 10;
+        if (Game.cfg.mode === "puzzle") total = Game.cfg.puzzle.type === "race" ? 0 : 10;
         for (let k = 0; k < total; k++){
           const pip = document.createElement("i");
           if (k < p.walls) pip.className = "on";
           wl.appendChild(pip);
         }
       }
+      const de = this.$("chipDist" + i);
+      if (de){
+        const d = Rules.bfsDist(Game.state, i);
+        de.textContent = "🏁" + (d >= 9999 ? "—" : d);
+      }
     });
+    this.updateStock();
   },
   onTurn(i){
     this.updateChips();
@@ -2615,7 +3292,8 @@ const UI = {
   showWallActions(ok){
     const wa = this.$("wallActions"), ga = this.$("gameActions");
     if (ok === null || ok === undefined){
-      wa.classList.add("hidden"); ga.classList.remove("hidden");
+      wa.classList.add("hidden");
+      if (!(Game.cfg && Game.cfg.mode === "puzzle")) ga.classList.remove("hidden");
       this.$("btnOk").disabled = false;
       return;
     }
@@ -2643,13 +3321,35 @@ const UI = {
       const p = Game.players[pi];
       if (Rules.isWin(Game.state, pi)) R.burst(mv.r, mv.c, p.color);
     }
+    if (mv.type === "wall"){
+      R.dropWall(mv.r, mv.c, mv.o, pi); // animated drop-in with owner colors
+    }
     this.updateChips();
+    this.pzAfterMove(pi, mv);
   },
   onWin(d){
     this.updateChips();
     R.setLegal([]);
     const winner = Game.players[d.pi];
     const humanWon = winner.type === "human";
+    if (Game.cfg && Game.cfg.mode === "puzzle"){
+      const P = Game.cfg.puzzle;
+      if (P.type === "race" && d.pi === 0 && Game.players[0].moves > P.K){
+        // reached the goal but too slow → bounce back and retry
+        this.pzAttempts++;
+        Game.paused = true;
+        setTimeout(() => {
+          Game.paused = false;
+          Game.revertLast();
+          this.pzRefreshMeta();
+          this.toast(t("pz_slow")); SFX.illegal();
+        }, 720);
+        return;
+      }
+      this.pzSolved();
+      return;
+    }
+    this.applyLadder(d);
     setTimeout(() => {
       if (d.draw){
         R.celebrate();
@@ -2672,6 +3372,7 @@ const UI = {
             ? t("winner", { name: winner.name }) + " · " + t("by_proximity")
             : ((d.pi === this.mainHuman && humanWon) ? t("good_game") : t("winner", { name: winner.name })));
       this.$("wsMoves").textContent = d.moves;
+      this.$("wsMovesLbl").textContent = t("moves");
       this.$("wsWalls").textContent = d.wallsUsed;
       const s = Math.floor(d.time / 1000);
       this.$("wsTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
@@ -2729,6 +3430,7 @@ const UI = {
       const st = p.stats || {};
       this.$("pcSub").textContent = t("wins") + " " + (st.w || 0) + " · " + t("games") + " " + (st.g || 0) + " · " + t("streak") + " " + (st.streak || 0);
     } else card.classList.add("hidden");
+    this.refreshHub();
   },
   openAccount(mode, from, targetId){
     this.accMode = mode || "create"; this.accFrom = from || null; this.accTarget = targetId || null;
@@ -2900,9 +3602,18 @@ const AppNav = {
         return;
       }
       if (UI.view === "game"){
-        if (Game.over){ UI.showView("home"); UI.refreshHome(); return; }
+        if (Game.cfg && Game.cfg.mode === "puzzle" && !Game.over){ UI.openPuzzles(); return; }
+        if (Game.over){
+          if (Game.cfg && Game.cfg.mode === "puzzle"){ UI.openPuzzles(); return; }
+          UI.showView("home"); UI.refreshHome(); return;
+        }
         Game.paused = true;
+        UI.updateToggleLabels();
         UI.openModal("menuModal");
+        return;
+      }
+      if (UI.view === "puzzles" || UI.view === "bots" || UI.view === "board"){
+        UI.showView("home"); UI.refreshHome();
         return;
       }
       if (UI.view === "lang"){
@@ -2943,12 +3654,549 @@ const AppNav = {
   } catch(e){}
 })();
 
+
+/* ============ v1.3.0 — Puzzles: generator (deterministic daily sets) ============ */
+const Puzzles = {
+  rng(seed){
+    let a = (seed >>> 0) || 1;
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  },
+  _key(d){ return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); },
+  todayKey(){ return this._key(new Date()); },
+  yesterdayKey(){ return this._key(new Date(Date.now() - 86400000)); },
+  profile(){
+    const p = Account.current();
+    return (p && p.pz) || { solved: 0, dailyDone: "", dailyIdx: 0, streak: 0, lastDay: "" };
+  },
+  ensureToday(){
+    const today = this.todayKey();
+    Account.mutate(p => {
+      const pz = p.pz || (p.pz = { solved: 0, dailyDone: "", dailyIdx: 0, streak: 0, lastDay: "" });
+      if (pz.dailyDate !== today){ pz.dailyDate = today; pz.dailyIdx = 0; }
+    });
+  },
+  seedBase(){ return parseInt(this.todayKey().replace(/-/g, ""), 10); },
+  dailySet(){
+    const s = this.seedBase();
+    const w1 = this.genWall(this.rng(s * 7 + 1)) || this.genWall(this.rng(s * 7 + 7919));
+    const rs = this.genRace(this.rng(s * 7 + 2)) || this.genRace(this.rng(s * 7 + 104729));
+    const w2 = this.genWall(this.rng(s * 7 + 3)) || this.genWall(this.rng(s * 7 + 15485863));
+    return [w1 || rs, rs, w2 || rs];
+  },
+  makeRandom(type){
+    for (let k = 0; k < 4; k++){
+      const s = ((Date.now() ^ (Math.random() * 0x7fffffff)) + k * 2654435761) >>> 0;
+      const pz = type === "race" ? this.genRace(this.rng(s)) : this.genWall(this.rng(s));
+      if (pz) return pz;
+    }
+    return this.genRace(this.rng((Date.now() & 0x7fffffff) | 1)) ||
+           { type: "race", me: { r: 7, c: 4 }, op: { r: 0, c: 3 }, K: 7, walls: [] };
+  },
+  _randWalls(st, rng, n){
+    let placed = 0, guard = 0;
+    while (placed < n && guard++ < 120){
+      const r = (rng() * 8) | 0, c = (rng() * 8) | 0, o = rng() < 0.5 ? "h" : "v";
+      if (!Rules.canPlaceRaw(st, r, c, o)) continue;
+      if (Rules.wouldFullBlock(st, r, c, o)) continue;
+      Rules.placeRaw(st, r, c, o);
+      st.wallList.push({ r, c, o, by: -1 });
+      placed++;
+    }
+    return placed;
+  },
+  pawnDist(st, pi){
+    // true shortest distance when the other pawns stay frozen (jumps allowed)
+    const p = st.players[pi];
+    const seen = new Uint8Array(81), dist = new Int16Array(81).fill(-1), q = new Int16Array(81);
+    let head = 0, tail = 0;
+    const start = p.r * 9 + p.c;
+    seen[start] = 1; dist[start] = 0; q[tail++] = start;
+    while (head < tail){
+      const cur = q[head++];
+      const r = (cur / 9) | 0, c = cur % 9;
+      if (p.goal.axis === "r" ? r === p.goal.v : c === p.goal.v) return dist[cur];
+      const orr = p.r, occ = p.c;
+      p.r = r; p.c = c;
+      const moves = Rules.pawnMoves(st, pi);
+      p.r = orr; p.c = occ;
+      for (const m of moves){
+        const n = m.r * 9 + m.c;
+        if (!seen[n]){ seen[n] = 1; dist[n] = dist[cur] + 1; q[tail++] = n; }
+      }
+    }
+    return 9999;
+  },
+  genWall(rng){
+    // find a real mid-race position, clearly lost, where ONE wall flips the race
+    for (let att = 0; att < 320; att++){
+      const me = { r: 3 + ((rng() * 4) | 0), c: 1 + ((rng() * 7) | 0) };  // heading to row 0
+      const op = { r: 2 + ((rng() * 4) | 0), c: 1 + ((rng() * 7) | 0) };  // heading to row 8
+      if (me.r === op.r && me.c === op.c) continue;
+      const st = Rules.newState([
+        { r: me.r, c: me.c, walls: 10, goal: { axis: "r", v: 0 } },
+        { r: op.r, c: op.c, walls: 0, goal: { axis: "r", v: 8 } }
+      ]);
+      this._randWalls(st, rng, 5 + ((rng() * 5) | 0));
+      const dMe = Rules.bfsDist(st, 0), dOp = Rules.bfsDist(st, 1);
+      if (dMe >= 9999 || dOp >= 9999) continue;
+      if (dMe < dOp + 1) continue; // must be strictly losing
+      let sols = 0, sample = null;
+      for (let r = 0; r < 8 && sols <= 8; r++)
+        for (let c = 0; c < 8 && sols <= 8; c++)
+          for (let k = 0; k < 2; k++){
+            const o = k ? "v" : "h";
+            if (!Rules.canPlaceRaw(st, r, c, o)) continue;
+            Rules.placeRaw(st, r, c, o);
+            const d0 = Rules.bfsDist(st, 0), d1 = Rules.bfsDist(st, 1);
+            Rules.removeRaw(st, r, c, o);
+            if (d0 < 9999 && d1 < 9999 && d0 < d1){ sols++; if (!sample) sample = { r, c, o }; }
+          }
+      if (sols >= 1 && sols <= 8){
+        return { type: "wall", me, op, dMe, dOp, solCount: sols, solution: sample,
+                 walls: st.wallList.map(w => ({ r: w.r, c: w.c, o: w.o })) };
+      }
+    }
+    return null;
+  },
+  genRace(rng){
+    for (let att = 0; att < 200; att++){
+      const me = { r: 4 + ((rng() * 4) | 0), c: 1 + ((rng() * 7) | 0) };
+      const op = { r: 1 + ((rng() * 3) | 0), c: 1 + ((rng() * 7) | 0) };
+      if (me.r === op.r && me.c === op.c) continue;
+      const st = Rules.newState([
+        { r: me.r, c: me.c, walls: 0, goal: { axis: "r", v: 0 } },
+        { r: op.r, c: op.c, walls: 0, goal: { axis: "r", v: 8 } }
+      ]);
+      this._randWalls(st, rng, 6 + ((rng() * 6) | 0));
+      if (Rules.bfsDist(st, 1) >= 9999) continue;
+      const K = this.pawnDist(st, 0);
+      if (K < 5 || K > 9) continue;
+      return { type: "race", me, op, K, walls: st.wallList.map(w => ({ r: w.r, c: w.c, o: w.o })) };
+    }
+    return null;
+  }
+};
+
+/* ============ v1.3.0 — Bot ladder + ELO rating ============ */
+const Ladder = {
+  BOTS: [
+    { name: "Scout", rating: 900,  diff: "easy",   av: "frog"  },
+    { name: "Nova",  rating: 1000, diff: "easy",   av: "star"  },
+    { name: "Rex",   rating: 1100, diff: "medium", av: "cat"   },
+    { name: "Miro",  rating: 1200, diff: "medium", av: "owl"   },
+    { name: "Vega",  rating: 1300, diff: "hard",   av: "panda" },
+    { name: "Pixel", rating: 1400, diff: "hard",   av: "robot" },
+    { name: "Kilo",  rating: 1500, diff: "expert", av: "alien" },
+    { name: "Falk",  rating: 1600, diff: "expert", av: "ghost" }
+  ],
+  TIERS: [
+    { min: 1700, key: "tier_diamond",   icon: "💎", col: "#cfe0ff" },
+    { min: 1550, key: "tier_platinum",  icon: "🛡️", col: "#d3f1ee" },
+    { min: 1400, key: "tier_gold",      icon: "👑", col: "#fbe9a8" },
+    { min: 1250, key: "tier_silver",    icon: "🥈", col: "#e8edf2" },
+    { min: 1100, key: "tier_bronze",    icon: "🥉", col: "#f2ddc4" },
+    { min: 0,    key: "tier_paper",     icon: "📜", col: "#eee6d2" }
+  ],
+  data(){
+    const p = Account.current();
+    if (!p) return { rating: 1000, bots: {} };
+    return p.ladder || (p.ladder = { rating: 1000, bots: {} });
+  },
+  tier(rating){
+    for (const T of this.TIERS) if (rating >= T.min) return T;
+    return this.TIERS[this.TIERS.length - 1];
+  }
+};
+
+/* profile helper: read-modify-save the current profile */
+Account.mutate = function(fn){
+  const cur = this.current();
+  if (!cur) return null;
+  const list = this.profiles();
+  const p = list.find(x => x.id === cur.id);
+  if (!p) return null;
+  const out = fn(p);
+  this.save(list);
+  return out || p;
+};
+
+/* ============ v1.3.0 — UI extensions: puzzles, ladder, ranking, wall UX ============ */
+Object.assign(UI, {
+  /* ---------- wall stock pill ---------- */
+  updateStock(){
+    const wrap = this.$("wallStock"), el = this.$("stockCount");
+    if (!wrap || !el || !Game.state || !Game.cfg) return;
+    if (Game.cfg.mode === "puzzle"){ wrap.classList.add("hidden"); return; }
+    wrap.classList.remove("hidden");
+    const i = Game.isHuman(Game.state.turn) ? Game.state.turn : this.mainHuman;
+    if (Game.players[i]) el.textContent = Game.players[i].walls;
+  },
+
+  /* ---------- toggles (menu) ---------- */
+  updateToggleLabels(){
+    const g = this.$("btnMenuGuides"), ph = this.$("btnMenuPath");
+    if (g){
+      g.textContent = t("guides") + (Settings.wallGuides ? " ✓" : " ✗");
+      g.classList.toggle("on", Settings.wallGuides);
+      g.classList.toggle("off", !Settings.wallGuides);
+    }
+    if (ph){
+      ph.textContent = t("path_guide") + (Settings.pathGuide ? " ✓" : " ✗");
+      ph.classList.toggle("on", Settings.pathGuide);
+      ph.classList.toggle("off", !Settings.pathGuide);
+    }
+  },
+
+  /* ---------- puzzle bar ---------- */
+  pzRefreshMeta(){
+    if (!Game.cfg || Game.cfg.mode !== "puzzle" || !Game.state) return;
+    const P = Game.cfg.puzzle;
+    const el = this.$("pzMeta");
+    if (!el) return;
+    if (P.type === "race"){
+      el.textContent = t("pz_moves", { n: Game.players[0].moves, k: P.K });
+    } else {
+      const dMe = Rules.bfsDist(Game.state, 0), dOp = Rules.bfsDist(Game.state, 1);
+      el.textContent = "";
+      const a = document.createElement("span"); a.className = "mRed"; a.textContent = dMe >= 9999 ? "—" : dMe;
+      const b = document.createElement("span"); b.className = "mBlue"; b.textContent = dOp >= 9999 ? "—" : dOp;
+      el.append(a, document.createTextNode(" · "), b);
+    }
+  },
+  pzAfterMove(pi, mv){
+    if (!Game.cfg || Game.cfg.mode !== "puzzle") return;
+    const P = Game.cfg.puzzle;
+    this.pzRefreshMeta();
+    if (P.type === "wall" && mv.type === "wall"){
+      const dMe = Rules.bfsDist(Game.state, 0), dOp = Rules.bfsDist(Game.state, 1);
+      if (dMe < dOp){ this.pzSolved(); return; }
+      // wrong wall: show it land, then bounce back with feedback
+      this.pzAttempts++;
+      Game.paused = true;
+      setTimeout(() => {
+        Game.paused = false;
+        Game.revertLast();
+        this.pzRefreshMeta();
+        this.toast(t("pz_wrong"));
+        SFX.illegal();
+      }, 760);
+    }
+  },
+  pzSolved(){
+    if (this._pzDone) return;
+    this._pzDone = true;
+    Game.over = true;   // the puzzle ends the moment it is solved
+    Game.stopBlitz();
+    R.setLegal([]);
+    const P = Game.cfg.puzzle;
+    const ctxInfo = this.pzCtx || { kind: "practice" };
+    R.celebrate();
+    SFX.win(); Haptic.buzz(3);
+    Account.mutate(p => {
+      const pz = p.pz || (p.pz = { solved: 0, dailyDone: "", dailyIdx: 0, streak: 0, lastDay: "" });
+      pz.solved = (pz.solved || 0) + 1;
+      if (ctxInfo.kind === "daily"){
+        pz.dailyIdx = Math.min(3, (pz.dailyIdx || 0) + 1);
+        if (pz.dailyIdx >= 3 && pz.dailyDone !== Puzzles.todayKey()){
+          pz.dailyDone = Puzzles.todayKey();
+          pz.streak = (pz.lastDay === Puzzles.yesterdayKey()) ? (pz.streak || 0) + 1 : 1;
+          pz.lastDay = Puzzles.todayKey();
+        }
+      }
+    });
+    setTimeout(() => {
+      this.$("winIcon").textContent = "🧩";
+      this.$("winTitle").textContent = t("pz_solved");
+      this.$("winSub").textContent = t(P.type === "wall" ? "pz_wall_t" : "pz_race_t");
+      this.$("winElo").classList.add("hidden");
+      this.$("wsMoves").textContent = P.type === "wall" ? (this.pzAttempts || 0) + 1 : Game.players[0].moves;
+      this.$("wsMovesLbl").textContent = t(P.type === "wall" ? "pz_tries" : "moves");
+      this.$("wsWalls").textContent = Game.players[0].wallsUsed;
+      const s = Math.floor((Date.now() - Game.startTime) / 1000);
+      this.$("wsTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+      this.$("btnRematch").textContent = t("pz_new");
+      this.openModal("winOverlay");
+    }, 650);
+  },
+  pzNext(){
+    const ctx = this.pzCtx || { kind: "practice", type: "wall" };
+    if (ctx.kind === "daily"){
+      const pz = Puzzles.profile();
+      if (pz.dailyDone === Puzzles.todayKey() || (pz.dailyIdx || 0) >= 3){ this.openPuzzles(); return; }
+      const set = Puzzles.dailySet();
+      const idx = Math.min(2, pz.dailyIdx || 0);
+      this.startPuzzle(set[idx], { kind: "daily", idx });
+      return;
+    }
+    this.startPuzzle(Puzzles.makeRandom(ctx.type || "wall"), ctx);
+  },
+  pzHint(){
+    if (!Game.cfg || Game.cfg.mode !== "puzzle" || !Game.state) return;
+    const P = Game.cfg.puzzle;
+    if (P.type === "wall"){
+      const st = Game.state;
+      let sol = null;
+      outer:
+      for (let r = 0; r < 8; r++)
+        for (let c = 0; c < 8; c++)
+          for (let k = 0; k < 2; k++){
+            const o = k ? "v" : "h";
+            if (!Rules.canPlaceRaw(st, r, c, o)) continue;
+            Rules.placeRaw(st, r, c, o);
+            const d0 = Rules.bfsDist(st, 0), d1 = Rules.bfsDist(st, 1);
+            Rules.removeRaw(st, r, c, o);
+            if (d0 < 9999 && d1 < 9999 && d0 < d1){ sol = { type: "wall", r, c, o }; break outer; }
+          }
+      if (sol){ R.hintMv = sol; R.hintUntil = performance.now() + 2800; SFX.pickupHint(); }
+      else this.toast(t("illegal_place"));
+    } else {
+      const st = Game.state;
+      const moves = Rules.pawnMoves(st, 0);
+      let best = null, bd = Infinity;
+      for (const m of moves){
+        const orr = st.players[0].r, occ = st.players[0].c;
+        st.players[0].r = m.r; st.players[0].c = m.c;
+        const d = Puzzles.pawnDist(st, 0);
+        st.players[0].r = orr; st.players[0].c = occ;
+        if (d < bd){ bd = d; best = m; }
+      }
+      if (best){ R.hintMv = { type: "move", r: best.r, c: best.c }; R.hintUntil = performance.now() + 2800; SFX.pickupHint(); }
+    }
+  },
+  startPuzzle(P, ctx){
+    const prof = Account.current() || this.guest;
+    if (!prof){ this.openAccount("create", "home"); return; }
+    if (!P) return;
+    this.pzCtx = ctx;
+    this.pzAttempts = 0;
+    this.startMatch({
+      mode: "puzzle",
+      puzzle: P,
+      players: [
+        { type: "human", seat: "S", name: prof.name, avatar: prof.avatar },
+        { type: "bot", seat: "N", difficulty: "frozen", name: t("opponent"), avatar: "ghost" }
+      ]
+    });
+  },
+
+  /* ---------- puzzles hub ---------- */
+  openPuzzles(){
+    this.stopDailyTick();
+    Puzzles.ensureToday();
+    this.showView("puzzles");
+    this.refreshPuzzles();
+    this.startDailyTick();
+  },
+  refreshPuzzles(){
+    const pz = Puzzles.profile();
+    const today = Puzzles.todayKey();
+    const done = pz.dailyDone === today;
+    this.$("dailyCard").classList.toggle("done", done);
+    this.$("dailyPlay").textContent = done ? t("pz_done") : t("pz_play");
+    const meta = [];
+    if (!done && pz.dailyIdx) meta.push((pz.dailyIdx) + "/3");
+    if (pz.streak) meta.push(t("pz_day_streak", { n: pz.streak }));
+    this.$("dailyMeta").textContent = meta.join(" · ");
+    this.$("pzSolvedNote").textContent = (pz.solved || 0) ? t("pz_solved_total", { n: pz.solved }) : "";
+  },
+  startDailyTick(){
+    this.stopDailyTick();
+    const upd = () => {
+      const el = this.$("dailyCountdown");
+      if (!el) return;
+      const now = new Date();
+      const mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const s = Math.max(0, Math.floor((mid - now) / 1000));
+      const h = String(Math.floor(s / 3600)).padStart(2, "0");
+      const m = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+      const sec = String(s % 60).padStart(2, "0");
+      el.textContent = "";
+      el.append(document.createTextNode(t("pz_next_in") + " "));
+      const b = document.createElement("b");
+      b.textContent = h + ":" + m + ":" + sec;
+      el.appendChild(b);
+    };
+    upd();
+    this._dailyTimer = setInterval(upd, 1000);
+  },
+  stopDailyTick(){
+    if (this._dailyTimer){ clearInterval(this._dailyTimer); this._dailyTimer = null; }
+  },
+  playDaily(){
+    SFX.click();
+    Puzzles.ensureToday();
+    const pz = Puzzles.profile();
+    if (pz.dailyDone === Puzzles.todayKey()){ this.toast(t("pz_done")); return; }
+    const set = Puzzles.dailySet();
+    const idx = Math.min(2, pz.dailyIdx || 0);
+    this.startPuzzle(set[idx], { kind: "daily", idx });
+  },
+
+  /* ---------- bots ladder ---------- */
+  openBots(){
+    this.showView("bots");
+    this.renderBots();
+  },
+  renderBots(){
+    const L = Ladder.data();
+    const tier = Ladder.tier(L.rating);
+    this.$("myRating").textContent = L.rating;
+    this.$("myTierName").textContent = t(tier.key);
+    const tb = this.$("tierBadge");
+    tb.textContent = tier.icon;
+    tb.style.background = tier.col;
+    const wrap = this.$("botList");
+    wrap.innerHTML = "";
+    Ladder.BOTS.forEach((bot, idx) => {
+      const rec = (L.bots || {})[String(idx)] || { w: 0, l: 0 };
+      const card = document.createElement("div");
+      card.className = "botCard";
+      const av = document.createElement("span");
+      av.className = "bAvatar";
+      av.innerHTML = Account.avatarSvg(bot.av);
+      const info = document.createElement("div");
+      info.className = "bInfo";
+      const nm = document.createElement("span");
+      nm.className = "bName";
+      if (rec.w){
+        const ok = document.createElement("span");
+        ok.className = "beaten";
+        ok.textContent = "✓ ";
+        nm.appendChild(ok);
+      }
+      nm.appendChild(document.createTextNode(bot.name));
+      const sub = document.createElement("span");
+      sub.className = "bSub";
+      const tag = document.createElement("span");
+      tag.className = "bTag " + ({ easy: "e", medium: "m", hard: "h", expert: "x" })[bot.diff];
+      tag.textContent = t(bot.diff);
+      sub.append(tag, document.createTextNode(bot.rating + "  ·  " + t("bots_record", { w: rec.w, l: rec.l })));
+      info.append(nm, sub);
+      const play = document.createElement("button");
+      play.className = "ctaBtn small bPlay";
+      play.textContent = t("bots_play");
+      play.addEventListener("click", () => { SFX.click(); this.playLadder(idx); });
+      card.append(av, info, play);
+      wrap.appendChild(card);
+    });
+  },
+  playLadder(idx){
+    const prof = Account.current() || this.guest;
+    if (!prof){ this.openAccount("create", "home"); return; }
+    const bot = Ladder.BOTS[idx];
+    this.startMatch({
+      mode: "duel",
+      ladder: idx,
+      players: [
+        { type: "human", seat: "S", name: prof.name, avatar: prof.avatar },
+        { type: "bot", seat: "N", difficulty: bot.diff, name: bot.name, avatar: bot.av }
+      ]
+    });
+  },
+  applyLadder(d){
+    const el = this.$("winElo");
+    el.classList.add("hidden");
+    if (!Game.cfg || Game.cfg.ladder == null || !Game.players) return;
+    const prof = Account.current();
+    if (!prof) return;
+    const idx = Game.cfg.ladder;
+    const bot = Ladder.BOTS[idx];
+    const mainWon = d.pi === this.mainHuman && Game.players[d.pi] && Game.players[d.pi].type === "human";
+    const isBotWin = Game.players[d.pi] && Game.players[d.pi].type === "bot";
+    const L0 = prof.ladder || { rating: 1000, bots: {} };
+    const E = 1 / (1 + Math.pow(10, (bot.rating - L0.rating) / 400));
+    const S = d.draw ? 0.5 : (mainWon ? 1 : 0);
+    const delta = Math.round(24 * (S - E));
+    Account.mutate(p => {
+      const L = p.ladder || (p.ladder = { rating: 1000, bots: {} });
+      L.rating = Math.max(600, L.rating + delta);
+      const rec = L.bots[String(idx)] || (L.bots[String(idx)] = { w: 0, l: 0 });
+      if (mainWon) rec.w++;
+      else if (isBotWin) rec.l++;
+    });
+    const cur = Account.current();
+    const L2 = (cur && cur.ladder) || L0;
+    el.textContent = t("bots_your") + "  " + L2.rating + "  (" + (delta >= 0 ? "+" : "") + delta + ")";
+    el.classList.remove("hidden");
+  },
+
+  /* ---------- club ranking ---------- */
+  openBoard(){
+    this.showView("board");
+    this.renderBoard();
+  },
+  renderBoard(){
+    const L = Ladder.data();
+    const prof = Account.current() || this.guest || { name: t("board_you"), avatar: "fox" };
+    const rows = [{ name: prof.name, rating: L.rating, av: prof.avatar || "fox", me: true }]
+      .concat(Ladder.BOTS.map(b => ({ name: b.name, rating: b.rating, av: b.av, me: false })));
+    rows.sort((a, b) => b.rating - a.rating);
+    const wrap = this.$("rankTable");
+    wrap.innerHTML = "";
+    rows.forEach((r, i) => {
+      const row = document.createElement("div");
+      row.className = "rankRow" + (r.me ? " me" : "");
+      const rk = document.createElement("span"); rk.className = "rk"; rk.textContent = "#" + (i + 1);
+      const av = document.createElement("span"); av.className = "rAvatar"; av.innerHTML = Account.avatarSvg(r.av);
+      const nm = document.createElement("span"); nm.className = "rName"; nm.textContent = r.me ? r.name : r.name;
+      const tier = Ladder.tier(r.rating);
+      const tr = document.createElement("span"); tr.className = "rTier"; tr.textContent = t(tier.key);
+      const rt = document.createElement("span"); rt.className = "rRating"; rt.textContent = r.rating;
+      row.append(rk, av, nm, tr, rt);
+      wrap.appendChild(row);
+    });
+    const pz = Puzzles.profile();
+    const bits = ["🧩 " + t("pz_solved_total", { n: pz.solved || 0 })];
+    if (pz.streak) bits.push("🔥 " + t("pz_day_streak", { n: pz.streak }));
+    this.$("rankFoot").textContent = bits.join(" · ");
+  },
+
+  /* ---------- home hub ---------- */
+  refreshHub(){
+    const pz = Puzzles.profile();
+    this.$("hubPzSub").textContent = t("hub_pz_sub", { n: pz.solved || 0 });
+    const L = Ladder.data();
+    const tier = Ladder.tier(L.rating);
+    this.$("hubBotsSub").textContent = t("hub_bots_sub", { t: t(tier.key), r: L.rating });
+    this.$("hubBoardSub").textContent = t("hub_board_sub", { t: t(tier.key) });
+  },
+
+  /* ---------- one-time wiring for the new screens ---------- */
+  extendInit(){
+    this.$("hubPz").addEventListener("click", () => { SFX.init(); SFX.resume(); SFX.click(); this.openPuzzles(); });
+    this.$("hubBots").addEventListener("click", () => { SFX.click(); this.openBots(); });
+    this.$("hubBoard").addEventListener("click", () => { SFX.click(); this.openBoard(); });
+    this.$("pzBackBtn").addEventListener("click", () => { SFX.click(); this.goHome(); });
+    this.$("botsBackBtn").addEventListener("click", () => { SFX.click(); this.goHome(); });
+    this.$("boardBackBtn").addEventListener("click", () => { SFX.click(); this.goHome(); });
+    this.$("dailyCard").addEventListener("click", () => { SFX.init(); SFX.resume(); this.playDaily(); });
+    this.$("pzWall").addEventListener("click", () => { SFX.click(); this.startPuzzle(Puzzles.makeRandom("wall"), { kind: "practice", type: "wall" }); });
+    this.$("pzRace").addEventListener("click", () => { SFX.click(); this.startPuzzle(Puzzles.makeRandom("race"), { kind: "practice", type: "race" }); });
+    this.$("pzBack").addEventListener("click", () => { SFX.click(); this.openPuzzles(); });
+    this.$("pzRetry").addEventListener("click", () => { SFX.click(); if (Game.cfg && Game.cfg.puzzle) this.startPuzzle(Game.cfg.puzzle, this.pzCtx); });
+    this.$("pzHint").addEventListener("click", () => { SFX.init(); SFX.resume(); this.pzHint(); });
+    this.$("btnMenuGuides").addEventListener("click", () => {
+      SFX.click(); Settings.wallGuides = !Settings.wallGuides; Settings.save(); this.updateToggleLabels(); R.spotsKey = "";
+    });
+    this.$("btnMenuPath").addEventListener("click", () => {
+      SFX.click(); Settings.pathGuide = !Settings.pathGuide; Settings.save(); this.updateToggleLabels(); R.pathDirty = true;
+    });
+    this.updateToggleLabels();
+  }
+});
+
 /* boot */
 window.addEventListener("DOMContentLoaded", () => {
   R.init(document.getElementById("board"));
   Input.init();
   Haptic.init();
   UI.init();
+  UI.extendInit();
   AppNav.init();
   setTimeout(() => { const sp = document.getElementById("webSplash"); if (sp) sp.classList.add("off"); }, 550);
 });
